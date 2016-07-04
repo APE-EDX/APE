@@ -1,4 +1,12 @@
-var exec = require('child_process').exec;
-exec('tasklist', function(err, stdout, stderr) {
-	console.log(stdout)
+const exec = require('child_process').exec;
+exec('tasklist /fo csv /nh', (err, stdout, stderr) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  console.log(stdout);
 });
+
+	 
+
+
