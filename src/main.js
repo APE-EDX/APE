@@ -1,14 +1,11 @@
-var app = require('app');  // Module to control application life.
-var BrowserWindow = require('browser-window');  // Module to create native browser window.
+var app = require('electron').app;  // Module to control application life.
+var BrowserWindow = require('electron').BrowserWindow;  // Module to create native browser window.
+// var crashReporter = require('electron').crashReporter;
 var path = require("path")
 
 var program = require("commander")
   .option("-d, --dev-tools", "Open Dev Tools on start up")
   .parse(process.argv)
-
-// Report crashes to our server.
-require('crash-reporter').start();
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the javascript object is GCed.
 var mainWindow = null;
@@ -23,9 +20,6 @@ app.on('window-all-closed', function() {
 // This method will be called when Electron has done everything
 // initialization and ready for creating browser windows.
 app.on('ready', function() {
-
-
-
   app.commandLine.appendSwitch('js-flags', '--harmony_iteration');
   app.commandLine.appendSwitch('js-flags', '--harmony_symbols');
   app.commandLine.appendSwitch('js-flags', '--harmony_observation');
@@ -36,13 +30,12 @@ app.on('ready', function() {
   app.commandLine.appendSwitch('js-flags', '--harmony_generators');
   app.commandLine.appendSwitch('js-flags', '--harmony_arrow_functions');
 
-
-
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 1000, height: 600 });
+  mainWindow.setMenu(null);
 
   // and load the index.html of the app.
-  mainWindow.loadUrl('file://' + path.resolve(__dirname,'../index.html'));
+  mainWindow.loadURL('file://' + path.resolve(__dirname,'../index.html'));
 
   // Open the devtools.
   program.devTools && mainWindow.openDevTools({detached:true});
