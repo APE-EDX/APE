@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "cross-env NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.js --progress --profile --colors",
-    "start": "electron . || node_modules/.bin/electron ."
+    "start": "electron ."
   },
   "author": "",
   "contributors": [
