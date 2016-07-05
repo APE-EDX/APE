@@ -2381,7 +2381,7 @@
 
 
 	// module
-	exports.push([module.id, ":root {\n  --test-variable: #ccc;\n}\ninput {\n  background-color: --test-variable;\n  width: 100%;\n}\n", ""]);
+	exports.push([module.id, "input {\n  background-color: #ccc;\n  width: 100%;\n}\n", ""]);
 
 	// exports
 
