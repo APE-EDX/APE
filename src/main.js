@@ -21,7 +21,7 @@ app.on('window-all-closed', function() {
 
 // Live reloading
 let options = {};
-if (program.hardReload) {
+if (program.hardReloading) {
     options['electron'] = require('electron-prebuilt');
 }
 require('electron-reload')(path.resolve(__dirname, '../dist'), options);
