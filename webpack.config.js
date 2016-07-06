@@ -1,6 +1,8 @@
 var path = require('path');
+var HappyPack = require('happypack');
 
 module.exports = {
+    cache: true,
     context: path.join(__dirname, "/public"),
     entry: "./app.js",
 
@@ -9,17 +11,38 @@ module.exports = {
         path: path.join(__dirname, "dist"),
     },
 
-    module: {
-        loaders: [{
-            test: /\.js$/,
-            exclude: /(node_modules|bower_components)/,
-            loader: 'babel',
-            query: {
-                presets: ['es2015']
-            }
-        },{
-            test: /\.less$/,
-            loader: "style!css!less"
-        }],
+    plugins: [
+        new HappyPack({ id: 'js' })
+    ],
+
+    devServer: {
+        contentBase: './dist',
+        publicPath: 'http://localhost:8080/built/'
     },
+
+    module: {
+        loaders: [
+            {
+                include: path.join(__dirname, "/public"),
+                test: /\.js$/,
+                loader: 'babel',
+                query: {
+                    presets: ['es2015'],
+                    cacheDirectory: path.join(__dirname, '.babel')
+                },
+                happy: { id: 'js' }
+            },
+            {
+                test: /\.less$/,
+                include: path.join(__dirname, "/public"),
+                loader: "style!css!less",
+                happy: { id: 'js' }
+            }
+        ],
+    },
+
+    resolve: {
+        extensions: ['', '.js', '.jsx', '.less'],
+        unsafeCache: true
+    }
 };
