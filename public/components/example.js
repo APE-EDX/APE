@@ -1,5 +1,5 @@
 import m from 'mithril';
-import '../../less/main.less';
+import '../less/main.less';
 
 export default {
 	controller: function(){
