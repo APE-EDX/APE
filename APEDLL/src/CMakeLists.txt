@@ -1,0 +1,5 @@
+
+set(CPP_SOURCES main.cpp ${DUKTAPE_SOURCES})
+
+include_directories(${DUKTAPE_INCLUDE} ${CMAKE_CURRENT_SOURCE_DIR})
+add_library(APEDLL SHARED ${CPP_SOURCES})
