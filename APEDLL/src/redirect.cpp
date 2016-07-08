@@ -43,10 +43,16 @@ call_duktape:
 	__asm call duk_pcall
 	__asm add ESP, 8	// Pop arguments
 
+	// Get returned value
+	__asm push -1
+	__asm push ctx
+	__asm call duk_to_int
+	__asm add ESP, 8	// Pop arguments
+
 	// Restore resigters
 	__asm pop EDI
 	__asm pop EBX
-	__asm pop EAX
+	__asm add ESP, 4	// __asm pop EAX // Don't pop EAX as to conserve returned value
 
 	// Pop currentName, numArgs
 	__asm add ESP, 8
