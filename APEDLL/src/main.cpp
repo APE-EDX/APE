@@ -64,7 +64,7 @@ loop_args:
 
 	__asm mov EAX, 4
 	__asm imul EAX, EDI
-	__asm mov EAX, DWORD PTR SS : [EBP + 4 + EAX] // +4 per PUSH pre EBP saving
+	__asm mov EAX, DWORD PTR SS : [EBP + 8 + EAX] // PUSH ret + PUSH EBP
 
 	// duk_push_int(ctx, argVal);
 	__asm push EAX
@@ -99,9 +99,9 @@ call_duktape:
 
 enum class CallConvention
 {
-		STDCALL,
-		CDECL,
-		FASTCALL
+	STDCALL,
+	CDECLCALL,
+	FASTCALL
 };
 
 duk_ret_t createRedirection(duk_context *ctx) {
@@ -109,6 +109,8 @@ duk_ret_t createRedirection(duk_context *ctx) {
 
 	// Address
 	DWORD address = duk_to_number(ctx, 0);
+
+	printf("%x %x\n", address, GetProcAddress(GetModuleHandleA("user32.dll"), "GetKeyState"));
 
 	// Number of parameters
 	int numArgs = duk_to_number(ctx, 1);
@@ -119,7 +121,7 @@ duk_ret_t createRedirection(duk_context *ctx) {
 	strcpy(name, duk_name);
 
 	// Call convention
-	CallConvention convention = (CallConvention)duk_to_number(ctx, 3);
+	CallConvention convention = (CallConvention)duk_to_int(ctx, 3);
 
 	// Fastcall not yet implemented
 	if (convention == CallConvention::FASTCALL)
@@ -165,12 +167,10 @@ duk_ret_t createRedirection(duk_context *ctx) {
 	// RETN args*4
 	if (convention == CallConvention::STDCALL)
 	{
-		WORD bytes = numArgs * 4;
 		*(BYTE*)(codecave + 20) = 0xC2;
-		*(BYTE*)(codecave + 21) = (bytes >> 8) & 0xFF;
-		*(BYTE*)(codecave + 22) = bytes & 0xFF;
+		*(WORD*)(codecave + 21) = numArgs * 4;
 	}
-	else if (convention == CallConvention::CDECL)
+	else if (convention == CallConvention::CDECLCALL)
 	{
 		*(BYTE*)(codecave + 20) = 0xC3;
 	}
@@ -277,6 +277,9 @@ BOOL WINAPI DllMain(HINSTANCE handle, DWORD reason, LPVOID reserved)
 			"  FASTCALL: 2" \
 			"};" \
 			"function Find(lib, method) {" \
+			"  if (!(this instanceof Find)) {" \
+			"    return new Find(lib, method);" \
+			"  }" \
 			"  this.lib = lib;" \
 			"  this.method = method;" \
 			"};" \
@@ -287,8 +290,8 @@ BOOL WINAPI DllMain(HINSTANCE handle, DWORD reason, LPVOID reserved)
 			"    convention = CallConvention.CDECL;" \
 			"    if (orig instanceof Find) {" \
 			"      var libname = orig.lib;" \
-			"      libname = libname.substring(0, libname.lastIndexOf(".")) || libname" \
-			"      libname = libname.toLowerCase();"
+			"      libname = libname.substring(0, libname.lastIndexOf('.')) || libname;" \
+			"      libname = libname.toLowerCase();" \
 			"      if (libname == 'kernel32' || libname == 'user32') {" \
 			"        convention = CallConvention.STDCALL;" \
 			"      }" \
@@ -297,6 +300,7 @@ BOOL WINAPI DllMain(HINSTANCE handle, DWORD reason, LPVOID reserved)
 			"  if (orig instanceof Find) {" \
 			"    orig = cpp_addressOf(orig.lib, orig.method);" \
 			"  }" \
+			"  print(orig);" \
 			"  cpp_redirect(orig, callback.length, identifier, convention, callback);"		\
 			"};";
 		duk_push_object(ctx);
@@ -306,7 +310,7 @@ BOOL WINAPI DllMain(HINSTANCE handle, DWORD reason, LPVOID reserved)
 		auto js = "var customCode = function(key) {"						\
 		"	print('Inside hook, key = ' + key); "							\
 		"}; "																\
-		"Redirect(customCode);";
+		"Redirect(Find('user32.dll', 'GetKeyState'), customCode);";
 		duk_push_object(ctx);
 		duk_eval_string(ctx, js);
 	}
