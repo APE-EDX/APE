@@ -288,7 +288,7 @@ BOOL WINAPI DllMain(HINSTANCE handle, DWORD reason, LPVOID reserved)
 			"    if (orig instanceof Find) {" \
 			"      var libname = orig.lib;" \
 			"      libname = libname.substring(0, libname.lastIndexOf(".")) || libname" \
-			"      libname = Libname.toLowerCase();"
+			"      libname = libname.toLowerCase();"
 			"      if (libname == 'kernel32' || libname == 'user32') {" \
 			"        convention = CallConvention.STDCALL;" \
 			"      }" \
