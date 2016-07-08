@@ -27,7 +27,7 @@ F CreateHook(void* orig, F dest)
 	memcpy((void*)codecave, (void*)orig, 5);
 	*(BYTE*)(codecave + 5) = 0xE9;
 	*(DWORD*)(codecave + 6) = ((DWORD)orig + 5 - (codecave + 5)) - 5;
-	
+
 	// Unprotect address
 	DWORD oldProtect;
 	VirtualProtect((LPVOID)orig, 5, PAGE_EXECUTE_READWRITE, &oldProtect);
@@ -53,20 +53,20 @@ __declspec(naked) void WrapJSRedirect()
 	__asm push ctx
 	__asm call duk_get_global_string
 	__asm add ESP, 8	// Pop arguments
-	
+
 	__asm mov EBX, DWORD PTR SS:[ESP + 16]		// EBX = numArgs
 	__asm mov EDI, EBX	// EDI = counter
-	
+
 	// for each argument
 loop_args:
 	__asm test EDI, EDI // Ended?
 	__asm je call_duktape
-	
+
 	__asm mov EAX, 4
 	__asm imul EAX, EDI
 	__asm mov EAX, DWORD PTR SS : [EBP + 4 + EAX] // +4 per PUSH pre EBP saving
-	
-	// duk_push_int(ctx, argVal);	
+
+	// duk_push_int(ctx, argVal);
 	__asm push EAX
 	__asm push ctx
 	__asm call duk_push_int
@@ -74,7 +74,7 @@ loop_args:
 
 	__asm dec EDI
 	__asm jmp loop_args
-	
+
 call_duktape:
 	//duk_pcall(ctx, numArgs);
 	__asm push EBX
@@ -93,20 +93,20 @@ call_duktape:
 	// Restore EBP
 	__asm pop EBP
 
-	// This is basically "retn 0", but we are doing it like this
-	// to assure that 0xC2 is emitted
-	__asm _emit 0xC2
-	__asm _emit 0x00
-	__asm _emit 0x00
+	// Return to fake address
+	__asm ret
 }
-__declspec(naked) void WrapJSRedirect_end()
+
+enum class CallConvention
 {
-	__asm _emit 0x90 // To make sure it doesn't get optimized out
-}
+		STDCALL,
+		CDECL,
+		FASTCALL
+};
 
 duk_ret_t createRedirection(duk_context *ctx) {
 	int n = duk_get_top(ctx);  /* #args */
-	
+
 	// Number of parameters
 	int numArgs = duk_to_number(ctx, 0);
 
@@ -115,39 +115,62 @@ duk_ret_t createRedirection(duk_context *ctx) {
 	char* name = new char[strlen(duk_name)];
 	strcpy(name, duk_name);
 
-	duk_dup(ctx, 2);
+	// Call convention
+	CallConvention convention = (CallConvention)duk_to_number(ctx, 2);
+
+	// Fastcall not yet implemented
+	if (convention == CallConvention::FASTCALL)
+	{
+		duk_push_boolean(ctx, false);
+		return 1;  /* one return value */
+	}
+
+	// Callback
+	duk_dup(ctx, 3);
 	duk_put_global_string(ctx, name);
 
-	// 1 push + 2 mov + 2 push + 5 push + 5 call
-	DWORD codecave = (DWORD)VirtualAlloc(NULL, 15, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE);
+	// 5 push + 1 push + 2 mov + 2 push + 5 push + 5 call + 3 retn
+	DWORD codecave = (DWORD)VirtualAlloc(NULL, 23, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE);
+	if (codecave == NULL)
+	{
+		duk_push_boolean(ctx, false);
+		return 1;  /* one return value */
+	}
+
+	// PUSH retPoint (codecave + 20)
+	*(BYTE*)(codecave + 0) = 0x68;
+	*(DWORD*)(codecave + 1) = codecave + 20;
 
 	// PUSH EBP
 	// MOV EBP, ESP
-	*(BYTE*)(codecave + 0) = 0x55;
-	*(WORD*)(codecave + 1) = 0xEC8B;
+	*(BYTE*)(codecave + 5) = 0x55;
+	*(WORD*)(codecave + 6) = 0xEC8B;
 
 	// PUSH numArgs
-	*(BYTE*)(codecave + 3) = 0x6A;
-	*(BYTE*)(codecave + 4) = numArgs;
+	*(BYTE*)(codecave + 8) = 0x6A;
+	*(BYTE*)(codecave + 9) = numArgs;
 
 	// PUSH name
-	*(BYTE*)(codecave + 5) = 0x68;
-	*(DWORD*)(codecave + 6) = (DWORD)name;
-	
+	*(BYTE*)(codecave + 10) = 0x68;
+	*(DWORD*)(codecave + 11) = (DWORD)name;
+
 	// JMP WrapJS
-	DWORD currentAddr = codecave + 10;
+	DWORD currentAddr = codecave + 15;
 	*(BYTE*)(currentAddr) = 0xE9;
 	*(DWORD*)(currentAddr + 1) = ((DWORD)&WrapJSRedirect - currentAddr) - 5;
-	
-	// Find retn instruction
-	DWORD retn = (DWORD)&WrapJSRedirect_end;
-	while (*(BYTE*)retn != 0xC2) --retn;
 
-	// Change it to retn "numArgs" * 4
-	DWORD oldProtection;
-	VirtualProtect((LPVOID)(retn + 1), 2, PAGE_EXECUTE_READWRITE, &oldProtection);
-	*(WORD*)(retn + 1) = (WORD)numArgs * 4;
-	VirtualProtect((LPVOID)(retn + 1), 2, oldProtection, &oldProtection);
+	// RETN args*4
+	if (convention == CallConvention::STDCALL)
+	{
+		WORD bytes = numArgs * 4;
+		*(BYTE*)(codecave + 20) = 0xC2;
+		*(BYTE*)(codecave + 21) = (bytes >> 8) & 0xFF;
+		*(BYTE*)(codecave + 22) = bytes & 0xFF;
+	}
+	else if (convention == CallConvention::CDECL)
+	{
+		*(BYTE*)(codecave + 20) = 0xC3;
+	}
 
 	FARPROC address = GetProcAddress(GetModuleHandleA("user32.dll"), "GetKeyState");
 	void* notUsed = CreateHook(address, (void*)codecave);
@@ -157,9 +180,10 @@ duk_ret_t createRedirection(duk_context *ctx) {
 	return 1;  /* one return value */
 }
 
+
 /*
 duk_ret_t callOriginal(duk_context *ctx) {
-	int n = duk_get_top(ctx); 
+	int n = duk_get_top(ctx);
 	int* args = new int[n];
 	int retval = 0;
 
@@ -175,9 +199,9 @@ duk_ret_t callOriginal(duk_context *ctx) {
 
 	__asm call org_func
 	__asm mov retval, EAX
- 
+
 	duk_push_int(ctx, retval);
-	return 1; 
+	return 1;
 }
 */
 
@@ -229,9 +253,16 @@ BOOL WINAPI DllMain(HINSTANCE handle, DWORD reason, LPVOID reserved)
 
 		// DLL API to allow Codecaves, hooks...
 		auto jsAPI = \
-			"var Redirect = function(callback, identifier) { "				\
+			"CallConvention = {" \
+			"  AUTO: -1, " \
+			"  STDCALL: 0, " \
+			"  CDECL: 1," \
+			"  FASTCALL: 2" \
+			"};" \
+			"var Redirect = function(callback, convention, identifier) { "				\
+			" convention = convention || CallConvention.STDCALL;" \
 			"	identifier = identifier || Math.random().toString(32);"		\
-			"	cpp_redirect(callback.length, identifier, callback);"		\
+			"	cpp_redirect(callback.length, identifier, convention, callback);"		\
 			"};";
 		duk_push_object(ctx);
 		duk_eval_string(ctx, jsAPI);
