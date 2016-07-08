@@ -267,52 +267,34 @@ BOOL WINAPI DllMain(HINSTANCE handle, DWORD reason, LPVOID reserved)
 
 		duk_push_c_function(ctx, addressOf, DUK_VARARGS);
 		duk_put_global_string(ctx, "cpp_addressOf");
+		
+		// Get current path
+		char path[MAX_PATH];
+		size_t len = GetModuleFileNameA(handle, path, sizeof(path));
 
-		// DLL API to allow Codecaves, hooks...
-		auto jsAPI = \
-			"CallConvention = {" \
-			"  AUTO: -1, " \
-			"  STDCALL: 0, " \
-			"  CDECL: 1," \
-			"  FASTCALL: 2" \
-			"};" \
-			"function Find(lib, method) {" \
-			"  if (!(this instanceof Find)) {" \
-			"    return new Find(lib, method);" \
-			"  }" \
-			"  this.lib = lib;" \
-			"  this.method = method;" \
-			"};" \
-			"var Redirect = function(orig, callback, convention, identifier) { "				\
-			"  convention = convention || CallConvention.AUTO;" \
-			"  identifier = identifier || Math.random().toString(32);"		\
-			"  if (convention == CallConvention.AUTO) {" \
-			"    convention = CallConvention.CDECL;" \
-			"    if (orig instanceof Find) {" \
-			"      var libname = orig.lib;" \
-			"      libname = libname.substring(0, libname.lastIndexOf('.')) || libname;" \
-			"      libname = libname.toLowerCase();" \
-			"      if (libname == 'kernel32' || libname == 'user32') {" \
-			"        convention = CallConvention.STDCALL;" \
-			"      }" \
-			"    }" \
-			"  }" \
-			"  if (orig instanceof Find) {" \
-			"    orig = cpp_addressOf(orig.lib, orig.method);" \
-			"  }" \
-			"  print(orig);" \
-			"  cpp_redirect(orig, callback.length, identifier, convention, callback);"		\
-			"};";
-		duk_push_object(ctx);
-		duk_eval_string(ctx, jsAPI);
+		// Find last / and 
+		while (len && path[--len] != '\\') {};
+		if (len > 0)
+		{
+			// Override with the API file
+			strcpy(&path[len + 1], "api/redirect.js");
 
-		// Custom user code
-		auto js = "var customCode = function(key) {"						\
-		"	print('Inside hook, key = ' + key); "							\
-		"}; "																\
-		"Redirect(Find('user32.dll', 'GetKeyState'), customCode);";
-		duk_push_object(ctx);
-		duk_eval_string(ctx, js);
+			// Load it to duktape
+			duk_push_object(ctx);
+			duk_eval_file(ctx, path);
+		
+			// Custom user code
+			auto js = "var customCode = function(key) {"						\
+			"	print('Inside hook, key = ' + key); "							\
+			"}; "																\
+			"Redirect(Find('user32.dll', 'GetKeyState'), customCode);";
+			duk_push_object(ctx);
+			duk_eval_string(ctx, js);
+		}
+		else
+		{
+			// Notify of error via protocol
+		}
 	}
 
 	if (reason == DLL_PROCESS_DETACH) // Self-explanatory

@@ -6,7 +6,7 @@ var path = require("path")
 var injector = require('../InjectorAddon/build/Release/injector');
 
 var kernel32Exe = path.resolve(__dirname, "../APEKernel32/Release/APEKernel32.exe");
-var dllPath = path.resolve(__dirname, "../APEDLL/Build/src/Release/APEDLL.dll");
+var dllPath = path.resolve(__dirname, "../APEDLL/bin/APEDLL.dll");
 var targetProcess = "notepad.exe";
 
 console.log(dllPath);
