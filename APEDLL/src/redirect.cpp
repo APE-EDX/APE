@@ -22,9 +22,10 @@ loop_args:
 	__asm test EDI, EDI // Ended?
 	__asm je call_duktape
 
+	// Cada parametro = 4 bytes ... 1, 2, 3 * 4 = 4, 8, 12 ...
 	__asm mov EAX, 4
 	__asm imul EAX, EDI
-	__asm mov EAX, DWORD PTR SS : [EBP + 8 + EAX] // PUSH ret + PUSH EBP
+	__asm mov EAX, DWORD PTR SS:[EBP + 8 + EAX] // PUSH ret + PUSH EBP
 
 	// duk_push_int(ctx, argVal);
 	__asm push EAX

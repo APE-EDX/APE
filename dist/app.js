@@ -74,19 +74,40 @@
 
 	__webpack_require__(4);
 
+	__webpack_require__(8);
+
+	__webpack_require__(10);
+
+	var _codeflask = __webpack_require__(12);
+
+	var _codeflask2 = _interopRequireDefault(_codeflask);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var _require = __webpack_require__(13);
+
+	var ipcRenderer = _require.ipcRenderer;
+
+
+	console.log(_codeflask2.default);
+
 	exports.default = {
+		flask: new _codeflask2.default(),
+
 		controller: function controller() {
 			this.inputValue = _mithril2.default.prop("");
 		},
 
+		configEditor: function configEditor(el) {
+			this.flask.run('#jseditor', { language: 'js' });
+		},
+
+		sendCode: function sendCode(e) {
+			ipcRenderer.send('send-code', this.flask.textarea.value);
+		},
+
 		view: function view(ctrl) {
-			return (0, _mithril2.default)("div", (0, _mithril2.default)("h1", "Welcome"), (0, _mithril2.default)("div.input-group", (0, _mithril2.default)("span.input-group-addon#addon", "Label: "), (0, _mithril2.default)("input[type=text].form-control", {
-				inputValue: ctrl.inputValue(),
-				oninput: _mithril2.default.withAttr("value", ctrl.inputValue),
-				placeholder: "Edit src/components/example live!"
-			}, "")));
+			return (0, _mithril2.default)("div", (0, _mithril2.default)("h1", "Welcome"), (0, _mithril2.default)("div#jseditor", { 'data-language': "javascript", config: this.configEditor.bind(this) }), (0, _mithril2.default)('button', { onclick: this.sendCode.bind(this) }, 'Enviar'));
 		}
 	};
 
@@ -2381,7 +2402,7 @@
 
 
 	// module
-	exports.push([module.id, "input {\n  background-color: #ccc;\n  width: 100%;\n}\n", ""]);
+	exports.push([module.id, "body {\n  width: 100%;\n  height: 100%;\n}\ninput {\n  background-color: #ccc;\n  width: 100%;\n}\n#jseditor {\n  position: relative;\n  left: 5%;\n  width: 90%;\n  height: 300px;\n  border: 1px solid #444;\n}\n", ""]);
 
 	// exports
 
@@ -2693,6 +2714,252 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(9);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(7)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/less-loader/index.js!./codeflask.less", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/less-loader/index.js!./codeflask.less");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(6)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".CodeFlask {\n  position: relative;\n  overflow: hidden;\n}\n.CodeFlask__textarea,\n.CodeFlask__pre {\n  box-sizing: border-box;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  padding: 1rem !important;\n  border: none;\n  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;\n  font-size: 13px;\n  background: transparent;\n  white-space: pre-wrap;\n  line-height: 1.5em;\n  word-wrap: break-word;\n}\n.CodeFlask__textarea {\n  border: none;\n  background: transparent;\n  outline: none;\n  resize: none;\n  opacity: 0.4;\n  color: #000;\n  margin: 0;\n  z-index: 1;\n  height: 100%;\n  -webkit-overflow-scrolling: touch;\n}\n.CodeFlask__pre {\n  z-index: 2;\n  pointer-events: none;\n  overflow-y: auto;\n  margin: 0;\n  min-height: 100%;\n  margin: 0 !important;\n  background: transparent !important;\n}\n.CodeFlask__code {\n  font-size: inherit;\n  font-family: inherit;\n  color: inherit;\n  display: block;\n}\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(11);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(7)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/less-loader/index.js!./prism.less", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/less-loader/index.js!./prism.less");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(6)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "/* http://prismjs.com/download.html?themes=prism&languages=clike+javascript */\n/**\n * prism.js default theme for JavaScript, CSS and HTML\n * Based on dabblet (http://dabblet.com)\n * @author Lea Verou\n */\ncode[class*=\"language-\"],\npre[class*=\"language-\"] {\n  color: black;\n  background: none;\n  text-shadow: 0 1px white;\n  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;\n  text-align: left;\n  white-space: pre;\n  word-spacing: normal;\n  word-break: normal;\n  word-wrap: normal;\n  line-height: 1.5;\n  -moz-tab-size: 4;\n  -o-tab-size: 4;\n  tab-size: 4;\n  -webkit-hyphens: none;\n  -moz-hyphens: none;\n  -ms-hyphens: none;\n  hyphens: none;\n}\npre[class*=\"language-\"]::-moz-selection,\npre[class*=\"language-\"] ::-moz-selection,\ncode[class*=\"language-\"]::-moz-selection,\ncode[class*=\"language-\"] ::-moz-selection {\n  text-shadow: none;\n  background: #b3d4fc;\n}\npre[class*=\"language-\"]::selection,\npre[class*=\"language-\"] ::selection,\ncode[class*=\"language-\"]::selection,\ncode[class*=\"language-\"] ::selection {\n  text-shadow: none;\n  background: #b3d4fc;\n}\n@media print {\n  code[class*=\"language-\"],\n  pre[class*=\"language-\"] {\n    text-shadow: none;\n  }\n}\n/* Code blocks */\npre[class*=\"language-\"] {\n  padding: 1em;\n  margin: .5em 0;\n  overflow: auto;\n}\n:not(pre) > code[class*=\"language-\"],\npre[class*=\"language-\"] {\n  background: #f5f2f0;\n}\n/* Inline code */\n:not(pre) > code[class*=\"language-\"] {\n  padding: .1em;\n  border-radius: .3em;\n  white-space: normal;\n}\n.token.comment,\n.token.prolog,\n.token.doctype,\n.token.cdata {\n  color: slategray;\n}\n.token.punctuation {\n  color: #999;\n}\n.namespace {\n  opacity: .7;\n}\n.token.property,\n.token.tag,\n.token.boolean,\n.token.number,\n.token.constant,\n.token.symbol,\n.token.deleted {\n  color: #905;\n}\n.token.selector,\n.token.attr-name,\n.token.string,\n.token.char,\n.token.builtin,\n.token.inserted {\n  color: #690;\n}\n.token.operator,\n.token.entity,\n.token.url,\n.language-css .token.string,\n.style .token.string {\n  color: #a67f59;\n  background: rgba(255, 255, 255, 0.5);\n}\n.token.atrule,\n.token.attr-value,\n.token.keyword {\n  color: #07a;\n}\n.token.function {\n  color: #DD4A68;\n}\n.token.regex,\n.token.important,\n.token.variable {\n  color: #e90;\n}\n.token.important,\n.token.bold {\n  font-weight: bold;\n}\n.token.italic {\n  font-style: italic;\n}\n.token.entity {\n  cursor: help;\n}\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 12 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	function CodeFlask() {}
+
+	CodeFlask.prototype.run = function (selector, opts) {
+	    var target = document.querySelectorAll(selector);
+
+	    if (target.length > 1) {
+	        throw 'CodeFlask.js ERROR: run() expects only one element, ' + target.length + ' given. Use .runAll() instead.';
+	    } else {
+	        this.scaffold(target[0], false, opts);
+	    }
+	};
+
+	CodeFlask.prototype.runAll = function (selector, opts) {
+	    // Remove update API for bulk rendering
+	    this.update = null;
+	    this.onUpdate = null;
+
+	    var target = document.querySelectorAll(selector);
+
+	    var i;
+	    for (i = 0; i < target.length; i++) {
+	        this.scaffold(target[i], true, opts);
+	    }
+	};
+
+	CodeFlask.prototype.scaffold = function (target, isMultiple, opts) {
+	    var textarea = document.createElement('TEXTAREA'),
+	        highlightPre = document.createElement('PRE'),
+	        highlightCode = document.createElement('CODE'),
+	        initialCode = target.textContent,
+	        lang;
+
+	    opts.language = this.handleLanguage(opts.language);
+
+	    this.defaultLanguage = target.dataset.language || opts.language || 'markup';
+
+	    // Prevent these vars from being refreshed when rendering multiple
+	    // instances
+	    if (!isMultiple) {
+	        this.textarea = textarea;
+	        this.highlightCode = highlightCode;
+	    }
+
+	    target.classList.add('CodeFlask');
+	    textarea.classList.add('CodeFlask__textarea');
+	    highlightPre.classList.add('CodeFlask__pre');
+	    highlightCode.classList.add('CodeFlask__code');
+	    highlightCode.classList.add('language-' + this.defaultLanguage);
+
+	    // Fixing iOS "drunk-text" issue
+	    if (/iPad|iPhone|iPod/.test(navigator.platform)) {
+	        highlightCode.style.paddingLeft = '3px';
+	    }
+
+	    // Appending editor elements to DOM
+	    target.innerHTML = '';
+	    target.appendChild(textarea);
+	    target.appendChild(highlightPre);
+	    highlightPre.appendChild(highlightCode);
+
+	    // Render initial code inside tag
+	    textarea.value = initialCode;
+	    this.renderOutput(highlightCode, textarea);
+
+	    Prism.highlightAll();
+
+	    this.handleInput(textarea, highlightCode, highlightPre);
+	    this.handleScroll(textarea, highlightPre);
+	};
+
+	CodeFlask.prototype.renderOutput = function (highlightCode, input) {
+	    highlightCode.innerHTML = input.value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") + "\n";
+	};
+
+	CodeFlask.prototype.handleInput = function (textarea, highlightCode, highlightPre) {
+	    var self = this,
+	        input,
+	        selStartPos,
+	        inputVal,
+	        roundedScroll;
+
+	    textarea.addEventListener('input', function (e) {
+	        input = this;
+
+	        self.renderOutput(highlightCode, input);
+
+	        Prism.highlightAll();
+	    });
+
+	    textarea.addEventListener('keydown', function (e) {
+	        input = this, selStartPos = input.selectionStart, inputVal = input.value;
+
+	        // If TAB pressed, insert four spaces
+	        if (e.keyCode === 9) {
+	            input.value = inputVal.substring(0, selStartPos) + "    " + inputVal.substring(selStartPos, input.value.length);
+	            input.selectionStart = selStartPos + 4;
+	            input.selectionEnd = selStartPos + 4;
+	            e.preventDefault();
+
+	            highlightCode.innerHTML = input.value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") + "\n";
+	            Prism.highlightAll();
+	        }
+	    });
+	};
+
+	CodeFlask.prototype.handleScroll = function (textarea, highlightPre) {
+	    textarea.addEventListener('scroll', function () {
+
+	        roundedScroll = Math.floor(this.scrollTop);
+
+	        // Fixes issue of desync text on mouse wheel, fuck Firefox.
+	        if (navigator.userAgent.toLowerCase().indexOf('firefox') < 0) {
+	            this.scrollTop = roundedScroll;
+	        }
+
+	        highlightPre.style.top = "-" + roundedScroll + "px";
+	    });
+	};
+
+	CodeFlask.prototype.handleLanguage = function (lang) {
+	    if (lang.match(/html|xml|xhtml|svg/)) {
+	        return 'markup';
+	    } else if (lang.match(/js/)) {
+	        return 'javascript';
+	    } else {
+	        return lang;
+	    }
+	};
+
+	CodeFlask.prototype.onUpdate = function (cb) {
+	    if (typeof cb == "function") {
+	        this.textarea.addEventListener('input', function (e) {
+	            cb(this.value);
+	        });
+	    } else {
+	        throw 'CodeFlask.js ERROR: onUpdate() expects function, ' + (typeof cb === 'undefined' ? 'undefined' : _typeof(cb)) + ' given instead.';
+	    }
+	};
+
+	CodeFlask.prototype.update = function (string) {
+	    var evt = document.createEvent("HTMLEvents");
+
+	    this.textarea.value = string;
+	    this.renderOutput(this.highlightCode, this.textarea);
+	    Prism.highlightAll();
+
+	    evt.initEvent("input", false, true);
+	    this.textarea.dispatchEvent(evt);
+	};
+
+	module.exports = CodeFlask;
+
+/***/ },
+/* 13 */
+/***/ function(module, exports) {
+
+	module.exports = require('electron');
 
 /***/ }
 /******/ ]);

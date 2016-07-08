@@ -1,16 +1,45 @@
-var app = require('electron').app;  // Module to control application life.
-var BrowserWindow = require('electron').BrowserWindow;  // Module to create native browser window.
+// Require electron modules
+var {app, BrowserWindow, ipcMain}  = require('electron');
+
 // var crashReporter = require('electron').crashReporter;
-var path = require("path")
+var path = require("path");
+var net = require("net");
 
-var injector = require('../InjectorAddon/build/Release/injector');
+var dllSocket = null;
 
-var kernel32Exe = path.resolve(__dirname, "../APEKernel32/Release/APEKernel32.exe");
-var dllPath = path.resolve(__dirname, "../APEDLL/bin/APEDLL.dll");
-var targetProcess = "notepad.exe";
+var server = net.createServer((socket) => {
+    console.log("CLIENT IN");
+    dllSocket = socket;
+}).on('error', (err) => {
+    throw err;
+});
 
-console.log(dllPath);
-console.log(injector.injectDLL(kernel32Exe, targetProcess, dllPath));
+ipcMain.on('send-code', (event, arg) => {
+    if (dllSocket) {
+        console.log("SENDING");
+        var json = {
+            method: 'eval_js',
+            args: [arg]
+        };
+
+        dllSocket.write(JSON.stringify(json));
+    }
+});
+
+// grab a random port.
+server.listen(25100, 'localhost', () => {
+    address = server.address();
+    console.log('opened server on %j', address);
+
+    var injector = require('../InjectorAddon/build/Release/injector');
+
+    var kernel32Exe = path.resolve(__dirname, "../APEKernel32/Release/APEKernel32.exe");
+    var dllPath = path.resolve(__dirname, "../APEDLL/bin/APEDLL.dll");
+    var targetProcess = "notepad.exe";
+
+    console.log(dllPath);
+    console.log(injector.injectDLL(kernel32Exe, targetProcess, dllPath));
+});
 
 var program = require("commander")
   .option("-d, --dev-tools", "Open Dev Tools on start up")
