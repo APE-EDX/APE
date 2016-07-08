@@ -107,16 +107,19 @@ enum class CallConvention
 duk_ret_t createRedirection(duk_context *ctx) {
 	int n = duk_get_top(ctx);  /* #args */
 
+	// Address
+	DWORD address = duk_to_number(ctx, 0);
+
 	// Number of parameters
-	int numArgs = duk_to_number(ctx, 0);
+	int numArgs = duk_to_number(ctx, 1);
 
 	// Name
-	const char* duk_name = duk_to_string(ctx, 1);
+	const char* duk_name = duk_to_string(ctx, 2);
 	char* name = new char[strlen(duk_name)];
 	strcpy(name, duk_name);
 
 	// Call convention
-	CallConvention convention = (CallConvention)duk_to_number(ctx, 2);
+	CallConvention convention = (CallConvention)duk_to_number(ctx, 3);
 
 	// Fastcall not yet implemented
 	if (convention == CallConvention::FASTCALL)
@@ -126,7 +129,7 @@ duk_ret_t createRedirection(duk_context *ctx) {
 	}
 
 	// Callback
-	duk_dup(ctx, 3);
+	duk_dup(ctx, 4);
 	duk_put_global_string(ctx, name);
 
 	// 5 push + 1 push + 2 mov + 2 push + 5 push + 5 call + 3 retn
@@ -172,8 +175,7 @@ duk_ret_t createRedirection(duk_context *ctx) {
 		*(BYTE*)(codecave + 20) = 0xC3;
 	}
 
-	FARPROC address = GetProcAddress(GetModuleHandleA("user32.dll"), "GetKeyState");
-	void* notUsed = CreateHook(address, (void*)codecave);
+	void* notUsed = CreateHook((void*)address, (void*)codecave);
 	VirtualFree(notUsed, 0, MEM_RELEASE);
 
 	duk_push_boolean(ctx, true);
@@ -239,6 +241,18 @@ bool CreateConsole()
 	return false;
 }
 
+duk_ret_t addressOf(duk_context *ctx) {
+	int n = duk_get_top(ctx);  /* #args */
+
+	// Library
+	const char* libname = duk_to_string(ctx, 0);
+	const char* method = duk_to_string(ctx, 1);
+
+	DWORD addr = (DWORD)GetProcAddress(GetModuleHandleA(libname), method);
+	duk_push_int(ctx, addr);
+	return 1;
+}
+
 BOOL WINAPI DllMain(HINSTANCE handle, DWORD reason, LPVOID reserved)
 {
 	if (reason == DLL_PROCESS_ATTACH) // Self-explanatory
@@ -251,6 +265,9 @@ BOOL WINAPI DllMain(HINSTANCE handle, DWORD reason, LPVOID reserved)
 		duk_push_c_function(ctx, createRedirection, DUK_VARARGS);
 		duk_put_global_string(ctx, "cpp_redirect");
 
+		duk_push_c_function(ctx, addressOf, DUK_VARARGS);
+		duk_put_global_string(ctx, "cpp_addressOf");
+
 		// DLL API to allow Codecaves, hooks...
 		auto jsAPI = \
 			"CallConvention = {" \
@@ -259,10 +276,28 @@ BOOL WINAPI DllMain(HINSTANCE handle, DWORD reason, LPVOID reserved)
 			"  CDECL: 1," \
 			"  FASTCALL: 2" \
 			"};" \
-			"var Redirect = function(callback, convention, identifier) { "				\
-			" convention = convention || CallConvention.STDCALL;" \
-			"	identifier = identifier || Math.random().toString(32);"		\
-			"	cpp_redirect(callback.length, identifier, convention, callback);"		\
+			"function Find(lib, method) {" \
+			"  this.lib = lib;" \
+			"  this.method = method;" \
+			"};" \
+			"var Redirect = function(orig, callback, convention, identifier) { "				\
+			"  convention = convention || CallConvention.AUTO;" \
+			"  identifier = identifier || Math.random().toString(32);"		\
+			"  if (convention == CallConvention.AUTO) {" \
+			"    convention = CallConvention.CDECL;" \
+			"    if (orig instanceof Find) {" \
+			"      var libname = orig.lib;" \
+			"      libname = libname.substring(0, libname.lastIndexOf(".")) || libname" \
+			"      libname = Libname.toLowerCase();"
+			"      if (libname == 'kernel32' || libname == 'user32') {" \
+			"        convention = CallConvention.STDCALL;" \
+			"      }" \
+			"    }" \
+			"  }" \
+			"  if (orig instanceof Find) {" \
+			"    orig = cpp_addressOf(orig.lib, orig.method);" \
+			"  }" \
+			"  cpp_redirect(orig, callback.length, identifier, convention, callback);"		\
 			"};";
 		duk_push_object(ctx);
 		duk_eval_string(ctx, jsAPI);
