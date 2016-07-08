@@ -41,68 +41,67 @@ F CreateHook(void* orig, F dest)
 	return (F)codecave;
 }
 
-BYTE currentArg;
-BYTE numArgs;
-DWORD currentOffset;
-DWORD currentName;
-WORD retn;
-int argVal;
-__declspec(naked) void WrapJS()
+__declspec(naked) void WrapJSRedirect()
 {
-	__asm POP EAX
-	__asm mov currentName, EAX
+	// Save some registers
+	__asm push EAX
+	__asm push EBX
+	__asm push EDI
 
-	__asm pop EAX
-	__asm mov numArgs, AL
-
-	currentArg = numArgs;
-	retn = numArgs;
-
-	duk_get_global_string(ctx, (const char*)currentName);
-
+	// duk_get_global_string(ctx, currentName);
+	__asm push DWORD PTR SS:[ESP + 12] // currentName
+	__asm push ctx
+	__asm call duk_get_global_string
+	__asm add ESP, 8	// Pop arguments
+	
+	__asm mov EBX, DWORD PTR SS:[ESP + 16]		// EBX = numArgs
+	__asm mov EDI, EBX	// EDI = counter
+	
+	// for each argument
 loop_args:
-
-	__asm xor EAX, EAX
-	__asm mov AL, currentArg
-	__asm test AL, AL
+	__asm test EDI, EDI // Ended?
 	__asm je call_duktape
 	
 	__asm mov EAX, 4
-	__asm MUL currentArg
-	__asm mov EAX, DWORD PTR SS : [EBP + 4 + EAX] // +4 por PUSH EBP
-	__asm mov argVal, EAX
+	__asm imul EAX, EDI
+	__asm mov EAX, DWORD PTR SS : [EBP + 4 + EAX] // +4 per PUSH pre EBP saving
+	
+	// duk_push_int(ctx, argVal);	
+	__asm push EAX
+	__asm push ctx
+	__asm call duk_push_int
+	__asm add ESP, 8	// Pop arguments
 
-	duk_push_int(ctx, argVal);
-
-	__asm dec currentArg
+	__asm dec EDI
 	__asm jmp loop_args
 	
 call_duktape:
-	duk_pcall(ctx, numArgs);
+	//duk_pcall(ctx, numArgs);
+	__asm push EBX
+	__asm push ctx
+	__asm call duk_pcall
+	__asm add ESP, 8	// Pop arguments
 
+	// Restore resigters
+	__asm pop EDI
+	__asm pop EBX
+	__asm pop EAX
+
+	// Pop currentName, numArgs
+	__asm add ESP, 8
+
+	// Restore EBP
 	__asm pop EBP
 
-	// Pop arguments
-	__asm pop EAX
-	__asm mov currentOffset, EAX
-
-	currentArg = numArgs;
-
-pop_args:
-	__asm xor EAX, EAX
-	__asm mov AL, currentArg
-	__asm test AL, AL
-	__asm je retnow;
-
-	__asm pop EAX
-
-	__asm dec currentArg
-	__asm jmp pop_args
-
-retnow:
-	  // PUSH return
-	__asm push currentOffset
-	__asm ret
+	// This is basically "retn 0", but we are doing it like this
+	// to assure that 0xC2 is emitted
+	__asm _emit 0xC2
+	__asm _emit 0x00
+	__asm _emit 0x00
+}
+__declspec(naked) void WrapJSRedirect_end()
+{
+	__asm _emit 0x90 // To make sure it doesn't get optimized out
 }
 
 duk_ret_t createRedirection(duk_context *ctx) {
@@ -138,11 +137,21 @@ duk_ret_t createRedirection(duk_context *ctx) {
 	// JMP WrapJS
 	DWORD currentAddr = codecave + 10;
 	*(BYTE*)(currentAddr) = 0xE9;
-	*(DWORD*)(currentAddr + 1) = ((DWORD)&WrapJS - currentAddr) - 5;
+	*(DWORD*)(currentAddr + 1) = ((DWORD)&WrapJSRedirect - currentAddr) - 5;
 	
+	// Find retn instruction
+	DWORD retn = (DWORD)&WrapJSRedirect_end;
+	while (*(BYTE*)retn != 0xC2) --retn;
+
+	// Change it to retn "numArgs" * 4
+	DWORD oldProtection;
+	VirtualProtect((LPVOID)(retn + 1), 2, PAGE_EXECUTE_READWRITE, &oldProtection);
+	*(WORD*)(retn + 1) = (WORD)numArgs * 4;
+	VirtualProtect((LPVOID)(retn + 1), 2, oldProtection, &oldProtection);
 
 	FARPROC address = GetProcAddress(GetModuleHandleA("user32.dll"), "GetKeyState");
-	CreateHook(address, (void*)codecave);
+	void* notUsed = CreateHook(address, (void*)codecave);
+	VirtualFree(notUsed, 0, MEM_RELEASE);
 
 	duk_push_boolean(ctx, true);
 	return 1;  /* one return value */
