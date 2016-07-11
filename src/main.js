@@ -33,12 +33,13 @@ server.listen(25100, 'localhost', () => {
 
     var injector = require('../InjectorAddon/build/Release/injector');
 
-    var kernel32Exe = path.resolve(__dirname, "../APEKernel32/Release/APEKernel32.exe");
     var dllPath = path.resolve(__dirname, "../APEDLL/bin/APEDLL.dll");
     var targetProcess = "notepad.exe";
+    var kernel32Exe = path.resolve(__dirname, "../APEKernel32/Release/APEKernel32.exe");
+    var kernel64Exe = path.resolve(__dirname, "../APEKernel32/Release/APEKernel64.exe");
 
     console.log(dllPath);
-    console.log(injector.injectDLL(kernel32Exe, targetProcess, dllPath));
+    console.log(injector.injectDLL(targetProcess, dllPath, kernel32Exe, kernel64Exe));
 });
 
 var program = require("commander")
