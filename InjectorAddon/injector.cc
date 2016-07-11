@@ -40,6 +40,10 @@ ProcessBits IsWow64Process(HANDLE handle)
             return PROCESS_32;
         }
     }
+    else
+    {
+        return PROCESS_32;
+    }
 
     return bIsWow64 ? PROCESS_32_64 : PROCESS_64;
 }
