@@ -96,6 +96,8 @@
 
 		controller: function controller() {
 			this.inputValue = _mithril2.default.prop("");
+			this.showing = false;
+			this.closing = false;
 		},
 
 		configEditor: function configEditor(el) {
@@ -106,8 +108,33 @@
 			ipcRenderer.send('send-code', this.flask.textarea.value);
 		},
 
+		showConsole: function showConsole() {
+			if (!this.showing && !this.closing) {
+				this.showing = true;
+				this.dialog.className = 'model fade in show';
+			}
+		},
+
+		hideConsole: function hideConsole() {
+			if (this.showing && !this.closing) {
+				this.showing = false;
+				this.closing = true;
+
+				this.dialog.className = 'model fade show';
+
+				setTimeout(function () {
+					this.dialog.className = 'model fade hide';
+					this.closing = false;
+				}.bind(this), 500);
+			}
+		},
+
+		dialogConfig: function dialogConfig(el) {
+			this.dialog = el;
+		},
+
 		view: function view(ctrl) {
-			return (0, _mithril2.default)("div", (0, _mithril2.default)("h1", "Welcome"), (0, _mithril2.default)("div#jseditor", { 'data-language': "javascript", config: this.configEditor.bind(this) }), (0, _mithril2.default)('button', { onclick: this.sendCode.bind(this) }, 'Enviar'));
+			return (0, _mithril2.default)("div", (0, _mithril2.default)('nav', { class: 'navbar navbar-default navbar-fixed-top' }, (0, _mithril2.default)('div', { class: 'container' }, (0, _mithril2.default)('div', { class: 'navbar-header' }, (0, _mithril2.default)('div#navbar', { class: 'navbar-collapse collapse' }, (0, _mithril2.default)('ul', { class: 'nav navbar-nav' }, (0, _mithril2.default)('li', { class: 'active' }, (0, _mithril2.default)('a', 'Console')), (0, _mithril2.default)('li', { class: 'active' }, (0, _mithril2.default)('a', 'Dump')), (0, _mithril2.default)('li', { class: 'active' }, (0, _mithril2.default)('a', 'PushEdx', { href: 'http://www.pushedx.net/' }))))))), (0, _mithril2.default)("h1", { style: { 'margin-top': '60px' } }, "Welcome"), (0, _mithril2.default)('div#consoleDialog', { config: this.dialogConfig.bind(this), class: 'modal fade', role: 'dialog' }, (0, _mithril2.default)('div', { class: 'modal-dialog modal-lg' }, (0, _mithril2.default)('div', { class: 'modal-content' }, (0, _mithril2.default)('div', { class: 'modal-header' }, (0, _mithril2.default)('button', { class: 'close', onclick: this.hideConsole.bind(this) }, 'x'), (0, _mithril2.default)('h4', 'JS Console', { class: 'modal-title' })), (0, _mithril2.default)('div', { class: 'modal-body' }, (0, _mithril2.default)("div#jseditor", { 'data-language': "javascript", config: this.configEditor.bind(this) })), (0, _mithril2.default)('div', { class: 'modal-footer' }, (0, _mithril2.default)('button', { onclick: this.sendCode.bind(this), class: 'btn btn-lg btn-primary' }, 'Enviar'), (0, _mithril2.default)('button', { onclick: this.hideConsole.bind(this), class: 'btn btn-default' }, 'Close'))))), (0, _mithril2.default)('button', { onclick: this.showConsole.bind(this), class: 'btn btn-lg btn-primary' }, 'Console'));
 		}
 	};
 
@@ -2402,7 +2429,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  width: 100%;\n  height: 100%;\n}\ninput {\n  background-color: #ccc;\n  width: 100%;\n}\n#jseditor {\n  position: relative;\n  left: 5%;\n  width: 90%;\n  height: 300px;\n  border: 1px solid #444;\n}\n", ""]);
+	exports.push([module.id, "body {\n  width: 100%;\n  height: 100%;\n}\ninput {\n  background-color: #ccc;\n  width: 100%;\n}\n#jseditor {\n  position: relative;\n  left: 5%;\n  width: 90%;\n  height: 300px;\n  border: 1px solid #444;\n}\n#consoleDialog {\n  top: 10px;\n  position: fixed;\n  left: 50%;\n  transform: translateX(-50%);\n  z-index: 1031;\n}\n", ""]);
 
 	// exports
 
