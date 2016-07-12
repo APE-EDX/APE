@@ -110,7 +110,8 @@ export default {
 						m('a#menuLeft','Quick Edit')
 						),
 					m('li',
-						m('a#menuLeft','Something')
+						m('a#menuLeft','Something'),
+						m('button', {onclick: this.showConsole.bind(this), class:'btn btn-lg btn-primary' }, 'Console') // temporal
 						))),
 
 			m('div#consoleDialog', {config: this.dialogConfig.bind(this), class: 'modal fade', role: 'dialog'},
