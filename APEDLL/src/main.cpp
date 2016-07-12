@@ -32,7 +32,7 @@ static void SocketRecv(ClientSocket* clientSocket)
 	while (1)
 	{
 		std::string buffer = clientSocket->recv();
-		
+
 		duk_push_global_object(new_ctx);
 		duk_get_prop_string(new_ctx, -1, "onMessage");
 		duk_push_string(new_ctx, buffer.c_str());
@@ -51,10 +51,12 @@ BOOL WINAPI DllMain(HINSTANCE handle, DWORD reason, LPVOID reserved)
 		clientSocket = new ClientSocket(AF_INET, SOCK_STREAM, 0);
 		clientSocket->connect("127.0.0.1", 25100);
 
-		if (clientSocket->lastError() != SocketError::NONE) {
+		if (clientSocket->lastError() != SocketError::NONE)
+		{
 			printf("ERROR SOCKET %d\n", clientSocket->lastError());
 		}
-		else {
+		else
+		{
 			CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)SocketRecv, clientSocket, 0, NULL);
 		}
 
@@ -67,12 +69,15 @@ BOOL WINAPI DllMain(HINSTANCE handle, DWORD reason, LPVOID reserved)
 
 		duk_push_c_function(ctx, addressOf, DUK_VARARGS);
 		duk_put_global_string(ctx, "cpp_addressOf");
-		
+
+		duk_push_c_function(ctx, CreateConsole, DUK_VARARGS);
+		duk_put_global_string(ctx, "CreateConsole");
+
 		// Get current path
 		char path[MAX_PATH];
 		size_t len = GetModuleFileNameA(handle, path, sizeof(path));
 
-		// Find last / and 
+		// Find last / and
 		while (len > 0 && path[--len] != '\\') {};
 		if (len > 0)
 		{
