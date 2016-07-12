@@ -1,7 +1,11 @@
 // Require electron modules
 const {app, BrowserWindow, ipcMain}  = require('electron');
 const path = require("path");
-const inject = require('./inject')();
+
+// TODO: Remove the callback
+const inject = require('./inject')(function() {
+    console.log("Injection result: " + inject.inject('notepad.exe'));
+});
 
 const program = require("commander")
     .option("-d, --dev-tools", "Open Dev Tools on start up")

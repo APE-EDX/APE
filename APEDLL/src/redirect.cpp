@@ -8,12 +8,12 @@ __declspec(naked) void WrapJSRedirect()
     __asm push EDI
 
     // duk_get_global_string(ctx, currentName);
-    __asm push DWORD PTR SS:[ESP + 12]           // currentName
+    __asm push DWORD PTR SS:[ESP + 8]           // currentName
     __asm push ctx
     __asm call duk_get_global_string
     __asm add ESP, 8                            // Pop arguments
 
-    __asm mov EBX, DWORD PTR SS:[ESP + 16]      // EBX = numArgs
+    __asm mov EBX, DWORD PTR SS:[ESP + 12]      // EBX = numArgs
     __asm mov EDI, EBX                          // EDI = counter
 
     // for each argument

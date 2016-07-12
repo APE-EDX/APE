@@ -5,6 +5,7 @@
 #include <psapi.h>
 
 #pragma comment(lib, "psapi.lib")
+#define _WIN32_WINNT 0x0501
 
 namespace demo {
 
@@ -45,7 +46,19 @@ ProcessBits IsWow64Process(HANDLE handle)
         return PROCESS_32;
     }
 
-    return bIsWow64 ? PROCESS_32_64 : PROCESS_64;
+	if (bIsWow64)
+	{
+		return PROCESS_32_64;
+	}
+
+	SYSTEM_INFO info;
+	GetNativeSystemInfo(&info);
+	if (info.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64)
+	{
+		return PROCESS_64;
+	}
+
+	return PROCESS_32;
 }
 
 
@@ -68,11 +81,13 @@ void enableDebugPriv()
     CloseHandle(hToken);
 }
 
-template <typename T> bool startAndReturn(char* process, T& retval)
+template <typename T> bool startAndReturn(const char* process, T& retval)
 {
     const size_t stringSize = 1000;
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
+
+	// TODO: DWORD won't work for 64 bits :/ Another method to pass address must be found
     DWORD exit_code;
 
     ZeroMemory(&si, sizeof(si));
@@ -114,7 +129,7 @@ void injectDLL(const FunctionCallbackInfo<Value>& args) {
     Isolate* isolate = args.GetIsolate();
 
     // Check the number of arguments passed.
-    if (args.Length() < 4)
+    if (args.Length() < 3)
     {
         // Throw an Error that is passed back to JavaScript
         isolate->ThrowException(Exception::TypeError(
@@ -123,8 +138,7 @@ void injectDLL(const FunctionCallbackInfo<Value>& args) {
     }
 
     // Check the argument types
-    if (!args[0]->IsString() || !args[1]->IsString() ||
-        !args[2]->IsString() || !args[3]->IsString())
+    if (!args[0]->IsString() || !args[1]->IsString() || !args[2]->IsString())
     {
         isolate->ThrowException(Exception::TypeError(
             String::NewFromUtf8(isolate, "Wrong arguments")));
@@ -136,14 +150,10 @@ void injectDLL(const FunctionCallbackInfo<Value>& args) {
     const char* process = *processV8;
 
     v8::String::Utf8Value pathV8(args[1]->ToString());
-    const char* path = *pathV8;
-    const size_t pathLen = strlen(path);
+    char* path = *pathV8;
 
     v8::String::Utf8Value kernel32V8(args[2]->ToString());
-    const char* kernel32Exe = *kernel32V8;
-
-    v8::String::Utf8Value kernel64V8(args[3]->ToString());
-    const char* kernel64Exe = *kernel64V8;
+    char* kernel32Exe = *kernel32V8;
 
     PROCESSENTRY32 entry;
     entry.dwSize = sizeof(PROCESSENTRY32);
@@ -164,30 +174,18 @@ void injectDLL(const FunctionCallbackInfo<Value>& args) {
                     return;
                 }
 
-                LPVOID pathAddr = VirtualAllocEx(hProcess, NULL, pathLen, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
-                if (pathAddr == NULL)
-                {
-                    args.GetReturnValue().Set(Boolean::New(isolate, false));
-                    CloseHandle(hProcess);
-                    CloseHandle(snapshot);
-                    return;
-                }
-
-                if (WriteProcessMemory(hProcess, pathAddr, (LPCVOID)path, pathLen, NULL) == 0)
-                {
-                    args.GetReturnValue().Set(Boolean::New(isolate, false));
-                    CloseHandle(hProcess);
-                    CloseHandle(snapshot);
-                    return;
-                }
-
                 LPVOID loadLibrary = NULL;
                 ProcessBits bits = IsWow64Process(hProcess);
                 ProcessBits ownBits = IsWow64Process(GetCurrentProcess());
-
+				
+				const char* arch = (bits == PROCESS_64) ? "64" : "32";
                 if (bits != ownBits)
-                {
-                    char process = (bits == PROCESS_64) ? kernel64Exe : kernel32Exe;
+                {					
+					// Setup correct bits for Kernel32 process call
+					int pos = strlen(kernel32Exe);
+					while (pos > 0 && kernel32Exe[--pos] != '{') {}
+					kernel32Exe[pos] = arch[0]; kernel32Exe[pos + 1] = arch[1];
+
                     if (!startAndReturn(kernel32Exe, loadLibrary))
                     {
                         args.GetReturnValue().Set(Boolean::New(isolate, false));
@@ -198,9 +196,35 @@ void injectDLL(const FunctionCallbackInfo<Value>& args) {
                 }
                 else
                 {
-                    loadLibary = (LPVOID)GetProcAddress(GetModuleHandleA("Kernel32.dll"), "LoadLibraryA");
+					loadLibrary = (LPVOID)GetProcAddress(GetModuleHandleA("Kernel32.dll"), "LoadLibraryA");
                 }
 
+				// Setup correct bits for DLL
+				int pos = strlen(path);
+				while (pos > 0 && path[--pos] != '{') {}
+				path[pos] = arch[0]; path[pos + 1] = arch[1];
+
+				// Alloc size for the path
+				const size_t pathLen = strlen(path);
+				LPVOID pathAddr = VirtualAllocEx(hProcess, NULL, pathLen, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+				if (pathAddr == NULL)
+				{
+					args.GetReturnValue().Set(Boolean::New(isolate, false));
+					CloseHandle(hProcess);
+					CloseHandle(snapshot);
+					return;
+				}
+
+				// Write the path
+				if (WriteProcessMemory(hProcess, pathAddr, (LPCVOID)path, pathLen, NULL) == 0)
+				{
+					args.GetReturnValue().Set(Boolean::New(isolate, false));
+					CloseHandle(hProcess);
+					CloseHandle(snapshot);
+					return;
+				}
+
+				// Create the LoadLibraryA thread
                 HANDLE hThread = CreateRemoteThread(hProcess, NULL, NULL, (LPTHREAD_START_ROUTINE)loadLibrary, pathAddr, 0, NULL);
                 if (hThread == NULL)
                 {
@@ -210,11 +234,9 @@ void injectDLL(const FunctionCallbackInfo<Value>& args) {
                     return;
                 }
 
+				// Wait for the thread and cleanup
                 WaitForSingleObject(hThread, INFINITE);
                 CloseHandle(hThread);
-
-                printf("Path: %s\nPathAddr: %X\nLoadLib: %X\n", path, pathAddr, loadLibrary);
-
                 CloseHandle(hProcess);
                 CloseHandle(snapshot);
                 args.GetReturnValue().Set(Boolean::New(isolate, true));

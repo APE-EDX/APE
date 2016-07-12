@@ -1,4 +1,4 @@
-#include "utils.hpp"duk_context *ctx
+#include "utils.hpp"
 
 #include <io.h>
 #include <fcntl.h>

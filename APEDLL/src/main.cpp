@@ -44,9 +44,6 @@ BOOL WINAPI DllMain(HINSTANCE handle, DWORD reason, LPVOID reserved)
 {
     if (reason == DLL_PROCESS_ATTACH) // Self-explanatory
     {
-        // Open console
-        CreateConsole();
-
         // Create socket
         clientSocket = new ClientSocket(AF_INET, SOCK_STREAM, 0);
         clientSocket->connect("127.0.0.1", 25100);

@@ -1,3 +1,5 @@
+CreateConsole();
+
 /*
 var customCode = function(key) {
     print('Inside hook, key = ' + key);

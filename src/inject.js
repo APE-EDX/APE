@@ -8,22 +8,22 @@ try {
     var injector = require('../InjectorAddon/build/Release/injector');
 }
 catch(e) {
+    throw e;
     var injector = false;
     console.error("Injector not available yet in this platform");
 }
 
-const dllPath = path.resolve(__dirname, "../APEDLL/bin/APEDLL.dll");
-const kernel32Exe = path.resolve(__dirname, "../APEKernel32/Release/APEKernel32.exe");
-const kernel64Exe = path.resolve(__dirname, "../APEKernel32/Release/APEKernel64.exe");
+const dllPath = path.resolve(__dirname, "../APEDLL/bin/APEDLL_{}.dll");
+const kernel32Exe = path.resolve(__dirname, "../APEKernel32/Release/APEKernel{}.exe");
 
 let dllSocket = null;
 let serverReady = false;
 
 let inject = (targetProcess) => {
-    return serverReady && injector && injector.injectDLL(targetProcess, dllPath, kernel32Exe, kernel64Exe);
+    return serverReady && injector && injector.injectDLL(targetProcess, dllPath, kernel32Exe);
 }
 
-module.exports = () => {
+module.exports = (callback) => {
     // Create the TCP server
     var server = net.createServer((socket) => {
         if (dllSocket == null) {
@@ -38,6 +38,8 @@ module.exports = () => {
         address = server.address();
         serverReady = true;
         console.log('Opened server on %j', address);
+
+        callback && callback();
     });
 
     // Send-code event
