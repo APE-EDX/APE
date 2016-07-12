@@ -88,6 +88,7 @@
 
 	var ipcRenderer = _require.ipcRenderer;
 
+	var remote = __webpack_require__(13).remote.remote;
 
 	console.log(_codeflask2.default);
 
@@ -96,6 +97,8 @@
 
 		controller: function controller() {
 			this.inputValue = _mithril2.default.prop("");
+			this.showing = false;
+			this.closing = false;
 		},
 
 		configEditor: function configEditor(el) {
@@ -106,8 +109,64 @@
 			ipcRenderer.send('send-code', this.flask.textarea.value);
 		},
 
+		showConsole: function showConsole() {
+			if (!this.showing && !this.closing) {
+				this.showing = true;
+				this.dialog.className = 'model fade in show';
+			}
+		},
+
+		hideConsole: function hideConsole() {
+			if (this.showing && !this.closing) {
+				this.showing = false;
+				this.closing = true;
+
+				this.dialog.className = 'model fade show';
+
+				setTimeout(function () {
+					this.dialog.className = 'model fade hide';
+					this.closing = false;
+				}.bind(this), 500);
+			}
+		},
+
+		closeApp: function closeApp() {
+			document.getElementById("closeW").addEventListener("click", function (e) {
+				var window = remote.getCurrentWindow();
+				window.close();
+			});
+		},
+
+		dialogConfig: function dialogConfig(el) {
+			this.dialog = el;
+		},
+
 		view: function view(ctrl) {
-			return (0, _mithril2.default)("div", (0, _mithril2.default)("h1", "Welcome"), (0, _mithril2.default)("div#jseditor", { 'data-language': "javascript", config: this.configEditor.bind(this) }), (0, _mithril2.default)('button', { onclick: this.sendCode.bind(this) }, 'Enviar'));
+			return (0, _mithril2.default)("div", (0, _mithril2.default)('div#titleFrame', (0, _mithril2.default)('div#titleName', 'APE'), (0, _mithril2.default)('div#titleButton', (0, _mithril2.default)('button#closeW', 'X', { onclick: this.closeApp.bind(this) }))), (0, _mithril2.default)('div#menuFrame', (0, _mithril2.default)('div#menuButton', (0, _mithril2.default)('a', 'File'), (0, _mithril2.default)('a', 'Edit'), (0, _mithril2.default)('a', 'About'))),
+
+			//	m('nav', {class : 'navbar navbar-inverse navbar-fixed-top'},
+			//		m('div', {class: 'container'},
+			//			m('div', {class: 'navbar-header'},
+			//				m('div#navbar',{class: 'navbar-collapse collapse'},
+			//					m('ul',{class: 'nav navbar-nav'},
+			//						m('li',{class: 'active'},
+			//							m('a','File',{onclick: this.showConsole.bind(this), class:'btn btn-default navbar-btn' })
+			//						),
+			//						m('li',{class: ''},
+			//							m('a','Edit')
+			//						),
+			//						m('li',{class: ''},
+			//							m('a','About', {href:'http://www.pushedx.net/'})
+			//						)
+			//					)
+			//				)
+			//			)
+			//		)
+			//	),
+			//m("h1", {style: {'margin-top': '60px'}}, "Welcome"),
+			(0, _mithril2.default)('div', { class: 'menu-lateral' }, //col-sm-3 col-md-2 sidebar
+			(0, _mithril2.default)("ul", { class: 'menu-active' }, //nav nav-sidebar
+			(0, _mithril2.default)('li', (0, _mithril2.default)('a#menuLeft', 'Target')), (0, _mithril2.default)('li', (0, _mithril2.default)('a#menuLeft', 'Project')), (0, _mithril2.default)('li', (0, _mithril2.default)('a#menuLeft', 'Console', (0, _mithril2.default)('span', '(current)', { class: 'sr-only' }))), (0, _mithril2.default)('li', (0, _mithril2.default)('a#menuLeft', 'Quick Edit')), (0, _mithril2.default)('li', (0, _mithril2.default)('a#menuLeft', 'Something')))), (0, _mithril2.default)('div#consoleDialog', { config: this.dialogConfig.bind(this), class: 'modal fade', role: 'dialog' }, (0, _mithril2.default)('div', { class: 'modal-dialog modal-lg' }, (0, _mithril2.default)('div', { class: 'modal-content' }, (0, _mithril2.default)('div', { class: 'modal-header' }, (0, _mithril2.default)('button', { class: 'close', onclick: this.hideConsole.bind(this) }, 'x'), (0, _mithril2.default)('h4', 'JS Console', { class: 'modal-title' })), (0, _mithril2.default)('div', { class: 'modal-body' }, (0, _mithril2.default)("div#jseditor", { 'data-language': "javascript", config: this.configEditor.bind(this) })), (0, _mithril2.default)('div', { class: 'modal-footer' }, (0, _mithril2.default)('button', { onclick: this.sendCode.bind(this), class: 'btn btn-success' }, 'Enviar'), (0, _mithril2.default)('button', { onclick: this.hideConsole.bind(this), class: 'btn btn-default' }, 'Close'))))), (0, _mithril2.default)('button', { onclick: this.showConsole.bind(this), class: 'btn btn-lg btn-primary' }, 'Console'));
 		}
 	};
 
@@ -2402,7 +2461,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  width: 100%;\n  height: 100%;\n}\ninput {\n  background-color: #ccc;\n  width: 100%;\n}\n#jseditor {\n  position: relative;\n  left: 5%;\n  width: 90%;\n  height: 300px;\n  border: 1px solid #444;\n}\n", ""]);
+	exports.push([module.id, "body {\n  width: 100%;\n  height: 100%;\n  background-color: #37474f ;\n}\ninput {\n  background-color: #ccc;\n  width: 100%;\n}\n#jseditor {\n  position: relative;\n  left: 5%;\n  width: 90%;\n  height: 300px;\n  border: 1px solid #444;\n}\n#consoleDialog {\n  top: 10px;\n  position: fixed;\n  left: 50%;\n  transform: translateX(-50%);\n  z-index: 1031;\n}\n#titleName {\n  top: 4px;\n  text-align: center;\n  color: white;\n}\n#titleButton {\n  text-align: right;\n}\n#closeW {\n  position: relative;\n  text-align: right;\n  -moz-box-shadow: inset 0px -3px 7px 0px #29bbff;\n  -webkit-box-shadow: inset 0px -3px 7px 0px #29bbff;\n  box-shadow: inset 0px -3px 7px 0px #29bbff;\n  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#2dabf9', endColorstr='#0688fa', GradientType=0);\n  background-color: #2dabf9;\n  -moz-border-radius: 3px;\n  -webkit-border-radius: 3px;\n  border-radius: 3px;\n  border: 1px solid #0b0e07;\n  display: inline-block;\n  cursor: pointer;\n  color: #ffffff;\n  font-family: Arial;\n  font-size: 15px;\n  padding: 1px 6px;\n  text-decoration: none;\n  text-shadow: 0px 1px 0px #263666;\n}\n#closeW:hover {\n  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0688fa', endColorstr='#2dabf9', GradientType=0);\n  background-color: #0688fa;\n}\n#closeW:active {\n  position: relative;\n  top: 1px;\n}\n#titleFrame {\n  position: fixed;\n  width: 100%;\n  height: 25px;\n  background-color: #2E2E2E;\n  -webkit-user-select: none;\n  -webkit-app-region: drag;\n}\n.menu-lateral {\n  top: 25px;\n  height: 575px;\n  width: 134px;\n  position: absolute;\n  background-color: #263238;\n  border-style: solid;\n  border-right: 2px solid #000000;\n  border-left: 0px;\n  border-top: 0px;\n  border-bottom: 0px;\n}\nli {\n  margin: 30px;\n  position: relative;\n  list-style-type: none;\n  font-weight: bold;\n  text-align: left;\n}\n#menuLeft {\n  color: white;\n  text-decoration: none;\n}\n#menuLeft:hover {\n  color: black;\n}\n.menu-active {\n  width: 134px;\n  height: 50px;\n  background-color: white;\n}\n.menu-active::after {\n  position: absolute;\n  left: calc(88.2%);\n  top: 38px;\n  display: block;\n  width: 35.35px;\n  height: 35.35px;\n  background-color: white;\n  transform: rotate(45deg);\n  content: ' ';\n}\n", ""]);
 
 	// exports
 

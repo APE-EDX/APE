@@ -44,11 +44,19 @@ app.on('ready', function() {
     app.commandLine.appendSwitch('js-flags', '--harmony_arrow_functions');
 
     // Create the browser window.
-    mainWindow = new BrowserWindow({width: 1000, height: 600 });
+    mainWindow = new BrowserWindow({width: 1000, height: 600, frame: false, resizable: false});
     mainWindow.setMenu(null);
 
     // and load the index.html of the app.
     mainWindow.loadURL('file://' + path.resolve(__dirname, '../public/index.html'));
+
+    // Create Splash Screen.
+    let splashWindow = new BrowserWindow({width: 400, height: 560, frame: false, resizable: false, algaysOnTop: true });
+    splashWindow.setMenu(null);
+    setTimeout(() => { splashWindow.close(); }, 2000);
+
+    // load the splash.html of the app.
+    splashWindow.loadURL('file://' + path.resolve(__dirname,'../public/splash.html'));
 
     // Open the devtools.
     program.devTools && mainWindow.openDevTools({detached:true});
