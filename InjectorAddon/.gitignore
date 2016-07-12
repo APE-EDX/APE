@@ -1,12 +1,1 @@
-# Project files
-**/*.vcxproj
-**/*.vcxproj.filters
-**/*.sln
-**/*.gypi
-
-# Build files
-**/obj/
-**/*.exp
-**/*.lib
-**/*.map
-**/*.pdb
+[Bb]uild/

@@ -1,3 +1,4 @@
+[Bb]uild/
 *node_modules*
 .babel/
 .happypack/

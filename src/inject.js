@@ -5,16 +5,15 @@ const net = require("net");
 
 // Try to load injector
 try {
-    var injector = require('../InjectorAddon/build/Release/injector');
+    var injector = require('../InjectorAddon/bin/injector');
 }
 catch(e) {
-    throw e;
     var injector = false;
     console.error("Injector not available yet in this platform");
 }
 
 const dllPath = path.resolve(__dirname, "../APEDLL/bin/APEDLL_{}.dll");
-const kernel32Exe = path.resolve(__dirname, "../APEKernel32/Release/APEKernel{}.exe");
+const kernel32Exe = path.resolve(__dirname, "../APEKernel32/bin/APEKernel{}.exe");
 
 let dllSocket = null;
 let serverReady = false;
