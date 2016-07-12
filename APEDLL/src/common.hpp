@@ -8,7 +8,7 @@ extern duk_context *ctx;
 
 enum class CallConvention
 {
-	STDCALL,
-	CDECLCALL,
-	FASTCALL
+    STDCALL,
+    CDECLCALL,
+    FASTCALL
 };

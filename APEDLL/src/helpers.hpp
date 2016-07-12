@@ -10,22 +10,32 @@ duk_ret_t addressOf(duk_context *ctx);
 // Implementations
 
 template <typename F>
-F CreateHook(void* orig, F dest)
+F CreateHook(void* orig, F dest, bool createCodecave=false)
 {
-	DWORD codecave = (DWORD)VirtualAlloc(NULL, 10, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE);
-	memcpy((void*)codecave, (void*)orig, 5);
-	*(BYTE*)(codecave + 5) = 0xE9;
-	*(DWORD*)(codecave + 6) = ((DWORD)orig + 5 - (codecave + 5)) - 5;
+    DWORD codecave = NULL;
 
-	// Unprotect address
-	DWORD oldProtect;
-	VirtualProtect((LPVOID)orig, 5, PAGE_EXECUTE_READWRITE, &oldProtect);
+    if (createCodecave)
+    {
+        codecave = (DWORD)VirtualAlloc(NULL, 10, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE);
+        if (!codecave)
+        {
+            return NULL;
+        }
 
-	// JMP codecave
-	*(BYTE*)(orig) = 0xE9;
-	*(DWORD*)((DWORD)orig + 1) = ((DWORD)dest - (DWORD)orig) - 5;
+        memcpy((void*)codecave, (void*)orig, 5);
+        *(BYTE*)(codecave + 5) = 0xE9;
+        *(DWORD*)(codecave + 6) = ((DWORD)orig + 5 - (codecave + 5)) - 5;
+    }
 
-	VirtualProtect((LPVOID)orig, 5, oldProtect, &oldProtect);
+    // Unprotect address
+    DWORD oldProtect;
+    VirtualProtect((LPVOID)orig, 5, PAGE_EXECUTE_READWRITE, &oldProtect);
 
-	return (F)codecave;
+    // JMP dest
+    *(BYTE*)(orig) = 0xE9;
+    *(DWORD*)((DWORD)orig + 1) = ((DWORD)dest - (DWORD)orig) - 5;
+
+    VirtualProtect((LPVOID)orig, 5, oldProtect, &oldProtect);
+
+    return (F)codecave;
 }
