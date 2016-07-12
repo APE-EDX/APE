@@ -5,10 +5,10 @@ const net = require("net");
 
 // Try to load injector
 try {
-    const injector = require('../InjectorAddon/build/Release/injector');
+    var injector = require('../InjectorAddon/build/Release/injector');
 }
 catch(e) {
-    const injector = false;
+    var injector = false;
     console.error("Injector not available yet in this platform");
 }
 
@@ -20,8 +20,7 @@ let dllSocket = null;
 let serverReady = false;
 
 let inject = (targetProcess) => {
-    let result = serverReady && injector && injector.injectDLL(targetProcess, dllPath, kernel32Exe, kernel64Exe);
-    ipcMain.send('inject-result', result);
+    return serverReady && injector && injector.injectDLL(targetProcess, dllPath, kernel32Exe, kernel64Exe);
 }
 
 module.exports = () => {
@@ -51,10 +50,11 @@ module.exports = () => {
 
     // Inject event
     ipcMain.on('inject', (event, arg) => {
-        inject(arg);
+        event.returnValue = inject(arg);
     });
 
     return {
+        injector: injector,
         inject: inject
     };
 };

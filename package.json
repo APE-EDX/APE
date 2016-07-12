@@ -5,7 +5,7 @@
   "repository": "https://github.com/Push-EDX/APE.git",
   "main": "src/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "cross-env NODE_ENV=production node ./node_modules/electron-mocha/bin/electron-mocha --reporter spec",
     "build": "cross-env NODE_ENV=production node ./node_modules/webpack/bin/webpack --config webpack.config.js --progress --profile --colors",
     "watch": "cross-env NODE_ENV=production node ./node_modules/webpack/bin/webpack --watch --config webpack.config.js --progress --profile --bail",
     "start": "electron ."
@@ -29,8 +29,10 @@
     "babel-loader": "^6.2.4",
     "babel-preset-es2015": "^6.9.0",
     "babel-register": "^6.9.0",
+    "chai": "^3.5.0",
     "cross-env": "^1.0.8",
     "css-loader": "^0.23.1",
+    "electron-mocha": "^2.3.0",
     "electron-prebuilt": "^1.2.5",
     "electron-reload": "^1.0.0",
     "happypack": "^2.1.1",

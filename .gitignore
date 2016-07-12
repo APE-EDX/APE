@@ -1,3 +1,4 @@
 *node_modules*
 .babel/
 .happypack/
+npm-debug.log
