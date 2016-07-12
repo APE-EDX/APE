@@ -82,7 +82,7 @@ template <typename T> bool startAndReturn(char* process, T& retval)
     // Defaut to -1
     retval = (T)-1;
 
-    // Start the child process. 
+    // Start the child process.
     if (!CreateProcessA(NULL,   // No module name (use command line)
         (LPSTR)process,   // Command line
         NULL,           // Process handle not inheritable
@@ -90,7 +90,7 @@ template <typename T> bool startAndReturn(char* process, T& retval)
         FALSE,          // Set handle inheritance to FALSE
         0,              // No creation flags
         NULL,           // Use parent's environment block
-        NULL,           // Use parent's starting directory 
+        NULL,           // Use parent's starting directory
         &si,            // Pointer to STARTUPINFO structure
         &pi)           // Pointer to PROCESS_INFORMATION structure
         )
@@ -102,7 +102,7 @@ template <typename T> bool startAndReturn(char* process, T& retval)
     WaitForSingleObject(pi.hProcess, INFINITE);
     GetExitCodeProcess(pi.hProcess, &exit_code);
 
-    // Close process and thread handles. 
+    // Close process and thread handles.
     CloseHandle(pi.hProcess);
     CloseHandle(pi.hThread);
 
@@ -123,7 +123,7 @@ void injectDLL(const FunctionCallbackInfo<Value>& args) {
     }
 
     // Check the argument types
-    if (!args[0]->IsString() || !args[1]->IsString() || 
+    if (!args[0]->IsString() || !args[1]->IsString() ||
         !args[2]->IsString() || !args[3]->IsString())
     {
         isolate->ThrowException(Exception::TypeError(
@@ -159,26 +159,26 @@ void injectDLL(const FunctionCallbackInfo<Value>& args) {
                 HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, entry.th32ProcessID);
                 if (hProcess == NULL)
                 {
-					args.GetReturnValue().Set(Boolean::New(isolate, false));
-					CloseHandle(snapshot);
-					return;
+                    args.GetReturnValue().Set(Boolean::New(isolate, false));
+                    CloseHandle(snapshot);
+                    return;
                 }
 
                 LPVOID pathAddr = VirtualAllocEx(hProcess, NULL, pathLen, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
-				if (pathAddr == NULL)
+                if (pathAddr == NULL)
                 {
-					args.GetReturnValue().Set(Boolean::New(isolate, false));
-					CloseHandle(hProcess);
-					CloseHandle(snapshot);
-					return;
-				}
+                    args.GetReturnValue().Set(Boolean::New(isolate, false));
+                    CloseHandle(hProcess);
+                    CloseHandle(snapshot);
+                    return;
+                }
 
                 if (WriteProcessMemory(hProcess, pathAddr, (LPCVOID)path, pathLen, NULL) == 0)
                 {
-					args.GetReturnValue().Set(Boolean::New(isolate, false));
-					CloseHandle(hProcess);
-					CloseHandle(snapshot);
-					return;
+                    args.GetReturnValue().Set(Boolean::New(isolate, false));
+                    CloseHandle(hProcess);
+                    CloseHandle(snapshot);
+                    return;
                 }
 
                 LPVOID loadLibrary = NULL;
@@ -190,11 +190,11 @@ void injectDLL(const FunctionCallbackInfo<Value>& args) {
                     char process = (bits == PROCESS_64) ? kernel64Exe : kernel32Exe;
                     if (!startAndReturn(kernel32Exe, loadLibrary))
                     {
-    					args.GetReturnValue().Set(Boolean::New(isolate, false));
-    					CloseHandle(hProcess);
-    					CloseHandle(snapshot);
-    					return;
-    				}
+                        args.GetReturnValue().Set(Boolean::New(isolate, false));
+                        CloseHandle(hProcess);
+                        CloseHandle(snapshot);
+                        return;
+                    }
                 }
                 else
                 {
@@ -202,13 +202,13 @@ void injectDLL(const FunctionCallbackInfo<Value>& args) {
                 }
 
                 HANDLE hThread = CreateRemoteThread(hProcess, NULL, NULL, (LPTHREAD_START_ROUTINE)loadLibrary, pathAddr, 0, NULL);
-				if (hThread == NULL)
+                if (hThread == NULL)
                 {
-					args.GetReturnValue().Set(Boolean::New(isolate, false));
-					CloseHandle(hProcess);
-					CloseHandle(snapshot);
-					return;
-				}
+                    args.GetReturnValue().Set(Boolean::New(isolate, false));
+                    CloseHandle(hProcess);
+                    CloseHandle(snapshot);
+                    return;
+                }
 
                 WaitForSingleObject(hThread, INFINITE);
                 CloseHandle(hThread);
@@ -228,7 +228,7 @@ void injectDLL(const FunctionCallbackInfo<Value>& args) {
 }
 
 void init(Local<Object> exports) {
-	enableDebugPriv();
+    enableDebugPriv();
 
     NODE_SET_METHOD(exports, "injectDLL", injectDLL);
 }
