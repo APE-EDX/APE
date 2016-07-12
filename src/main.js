@@ -33,7 +33,7 @@ app.on('ready', function() {
   app.commandLine.appendSwitch('js-flags', '--harmony_arrow_functions');
 
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1000, height: 600 });
+  mainWindow = new BrowserWindow({width: 1000, height: 600, frame: false, resizable: false});
   mainWindow.setMenu(null);
 
   // and load the index.html of the app.
