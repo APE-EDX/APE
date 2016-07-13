@@ -4,7 +4,6 @@ import '../less/codeflask.less';
 import '../less/prism.less';
 
 const {ipcRenderer, remote} = require('electron');
-const $ = require('jquery');
 import CodeFlask from './codeflask';
 
 let flask = new CodeFlask;
