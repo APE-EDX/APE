@@ -5,7 +5,9 @@ export default {
 		return {
 			default: attrs.default,
 			showing: attrs.showing,
-			changeFrame: attrs.changeFrame
+			changeFrame: attrs.changeFrame,
+			overlayFrame: attrs.overlayFrame,
+			closeOverlayFrame: attrs.closeOverlayFrame
 		};
 	},
 
@@ -19,7 +21,7 @@ export default {
             m("ul", //nav nav-sidebar
                 m('li', {className: ctrl.showing[0] ? 'menu-active' : ''},
                     m('a#menuLeft', {
-                        onclick: ctrl.changeFrame,
+                        onclick: ctrl.overlayFrame,
                         'data-target': 0
                     }, 'Target')
                 ),

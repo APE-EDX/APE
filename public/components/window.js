@@ -22,16 +22,26 @@ export default {
 		this.showing[e.target.dataset.target] = true;
 	},
 
+	overlayFrame: function(e) {
+		this.showing[e.target.dataset.target] = true;
+	},
+
+	closeOverlayFrame: function(e, which) {
+		this.showing[which] = true;
+	},
+
 	view: function(ctrl) {
 		return 	m("div.height100",
 			m(Header),
 			m(Menu, {
 				showing: ctrl.showing,
 				default: 2,
-				changeFrame: this.changeFrame.bind(ctrl)
+				changeFrame: this.changeFrame.bind(ctrl),
+				overlayFrame: this.overlayFrame.bind(ctrl),
+				closeOverlayFrame: this.closeOverlayFrame.bind(ctrl)
 			}),
 			m(QuickEdit, {showing: ctrl.showing[3]}),
-			m(Target, {showing: ctrl.showing[0]})
+			m(Target, {showing: ctrl.showing[0], closeOverlayFrame: this.closeOverlayFrame.bind(ctrl, 0)})
 		);
 	}
 };

@@ -110,11 +110,21 @@
 			this.showing[e.target.dataset.target] = true;
 		},
 
+		overlayFrame: function overlayFrame(e) {
+			this.showing[e.target.dataset.target] = true;
+		},
+
+		closeOverlayFrame: function closeOverlayFrame(e, which) {
+			this.showing[which] = true;
+		},
+
 		view: function view(ctrl) {
 			return (0, _mithril2.default)("div.height100", (0, _mithril2.default)(_header2.default), (0, _mithril2.default)(_menu2.default, {
 				showing: ctrl.showing,
 				default: 2,
-				changeFrame: this.changeFrame.bind(ctrl)
+				changeFrame: this.changeFrame.bind(ctrl),
+				overlayFrame: this.overlayFrame.bind(ctrl),
+				closeOverlayFrame: this.closeOverlayFrame.bind(ctrl)
 			}), (0, _mithril2.default)(_quickEdit2.default, { showing: ctrl.showing[3] }), (0, _mithril2.default)(_targetProcess2.default, { showing: ctrl.showing[0] }));
 		}
 	};
@@ -2859,7 +2869,9 @@
 	        return {
 	            default: attrs.default,
 	            showing: attrs.showing,
-	            changeFrame: attrs.changeFrame
+	            changeFrame: attrs.changeFrame,
+	            overlayFrame: attrs.overlayFrame,
+	            closeOverlayFrame: attrs.closeOverlayFrame
 	        };
 	    },
 
@@ -2874,7 +2886,7 @@
 	        return (0, _mithril2.default)('div', { class: 'menu-lateral' }, //col-sm-3 col-md-2 sidebar
 	        (0, _mithril2.default)("ul", //nav nav-sidebar
 	        (0, _mithril2.default)('li', { className: ctrl.showing[0] ? 'menu-active' : '' }, (0, _mithril2.default)('a#menuLeft', {
-	            onclick: ctrl.changeFrame,
+	            onclick: ctrl.overlayFrame,
 	            'data-target': 0
 	        }, 'Target')), (0, _mithril2.default)('li', { className: ctrl.showing[1] ? 'menu-active' : '' }, (0, _mithril2.default)('a#menuLeft', {
 	            onclick: ctrl.changeFrame,
@@ -3150,23 +3162,7 @@
 		view: function view(ctrl, attrs) {
 			ctrl.showing = attrs.showing;
 
-			return (0, _mithril2.default)('a', 'holamundo');
-			//m('div#consoleDialog', {className: ctrl.showing ? '' : 'hidden', class: 'modal fade', role: 'dialog'},
-			//	m('div', {class: 'modal-dialog modal-lg'},
-			//		m('div', {class: 'modal-content'},
-			//			m('div', {class: 'modal-header'},
-			//				m('button', {class: 'close', onclick: this.hideConsole.bind(this)},'x'),
-			//				m('h4','Select Process:',{class: 'modal-title'})
-			//   			 ),
-			//   			m('div', {class: 'modal-body'},
-			//				m("div#jseditor", {'data-language': "javascript", config: this.configEditor.bind(this) })
-			//			 ),
-			//			m('div', {class: 'modal-footer'},
-			//				m('button', {onclick: this.hideConsole.bind(this), class: 'btn btn-default'}, 'Close')
-			//				 )
-			//			 )
-			//		 )
-			// 	 )
+			return (0, _mithril2.default)('div#consoleDialog', { className: ctrl.showing ? 'modal fade in show' : 'modal fade hidden', role: 'dialog' }, (0, _mithril2.default)('div', { class: 'modal-dialog modal-lg' }, (0, _mithril2.default)('div', { class: 'modal-content' }, (0, _mithril2.default)('div', { class: 'modal-header' }, (0, _mithril2.default)('button', { class: 'close', onclick: this.hideConsole.bind(this) }, 'x'), (0, _mithril2.default)('h4', 'Select Process:', { class: 'modal-title' })), (0, _mithril2.default)('div', { class: 'modal-body' }, 'aaa'), (0, _mithril2.default)('div', { class: 'modal-footer' }, (0, _mithril2.default)('button', { onclick: this.hideConsole.bind(this), class: 'btn btn-default' }, 'Close')))));
 		}
 	};
 
