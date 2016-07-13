@@ -99,25 +99,22 @@
 		controller: function controller() {
 			return {
 				inputValue: _mithril2.default.prop(""),
-				showing: [false, false, false, false, false],
-				currentFrame: null
+				showing: [false, false, false, false, false]
 			};
 		},
 
-		configEditor: function configEditor(el) {
-			this.flask.run('#jseditor', { language: 'js' });
+		configEditor: function configEditor(el, hasInit) {
+			if (!hasInit) {
+				flask.run('#jseditor', { language: 'js' });
+			}
 		},
 
 		sendCode: function sendCode(e) {
-			ipcRenderer.send('send-code', this.flask.textarea.value);
+			ipcRenderer.send('send-code', flask.textarea.value);
 		},
 
 		closeApp: function closeApp() {
 			remote.getCurrentWindow().close();
-		},
-
-		setDefault: function setDefault(el) {
-			this.currentFrame = el.dataset.target;
 		},
 
 		changeFrame: function changeFrame(e) {
@@ -138,7 +135,6 @@
 				onclick: this.changeFrame.bind(ctrl),
 				'data-target': 0
 			}, 'Target')), (0, _mithril2.default)('li', { className: ctrl.showing[1] ? 'menu-active' : '' }, (0, _mithril2.default)('a#menuLeft', {
-				config: this.setDefault.bind(ctrl),
 				onclick: this.changeFrame.bind(ctrl),
 				'data-target': 1
 			}, 'Project')), (0, _mithril2.default)('li', { className: ctrl.showing[2] ? 'menu-active' : '' }, (0, _mithril2.default)('a#menuLeft', {

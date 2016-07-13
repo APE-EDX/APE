@@ -14,25 +14,22 @@ export default {
 	controller: function() {
 		return {
 			inputValue: m.prop(""),
-			showing: [false, false, false, false, false],
-			currentFrame: null
+			showing: [false, false, false, false, false]
 		};
 	},
 
-	configEditor: function(el) {
-    	this.flask.run('#jseditor', {language: 'js'});
+	configEditor: function(el, hasInit) {
+		if (!hasInit) {
+    		flask.run('#jseditor', {language: 'js'});
+		}
 	},
 
 	sendCode: function(e) {
-		ipcRenderer.send('send-code', this.flask.textarea.value);
+		ipcRenderer.send('send-code', flask.textarea.value);
 	},
 
 	closeApp: function() {
 		remote.getCurrentWindow().close();
-	},
-
-	setDefault: function(el) {
-		this.currentFrame = el.dataset.target;
 	},
 
 	changeFrame: function(e) {
@@ -72,7 +69,6 @@ export default {
 					),
 					m('li', {className: ctrl.showing[1] ? 'menu-active' : ''},
 						m('a#menuLeft', {
-							config: this.setDefault.bind(ctrl),
 							onclick: this.changeFrame.bind(ctrl),
 							'data-target': 1
 						}, 'Project')
