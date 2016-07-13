@@ -114,8 +114,8 @@
 			this.showing[e.target.dataset.target] = true;
 		},
 
-		closeOverlayFrame: function closeOverlayFrame(e, which) {
-			this.showing[which] = true;
+		closeOverlayFrame: function closeOverlayFrame(which, e) {
+			this.showing[which] = false;
 		},
 
 		view: function view(ctrl) {
@@ -125,7 +125,7 @@
 				changeFrame: this.changeFrame.bind(ctrl),
 				overlayFrame: this.overlayFrame.bind(ctrl),
 				closeOverlayFrame: this.closeOverlayFrame.bind(ctrl)
-			}), (0, _mithril2.default)(_quickEdit2.default, { showing: ctrl.showing[3] }), (0, _mithril2.default)(_targetProcess2.default, { showing: ctrl.showing[0] }));
+			}), (0, _mithril2.default)(_quickEdit2.default, { showing: ctrl.showing[3] }), (0, _mithril2.default)(_targetProcess2.default, { showing: ctrl.showing[0], closeOverlayFrame: this.closeOverlayFrame.bind(ctrl, 0) }));
 		}
 	};
 
@@ -2420,7 +2420,7 @@
 
 
 	// module
-	exports.push([module.id, "* {\n  -webkit-user-select: none;\n}\nhtml,\nbody,\n.height100 {\n  width: 100%;\n  height: 100%;\n  max-height: 100%;\n  background-color: #37474f ;\n}\ninput {\n  background-color: #ccc;\n  width: 100%;\n}\n.title-frame {\n  position: relative;\n  width: 100%;\n  height: 23px;\n  background-color: #2E2E2E;\n  text-align: right;\n  color: white;\n}\n.title-frame > .title {\n  position: relative;\n  text-align: center;\n  -webkit-app-region: drag;\n  line-height: 23px;\n}\n.title-frame > .buttons {\n  position: relative;\n  top: -23px;\n  z-index: 2;\n  padding-right: 3px;\n}\n.title-frame > .buttons > button {\n  -webkit-app-region: no-drag;\n}\n.close-button {\n  position: relative;\n  box-shadow: inset 0px -3px 7px 0px #29bbff;\n  background-color: #2dabf9;\n  border-radius: 3px;\n  border: 1px solid #0b0e07;\n  display: inline-block;\n  cursor: pointer;\n  color: #ffffff;\n  font-family: Arial;\n  font-size: 10px;\n  padding: 1px 4px;\n  text-decoration: none;\n  text-shadow: 0px 1px 0px #263666;\n}\n.close-button:hover {\n  background-color: #0688fa;\n}\n.close-button:active {\n  position: relative;\n  top: 1px;\n}\n.menu-frame {\n  position: relative;\n  height: 23px;\n  background-color: #232323;\n}\n.menu-lateral {\n  position: absolute;\n  height: 554px;\n  width: 134px;\n  background-color: #263238;\n  border-style: solid;\n  border-right: 2px solid #000000;\n  border-left: 0px;\n  border-top: 0px;\n  border-bottom: 0px;\n}\nul {\n  position: relative;\n  top: 50%;\n  transform: translateY(-50%);\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\nul li:first-child {\n  margin-top: 0;\n}\nul li:last-child {\n  margin-bottom: 0;\n}\nli {\n  margin: 15px;\n  margin-left: 0px;\n  padding-left: 15px;\n  position: relative;\n  list-style-type: none;\n  font-weight: bold;\n  text-align: left;\n}\nli > a {\n  color: #fafafa;\n  text-decoration: none;\n  font-weight: bold;\n  font-variant: small-caps;\n  cursor: pointer;\n}\nli > a:hover {\n  color: #cacaca;\n  text-decoration: none;\n}\nli.menu-active {\n  width: 134px;\n  height: 40px;\n  background-color: white;\n  line-height: 40px;\n}\n.menu-active > a {\n  color: black;\n}\n.menu-active > a:hover {\n  color: black;\n}\n.menu-active::after {\n  position: relative;\n  left: 105px;\n  top: -34px;\n  display: block;\n  width: 28.28px;\n  height: 28.28px;\n  background-color: white;\n  transform: rotate(45deg);\n  content: ' ';\n  z-index: -1;\n}\n.body-frame {\n  position: relative;\n  left: 134px;\n  width: 866px;\n  height: 554px;\n  padding: 15px 30px 15px 30px;\n}\n.body-frame > h1 {\n  color: #cfd8dc;\n}\n.quick-edit-body > .buttons {\n  margin: 0 auto;\n  text-align: right;\n  width: 100%;\n}\n.quick-edit-body > .buttons > button {\n  margin-top: 10px;\n  margin-left: 15px;\n}\n#jseditor {\n  position: relative;\n  width: 100%;\n  height: 404px;\n  border: 1px solid #000;\n  background: #263238;\n}\n#jseditor > pre > code {\n  text-shadow: 0 1px #263238;\n}\n", ""]);
+	exports.push([module.id, "* {\n  -webkit-user-select: none;\n}\nhtml,\nbody,\n.height100 {\n  width: 100%;\n  height: 100%;\n  max-height: 100%;\n  background-color: #37474f ;\n}\ninput {\n  background-color: #ccc;\n  width: 100%;\n}\n.title-frame {\n  position: relative;\n  width: 100%;\n  height: 23px;\n  background-color: #2E2E2E;\n  text-align: right;\n  color: white;\n}\n.title-frame > .title {\n  position: relative;\n  text-align: center;\n  -webkit-app-region: drag;\n  line-height: 23px;\n}\n.title-frame > .buttons {\n  position: relative;\n  top: -23px;\n  z-index: 2;\n  padding-right: 3px;\n}\n.title-frame > .buttons > button {\n  -webkit-app-region: no-drag;\n}\n.close-button {\n  position: relative;\n  box-shadow: inset 0px -3px 7px 0px #29bbff;\n  background-color: #2dabf9;\n  border-radius: 3px;\n  border: 1px solid #0b0e07;\n  display: inline-block;\n  cursor: pointer;\n  color: #ffffff;\n  font-family: Arial;\n  font-size: 10px;\n  padding: 1px 4px;\n  text-decoration: none;\n  text-shadow: 0px 1px 0px #263666;\n}\n.close-button:hover {\n  background-color: #0688fa;\n}\n.close-button:active {\n  position: relative;\n  top: 1px;\n}\n.menu-frame {\n  position: relative;\n  height: 23px;\n  background-color: #232323;\n}\n.menu-frame > .buttons > a {\n  color: white;\n  padding: 12px;\n}\n.menu-lateral {\n  position: absolute;\n  height: 554px;\n  width: 134px;\n  background-color: #263238;\n  border-style: solid;\n  border-right: 2px solid #000000;\n  border-left: 0px;\n  border-top: 0px;\n  border-bottom: 0px;\n}\nul {\n  position: relative;\n  top: 50%;\n  transform: translateY(-50%);\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\nul li:first-child {\n  margin-top: 0;\n}\nul li:last-child {\n  margin-bottom: 0;\n}\nli {\n  margin: 15px;\n  margin-left: 0px;\n  padding-left: 15px;\n  position: relative;\n  list-style-type: none;\n  font-weight: bold;\n  text-align: left;\n}\nli > a {\n  color: #fafafa;\n  text-decoration: none;\n  font-weight: bold;\n  font-variant: small-caps;\n  cursor: pointer;\n}\nli > a:hover {\n  color: #cacaca;\n  text-decoration: none;\n}\nli.menu-active {\n  width: 134px;\n  height: 40px;\n  background-color: white;\n  line-height: 40px;\n}\n.menu-active > a {\n  color: black;\n}\n.menu-active > a:hover {\n  color: black;\n}\n.menu-active::after {\n  position: relative;\n  left: 105px;\n  top: -34px;\n  display: block;\n  width: 28.28px;\n  height: 28.28px;\n  background-color: white;\n  transform: rotate(45deg);\n  content: ' ';\n  z-index: -1;\n}\n.body-frame {\n  position: relative;\n  left: 134px;\n  width: 866px;\n  height: 554px;\n  padding: 15px 30px 15px 30px;\n}\n.body-frame > h1 {\n  color: #cfd8dc;\n}\n.quick-edit-body > .buttons {\n  margin: 0 auto;\n  text-align: right;\n  width: 100%;\n}\n.quick-edit-body > .buttons > button {\n  margin-top: 10px;\n  margin-left: 15px;\n}\n#jseditor {\n  position: relative;\n  width: 100%;\n  height: 404px;\n  border: 1px solid #000;\n  background: #263238;\n}\n#jseditor > pre > code {\n  text-shadow: 0 1px #263238;\n}\n#consoleDialog {\n  background-color: rgba(0, 0, 0, 0.6);\n}\n.modal-content {\n  background-color: #263238;\n  color: white;\n}\n", ""]);
 
 	// exports
 
@@ -3141,14 +3141,15 @@
 	exports.default = {
 		controller: function controller(attrs) {
 			return {
-				showing: attrs.showing
+				showing: attrs.showing,
+				closeOverlayFrame: attrs.closeOverlayFrame
 			};
 		},
 
 		hideConsole: function hideConsole() {
 			if (this.showing && !this.closing) {
 				this.showing = false;
-				this.closing = true;
+				this.closing = false;
 
 				this.dialog.className = 'model fade show';
 
@@ -3162,7 +3163,7 @@
 		view: function view(ctrl, attrs) {
 			ctrl.showing = attrs.showing;
 
-			return (0, _mithril2.default)('div#consoleDialog', { className: ctrl.showing ? 'modal fade in show' : 'modal fade hidden', role: 'dialog' }, (0, _mithril2.default)('div', { class: 'modal-dialog modal-lg' }, (0, _mithril2.default)('div', { class: 'modal-content' }, (0, _mithril2.default)('div', { class: 'modal-header' }, (0, _mithril2.default)('button', { class: 'close', onclick: this.hideConsole.bind(this) }, 'x'), (0, _mithril2.default)('h4', 'Select Process:', { class: 'modal-title' })), (0, _mithril2.default)('div', { class: 'modal-body' }, 'aaa'), (0, _mithril2.default)('div', { class: 'modal-footer' }, (0, _mithril2.default)('button', { onclick: this.hideConsole.bind(this), class: 'btn btn-default' }, 'Close')))));
+			return (0, _mithril2.default)('div#consoleDialog', { className: ctrl.showing ? 'modal fade in show' : 'modal fade hidden', role: 'dialog' }, (0, _mithril2.default)('div', { class: 'modal-dialog modal-lg' }, (0, _mithril2.default)('div', { class: 'modal-content' }, (0, _mithril2.default)('div', { class: 'modal-header' }, (0, _mithril2.default)('button', { class: 'close', onclick: ctrl.closeOverlayFrame }, 'x'), (0, _mithril2.default)('h4', 'Select Process:', { class: 'modal-title' })), (0, _mithril2.default)('div', { class: 'modal-body' }, 'aaa'), (0, _mithril2.default)('div', { class: 'modal-footer' }, (0, _mithril2.default)('button', { onclick: ctrl.closeOverlayFrame, class: 'btn btn-default' }, 'Close')))));
 		}
 	};
 

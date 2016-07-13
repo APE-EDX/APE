@@ -15,7 +15,7 @@ controller: function(attrs) {
 hideConsole: function() {
 		if (this.showing && !this.closing) {
 			this.showing = false;
-			this.closing = true;
+			this.closing = false;
 
 			this.dialog.className = 'model fade show';
 
@@ -33,13 +33,13 @@ return m('div#consoleDialog', {className: ctrl.showing ? 'modal fade in show' : 
 	m('div', {class: 'modal-dialog modal-lg'},
 		m('div', {class: 'modal-content'},
 			m('div', {class: 'modal-header'},
-				m('button', {class: 'close', onclick: this.hideConsole.bind(this)},'x'),
+				m('button', {class: 'close', onclick: ctrl.closeOverlayFrame},'x'),
 				m('h4','Select Process:',{class: 'modal-title'})
    			 ),
    			m('div', {class: 'modal-body'}, 'aaa'
 			 ),
 			m('div', {class: 'modal-footer'},
-				m('button', {onclick: this.hideConsole.bind(this), class: 'btn btn-default'}, 'Close')
+				m('button', {onclick: ctrl.closeOverlayFrame, class: 'btn btn-default'}, 'Close')
 				 )
 			 )
 		 )

@@ -26,9 +26,9 @@ export default {
 		this.showing[e.target.dataset.target] = true;
 	},
 
-	closeOverlayFrame: function(e, which) {
-		this.showing[which] = true;
-	},
+	closeOverlayFrame: function(which, e) {
+        this.showing[which] = false;
+    },
 
 	view: function(ctrl) {
 		return 	m("div.height100",
