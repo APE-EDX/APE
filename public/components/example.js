@@ -3,20 +3,20 @@ import '../less/main.less';
 import '../less/codeflask.less';
 import '../less/prism.less';
 
-const {ipcRenderer} = require('electron');
-const {remote} = require('electron').remote;
-
+const {ipcRenderer, remote} = require('electron');
+const $ = require('jquery');
 import CodeFlask from './codeflask';
 
-console.log(CodeFlask);
+let flask = new CodeFlask;
 
 export default {
-	flask: new CodeFlask,
 
-	controller: function(){
-		this.inputValue = m.prop("");
-		this.showing = false;
-		this.closing = false;
+	controller: function() {
+		return {
+			inputValue: m.prop(""),
+			showing: [false, false, false, false, false],
+			currentFrame: null
+		};
 	},
 
 	configEditor: function(el) {
@@ -27,110 +27,84 @@ export default {
 		ipcRenderer.send('send-code', this.flask.textarea.value);
 	},
 
-	showConsole: function(){
-		if (!this.showing && !this.closing) {
-			this.showing = true;
-			this.dialog.className = 'model fade in show';
-		}
-	},
-
-	hideConsole: function() {
-		if (this.showing && !this.closing) {
-			this.showing = false;
-			this.closing = true;
-
-			this.dialog.className = 'model fade show';
-			
-			setTimeout((function() {
-				this.dialog.className = 'model fade hide'; 
-				this.closing = false;
-			}).bind(this), 500);
-		}
-	},
-
 	closeApp: function() {
-	   document.getElementById("closeW").addEventListener("click", function (e) 
-	   {
-       var window = remote.getCurrentWindow();
-       window.close();
-   	   });
+		remote.getCurrentWindow().close();
 	},
 
-	dialogConfig: function(el) {
-		this.dialog = el;
+	setDefault: function(el) {
+		this.currentFrame = el.dataset.target;
 	},
 
-	view: function(ctrl){
-		return 	m("div",
-			m('div#titleFrame',	
-				m('div#titleName','APE'),
-			m('div#titleButton',
-						m('button#closeW','X', { onclick: this.closeApp.bind(this) } ))),
-			m('div#menuFrame',	
-				m('div#menuButton',
+	changeFrame: function(e) {
+		this.showing = [false, false, false, false, false];
+		this.showing[e.target.dataset.target] = true;
+	},
+
+	view: function(ctrl) {
+		if (ctrl.showing.every((x) => x == false)) {
+			ctrl.showing[1] = true;
+		}
+
+		return 	m("div.height100",
+			m('div.title-frame',
+				m('div.title',
+					m('span', 'APE')
+				),
+				m('div.buttons',
+					m('button.close-button', { onclick: this.closeApp.bind(this) }, 'X')
+				)
+			),
+			m('div.menu-frame',
+				m('div.buttons',
 					m('a','File'),
 					m('a','Edit'),
-					m('a','About'))),
+					m('a','About')
+				)
+			),
 
-			
-
-		//	m('nav', {class : 'navbar navbar-inverse navbar-fixed-top'}, 
-		//		m('div', {class: 'container'},
-		//			m('div', {class: 'navbar-header'},
-		//				m('div#navbar',{class: 'navbar-collapse collapse'},
-		//					m('ul',{class: 'nav navbar-nav'},
-		//						m('li',{class: 'active'},
-		//							m('a','File',{onclick: this.showConsole.bind(this), class:'btn btn-default navbar-btn' })
-		//						),
-		//						m('li',{class: ''},
-		//							m('a','Edit')
-		//						),
-		//						m('li',{class: ''},
-		//							m('a','About', {href:'http://www.pushedx.net/'})
-		//						)
-		//					)
-		//				)
-		//			)
-		//		)
-		//	),
-			//m("h1", {style: {'margin-top': '60px'}}, "Welcome"),
 			m('div', {class: 'menu-lateral'}, //col-sm-3 col-md-2 sidebar
-				m("ul", {class: 'menu-active'}, //nav nav-sidebar
-					m('li',
-						m('a#menuLeft','Target')
-						),
-					m('li',
-						m('a#menuLeft','Project')
-						),
-					m('li',
-						m('a#menuLeft','Console',
-						m('span','(current)',{class: 'sr-only'}))
-						),
-					m('li',
-						m('a#menuLeft','Quick Edit')
-						),
-					m('li',
-						m('a#menuLeft','Something')
-						))),
-
-			m('div#consoleDialog', {config: this.dialogConfig.bind(this), class: 'modal fade', role: 'dialog'},
-				m('div', {class: 'modal-dialog modal-lg'},
-					m('div', {class: 'modal-content'},
-						m('div', {class: 'modal-header'},
-							m('button', {class: 'close', onclick: this.hideConsole.bind(this)},'x'),
-							m('h4','JS Console',{class: 'modal-title'})
-						),
-						m('div', {class: 'modal-body'},
-							m("div#jseditor", {'data-language': "javascript", config: this.configEditor.bind(this) })
-						),
-						m('div', {class: 'modal-footer'},
-							m('button', {onclick: this.sendCode.bind(this), class:'btn btn-success' }, 'Enviar'),
-							m('button', {onclick: this.hideConsole.bind(this), class: 'btn btn-default'}, 'Close')
-						)
+				m("ul", //nav nav-sidebar
+					m('li', {className: ctrl.showing[0] ? 'menu-active' : ''},
+						m('a#menuLeft', {
+							onclick: this.changeFrame.bind(ctrl),
+							'data-target': 0
+						}, 'Target')
+					),
+					m('li', {className: ctrl.showing[1] ? 'menu-active' : ''},
+						m('a#menuLeft', {
+							config: this.setDefault.bind(ctrl),
+							onclick: this.changeFrame.bind(ctrl),
+							'data-target': 1
+						}, 'Project')
+					),
+					m('li', {className: ctrl.showing[2] ? 'menu-active' : ''},
+						m('a#menuLeft', {
+							onclick: this.changeFrame.bind(ctrl),
+							'data-target': 2
+						}, 'Console')
+					),
+					m('li', {className: ctrl.showing[3] ? 'menu-active' : ''},
+						m('a#menuLeft', {
+							onclick: this.changeFrame.bind(ctrl),
+							'data-target': 3
+						}, 'Quick Edit')
+					),
+					m('li', {className: ctrl.showing[4] ? 'menu-active' : ''},
+						m('a#menuLeft', {
+							onclick: this.changeFrame.bind(ctrl),
+							'data-target': 4
+						}, 'Something')
 					)
 				)
 			),
-			m('button', {onclick: this.showConsole.bind(this), class:'btn btn-lg btn-primary' }, 'Console')
+
+			m('div.quick-edit-body.body-frame', {className: ctrl.showing[3] ? '' : 'hidden'},
+				m('h1', 'Javascript Editor'),
+				m("div#jseditor", {'data-language': "javascript", config: this.configEditor.bind(this)}),
+				m('div.buttons',
+					m('button', {onclick: this.sendCode.bind(this), class:'btn btn-success' }, 'Enviar')
+				)
+			)
 		);
 	}
 };
