@@ -1,4 +1,4 @@
-import component from "./components/example";
+import Window from "./components/window";
 import m from 'mithril';
 
-m.mount(document.body, component)
+m.mount(document.body, Window);
