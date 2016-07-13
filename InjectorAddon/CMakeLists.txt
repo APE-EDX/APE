@@ -19,6 +19,6 @@ add_custom_target(
 
 add_custom_target(
     InjectorAddon-copy ALL
-    COMMAND cmake -E copy ${PROJECT_SOURCE_DIR}/build/Release/injector.node ${PROJECT_SOURCE_DIR}/bin/injector.node
+    COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/build/Release/injector.node ${PROJECT_SOURCE_DIR}/bin/${ARCH}/injector.node
     DEPENDS InjectorAddon-build
 )

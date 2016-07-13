@@ -5,7 +5,7 @@ const net = require("net");
 
 // Try to load injector
 try {
-    var injector = require('../InjectorAddon/bin/injector');
+    var injector = require('../InjectorAddon/bin/' + process.arch + '/injector');
 }
 catch(e) {
     var injector = false;
