@@ -90,8 +90,13 @@
 
 	var _quickEdit2 = _interopRequireDefault(_quickEdit);
 
+	var _targetProcess = __webpack_require__(17);
+
+	var _targetProcess2 = _interopRequireDefault(_targetProcess);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	// Other modules
 	exports.default = {
 		controller: function controller() {
 			return {
@@ -110,11 +115,9 @@
 				showing: ctrl.showing,
 				default: 2,
 				changeFrame: this.changeFrame.bind(ctrl)
-			}), (0, _mithril2.default)(_quickEdit2.default, { showing: ctrl.showing[3] }));
+			}), (0, _mithril2.default)(_quickEdit2.default, { showing: ctrl.showing[3] }), (0, _mithril2.default)(_targetProcess2.default, { showing: ctrl.showing[0] }));
 		}
 	};
-
-	// Other modules
 
 /***/ },
 /* 2 */
@@ -3099,6 +3102,73 @@
 	};
 
 	module.exports = CodeFlask;
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _mithril = __webpack_require__(2);
+
+	var _mithril2 = _interopRequireDefault(_mithril);
+
+	var _codeflask = __webpack_require__(16);
+
+	var _codeflask2 = _interopRequireDefault(_codeflask);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _require = __webpack_require__(13);
+
+	var ipcRenderer = _require.ipcRenderer;
+	exports.default = {
+		controller: function controller(attrs) {
+			return {
+				showing: attrs.showing
+			};
+		},
+
+		hideConsole: function hideConsole() {
+			if (this.showing && !this.closing) {
+				this.showing = false;
+				this.closing = true;
+
+				this.dialog.className = 'model fade show';
+
+				setTimeout(function () {
+					this.dialog.className = 'model fade hide';
+					this.closing = false;
+				}.bind(this), 500);
+			}
+		},
+
+		view: function view(ctrl, attrs) {
+			ctrl.showing = attrs.showing;
+
+			return (0, _mithril2.default)('a', 'holamundo');
+			//m('div#consoleDialog', {className: ctrl.showing ? '' : 'hidden', class: 'modal fade', role: 'dialog'},
+			//	m('div', {class: 'modal-dialog modal-lg'},
+			//		m('div', {class: 'modal-content'},
+			//			m('div', {class: 'modal-header'},
+			//				m('button', {class: 'close', onclick: this.hideConsole.bind(this)},'x'),
+			//				m('h4','Select Process:',{class: 'modal-title'})
+			//   			 ),
+			//   			m('div', {class: 'modal-body'},
+			//				m("div#jseditor", {'data-language': "javascript", config: this.configEditor.bind(this) })
+			//			 ),
+			//			m('div', {class: 'modal-footer'},
+			//				m('button', {onclick: this.hideConsole.bind(this), class: 'btn btn-default'}, 'Close')
+			//				 )
+			//			 )
+			//		 )
+			// 	 )
+		}
+	};
 
 /***/ }
 /******/ ]);

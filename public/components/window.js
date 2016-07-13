@@ -7,6 +7,7 @@ import '../less/prism.less';
 import Header from './header';
 import Menu from './menu';
 import QuickEdit from './quick-edit';
+import Target from './target-process';
 
 export default {
 	controller: function() {
@@ -29,7 +30,8 @@ export default {
 				default: 2,
 				changeFrame: this.changeFrame.bind(ctrl)
 			}),
-			m(QuickEdit, {showing: ctrl.showing[3]})
+			m(QuickEdit, {showing: ctrl.showing[3]}),
+			m(Target, {showing: ctrl.showing[0]})
 		);
 	}
 };
