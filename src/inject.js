@@ -13,13 +13,13 @@ catch(e) {
 }
 
 const dllPath = path.resolve(__dirname, "../APEDLL/bin/APEDLL_{}.dll");
-const kernel32Exe = path.resolve(__dirname, "../APEKernel32/bin/APEKernel{}.exe");
+const kernelExe = path.resolve(__dirname, "../APEKernel/bin/APEKernel{}.exe");
 
 let dllSocket = null;
 let serverReady = false;
 
 let inject = (targetProcess) => {
-    return serverReady && injector && injector.injectDLL(targetProcess, dllPath, kernel32Exe);
+    return serverReady && injector && injector.injectDLL(targetProcess, dllPath, kernelExe);
 }
 
 module.exports = (callback) => {

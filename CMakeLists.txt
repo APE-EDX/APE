@@ -29,7 +29,7 @@ endmacro(BuildMultiArch)
 
 set(VISUAL_STUDIO_VERSION "Visual Studio 14" CACHE STRING "Visual studio edition used to compile")
 BuildMultiArch(APEDLL           "${PROJECT_SOURCE_DIR}/APEDLL/Build"        ${VISUAL_STUDIO_VERSION})
-BuildMultiArch(APEKernel32      "${PROJECT_SOURCE_DIR}/APEKernel32/Build"   ${VISUAL_STUDIO_VERSION})
+BuildMultiArch(APEKernel        "${PROJECT_SOURCE_DIR}/APEKernel/Build"     ${VISUAL_STUDIO_VERSION})
 BuildMultiArch(InjectorAddon    "${PROJECT_SOURCE_DIR}/InjectorAddon/Build" ${VISUAL_STUDIO_VERSION})
 
 #add_custom_target(
