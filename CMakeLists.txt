@@ -1,12 +1,13 @@
+cmake_minimum_required(VERSION 2.8)
 project(APE)
 
 if (NOT WIN32)
     message(FATAL_ERROR "Building on non-windows platforms is not supported yet")
 endif ()
 
-option(SKIP_SUBMODULES_UPDATE OFF "Skip updating submodules")
+option(SKIP_SUBMODULES_UPDATE "Skip updating submodules" OFF)
 
-if (NOT SKIP_SUBMODULES_UPDATE)
+if (NOT ${SKIP_SUBMODULES_UPDATE})
     add_custom_target(UpdateSubmodules
         COMMAND git submodule update --init --recursive
         COMMAND git pull --recurse-submodules
@@ -17,7 +18,7 @@ else ()
     add_custom_target(UpdateSubmodules)
 endif ()
 
-macro(BuildMultiArch TARGET_NAME BUILD_PATH COMPILER)
+macro(BuildMultiArch TARGET_NAME BUILD_PATH SKIP64)
     macro(BuildNow ARCH)
         add_custom_target(${TARGET_NAME}-${ARCH}-RMDIR ALL
             ${CMAKE_COMMAND} -DDEL="${BUILD_PATH}" -P ${PROJECT_SOURCE_DIR}/distclean.cmake
@@ -29,13 +30,13 @@ macro(BuildMultiArch TARGET_NAME BUILD_PATH COMPILER)
         )
 
         if (WIN32 AND NOT "${ARCH}" STREQUAL "")
-            set(FULL_COMPILER "${COMPILER} ${ARCH}")
+            set(GENERATOR "${CMAKE_GENERATOR} ${ARCH}")
         else ()
-            set(FULL_COMPILER "${COMPILER}")
+            set(GENERATOR "${CMAKE_GENERATOR}")
         endif ()
 
         add_custom_target(${TARGET_NAME}-${ARCH}-CMAKE ALL
-            ${CMAKE_COMMAND} .. -G${FULL_COMPILER}
+            ${CMAKE_COMMAND} .. -G${GENERATOR}
             WORKING_DIRECTORY ${BUILD_PATH}
             DEPENDS UpdateSubmodules ${TARGET_NAME}-${ARCH}-MKDIR
         )
@@ -47,12 +48,15 @@ macro(BuildMultiArch TARGET_NAME BUILD_PATH COMPILER)
     endmacro(BuildNow)
 
     BuildNow("")
-    BuildNow("Win64")
+
+    if (NOT ${SKIP64})
+        BuildNow("Win64")
+    endif ()
 endmacro(BuildMultiArch)
 
-BuildMultiArch(APEDLL           "${PROJECT_SOURCE_DIR}/APEDLL/Build"        ${CMAKE_GENERATOR})
-BuildMultiArch(APEKernel        "${PROJECT_SOURCE_DIR}/APEKernel/Build"     ${CMAKE_GENERATOR})
-BuildMultiArch(InjectorAddon    "${PROJECT_SOURCE_DIR}/InjectorAddon/Build" ${CMAKE_GENERATOR})
+BuildMultiArch(APEDLL           "${PROJECT_SOURCE_DIR}/APEDLL/Build"        ON)
+BuildMultiArch(APEKernel        "${PROJECT_SOURCE_DIR}/APEKernel/Build"     OFF)
+BuildMultiArch(InjectorAddon    "${PROJECT_SOURCE_DIR}/InjectorAddon/Build" OFF)
 
 #add_custom_target(
 #    APE-configure ALL
