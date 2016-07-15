@@ -5,7 +5,8 @@ if (NOT WIN32)
 endif ()
 
 option(SKIP_SUBMODULES_UPDATE OFF "Skip updating submodules")
-if (NOT ${SKIP_SUBMODULES_UPDATE})
+
+if (NOT SKIP_SUBMODULES_UPDATE)
     add_custom_target(UpdateSubmodules
         COMMAND git submodule update --init --recursive
         COMMAND git pull --recurse-submodules
