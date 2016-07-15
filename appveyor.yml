@@ -6,6 +6,10 @@ environment:
     - nodejs_version: "4.4.7"
     - nodejs_version: "6.3.0"
 
+matrix:
+  allow_failures:
+    - nodejs_version: "6.3.0"
+
 platform:
   - x86
   - x64
