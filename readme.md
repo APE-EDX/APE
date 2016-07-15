@@ -1,4 +1,4 @@
-[![Stories in Progress](https://badge.waffle.io/Push-EDX/APE.svg?label=ready&title=In+Proress)](http://waffle.io/Push-EDX/APE)
+[![Stories in Progress](https://badge.waffle.io/APE-EDX/APE.svg?label=In%20Progress&title=In%20Progress)](http://waffle.io/APE-EDX/APE)
 
 This is the main APE project, it can be used to build and run APE (development version).
 
