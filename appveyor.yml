@@ -21,7 +21,7 @@ install:
 build_script:
   - mkdir build
   - cd build
-  - cmake ..
+  - cmake -DSKIP_SUBMODULES_UPDATE=ON ..
   - cmake --build .
 
 # Post-install test scripts.
