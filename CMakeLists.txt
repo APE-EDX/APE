@@ -1,5 +1,15 @@
 project(APE)
 
+if (NOT WIN32)
+    message(FATAL_ERROR "Building on non-windows platforms is not supported yet")
+endif ()
+
+add_custom_target(UpdateSubmodules
+    git pull --recurse-submodules
+    COMMAND git submodule update --recursive
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+)
+
 macro(BuildMultiArch TARGET_NAME BUILD_PATH COMPILER)
     macro(BuildNow ARCH)
         add_custom_target(${TARGET_NAME}-${ARCH}-RMDIR ALL ${CMAKE_COMMAND} -DDEL="${BUILD_PATH}" -P ${PROJECT_SOURCE_DIR}/distclean.cmake)
@@ -14,12 +24,12 @@ macro(BuildMultiArch TARGET_NAME BUILD_PATH COMPILER)
         add_custom_target(${TARGET_NAME}-${ARCH}-CMAKE ALL
             ${CMAKE_COMMAND} .. -G${FULL_COMPILER}
             WORKING_DIRECTORY ${BUILD_PATH}
-            DEPENDS ${TARGET_NAME}-${ARCH}-MKDIR
+            DEPENDS UpdateSubmodules ${TARGET_NAME}-${ARCH}-MKDIR
         )
         add_custom_target(${TARGET_NAME}-${ARCH}-BUILD ALL
             ${CMAKE_COMMAND} --build .
             WORKING_DIRECTORY ${BUILD_PATH}
-            DEPENDS ${TARGET_NAME}-${ARCH}-CMAKE
+            DEPENDS UpdateSubmodules ${TARGET_NAME}-${ARCH}-CMAKE
         )
     endmacro(BuildNow)
 
@@ -27,10 +37,9 @@ macro(BuildMultiArch TARGET_NAME BUILD_PATH COMPILER)
     BuildNow("Win64")
 endmacro(BuildMultiArch)
 
-set(VISUAL_STUDIO_VERSION "Visual Studio 14" CACHE STRING "Visual studio edition used to compile")
-BuildMultiArch(APEDLL           "${PROJECT_SOURCE_DIR}/APEDLL/Build"        ${VISUAL_STUDIO_VERSION})
-BuildMultiArch(APEKernel        "${PROJECT_SOURCE_DIR}/APEKernel/Build"     ${VISUAL_STUDIO_VERSION})
-BuildMultiArch(InjectorAddon    "${PROJECT_SOURCE_DIR}/InjectorAddon/Build" ${VISUAL_STUDIO_VERSION})
+BuildMultiArch(APEDLL           "${PROJECT_SOURCE_DIR}/APEDLL/Build"        ${CMAKE_GENERATOR})
+BuildMultiArch(APEKernel        "${PROJECT_SOURCE_DIR}/APEKernel/Build"     ${CMAKE_GENERATOR})
+BuildMultiArch(InjectorAddon    "${PROJECT_SOURCE_DIR}/InjectorAddon/Build" ${CMAKE_GENERATOR})
 
 #add_custom_target(
 #    APE-configure ALL
