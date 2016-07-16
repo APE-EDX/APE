@@ -43,4 +43,4 @@ test_script:
   - npm test
 
 after_build:
-  - if "%APPVEYOR_REPO_BRANCH%" == "%deploy" call build.bat
+  - if "%APPVEYOR_REPO_BRANCH%" == "deploy" call build.bat
