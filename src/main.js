@@ -7,10 +7,13 @@ const inject = require('./inject')(function() {
     console.log("Injection result: " + inject.inject('notepad.exe'));
 });
 
+let argv = [process.argv[0], '.'];
+Array.prototype.push.apply(argv, process.argv.slice(1));
+
 const program = require("commander")
     .option("-d, --dev-tools", "Open Dev Tools on start up")
     .option("-r, --hard-reloading", "Open Dev Tools on start up")
-    .parse(process.argv)
+    .parse(argv)
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the javascript object is GCed.
@@ -23,12 +26,15 @@ app.on('window-all-closed', function() {
     }
 });
 
-// Live reloading
-let options = {};
-if (program.hardReloading) {
-    options['electron'] = require('electron-prebuilt');
+// Live reloading (only when developing!)
+try {
+    let options = {};
+    if (program.hardReloading) {
+        options['electron'] = require('electron-prebuilt');
+    }
+    require('electron-reload')(path.resolve(__dirname, '../dist'), options);
 }
-require('electron-reload')(path.resolve(__dirname, '../dist'), options);
+catch (e) {}
 
 // This method will be called when Electron has done everything
 // initialization and ready for creating browser windows.
@@ -67,5 +73,6 @@ app.on('ready', function() {
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
         mainWindow = null;
+        process.exit(0);
     })
 });

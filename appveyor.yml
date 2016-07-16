@@ -5,6 +5,10 @@ environment:
   matrix:
     - nodejs_version: "4.4.7"
     - nodejs_version: "6.3.0"
+  mega_user:
+    secure: xlPK1MpoDIeQwb5iSoHBjKXaCqIv4eAHyTdlQ4E90DI=
+  mega_pass:
+    secure: 9OuZfYQuSBFVbI91tawyoQ==
 
 matrix:
   allow_failures:
@@ -37,3 +41,6 @@ test_script:
   - npm --version
   # run tests
   - npm test
+
+after_build:
+  - if "%APPVEYOR_REPO_BRANCH%" == "%deploy" call build.bat
