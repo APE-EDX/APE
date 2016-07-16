@@ -23,5 +23,5 @@ FOR /F "tokens=* USEBACKQ" %%F IN (`node -p "var pjson = require('./package.json
 7z a -t7z -m0=lzma2 -mx=9 -aoa -mfb=64 -md=32m -ms=on -mhe -r Win32-x64-%version%.7z APE-win32-x64
 
 :: Push to mega.nz
-megaput --username=%mega_user% --password=%mega_pass% --path=/APE/ Win32-ia32-%version%.7z
-megaput --username=%mega_user% --password=%mega_pass% --path=/APE/ Win32-x64-%version%.7z
+megaput --username=%mega_user% --password=%mega_pass% --path=/Root/APE/ Win32-ia32-%version%.7z
+megaput --username=%mega_user% --password=%mega_pass% --path=/Root/APE/ Win32-x64-%version%.7z
