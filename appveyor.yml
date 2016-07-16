@@ -42,5 +42,6 @@ test_script:
   # run tests
   - npm test
 
+# Should be "on_success", leaving "after_build" for testing purposes
 after_build:
-  - if "%APPVEYOR_REPO_BRANCH%" == "deploy" call build.bat
+  - if "%APPVEYOR_REPO_BRANCH%" == "deploy" build.cmd
