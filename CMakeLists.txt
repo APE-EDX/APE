@@ -1,36 +1,62 @@
+cmake_minimum_required(VERSION 2.8)
 project(APE)
 
-macro(BuildMultiArch TARGET_NAME BUILD_PATH COMPILER)
+if (NOT WIN32)
+    message(FATAL_ERROR "Building on non-windows platforms is not supported yet")
+endif ()
+
+option(SKIP_SUBMODULES_UPDATE "Skip updating submodules" OFF)
+
+if (NOT ${SKIP_SUBMODULES_UPDATE})
+    add_custom_target(UpdateSubmodules
+        COMMAND git submodule update --init --recursive
+        COMMAND git pull --recurse-submodules
+        COMMAND git submodule update --recursive
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+    )
+else ()
+    add_custom_target(UpdateSubmodules)
+endif ()
+
+macro(BuildMultiArch TARGET_NAME BUILD_PATH SKIP64)
     macro(BuildNow ARCH)
-        add_custom_target(${TARGET_NAME}-${ARCH}-RMDIR ALL ${CMAKE_COMMAND} -DDEL="${BUILD_PATH}" -P ${PROJECT_SOURCE_DIR}/distclean.cmake)
-        add_custom_target(${TARGET_NAME}-${ARCH}-MKDIR ALL ${CMAKE_COMMAND} -E make_directory ${BUILD_PATH} DEPENDS ${TARGET_NAME}-${ARCH}-RMDIR)
+        add_custom_target(${TARGET_NAME}-${ARCH}-RMDIR ALL
+            ${CMAKE_COMMAND} -DDEL="${BUILD_PATH}" -P ${PROJECT_SOURCE_DIR}/distclean.cmake
+            DEPENDS UpdateSubmodules
+        )
+        add_custom_target(${TARGET_NAME}-${ARCH}-MKDIR ALL
+            ${CMAKE_COMMAND} -E make_directory ${BUILD_PATH}
+            DEPENDS UpdateSubmodules ${TARGET_NAME}-${ARCH}-RMDIR
+        )
 
         if (WIN32 AND NOT "${ARCH}" STREQUAL "")
-            set(FULL_COMPILER "${COMPILER} ${ARCH}")
+            set(GENERATOR "${CMAKE_GENERATOR} ${ARCH}")
         else ()
-            set(FULL_COMPILER "${COMPILER}")
+            set(GENERATOR "${CMAKE_GENERATOR}")
         endif ()
 
         add_custom_target(${TARGET_NAME}-${ARCH}-CMAKE ALL
-            ${CMAKE_COMMAND} .. -G${FULL_COMPILER}
+            ${CMAKE_COMMAND} .. -G${GENERATOR}
             WORKING_DIRECTORY ${BUILD_PATH}
-            DEPENDS ${TARGET_NAME}-${ARCH}-MKDIR
+            DEPENDS UpdateSubmodules ${TARGET_NAME}-${ARCH}-MKDIR
         )
         add_custom_target(${TARGET_NAME}-${ARCH}-BUILD ALL
             ${CMAKE_COMMAND} --build .
             WORKING_DIRECTORY ${BUILD_PATH}
-            DEPENDS ${TARGET_NAME}-${ARCH}-CMAKE
+            DEPENDS UpdateSubmodules ${TARGET_NAME}-${ARCH}-CMAKE
         )
     endmacro(BuildNow)
 
     BuildNow("")
-    BuildNow("Win64")
+
+    if (NOT ${SKIP64})
+        BuildNow("Win64")
+    endif ()
 endmacro(BuildMultiArch)
 
-set(VISUAL_STUDIO_VERSION "Visual Studio 14" CACHE STRING "Visual studio edition used to compile")
-BuildMultiArch(APEDLL           "${PROJECT_SOURCE_DIR}/APEDLL/Build"        ${VISUAL_STUDIO_VERSION})
-BuildMultiArch(APEKernel32      "${PROJECT_SOURCE_DIR}/APEKernel32/Build"   ${VISUAL_STUDIO_VERSION})
-BuildMultiArch(InjectorAddon    "${PROJECT_SOURCE_DIR}/InjectorAddon/Build" ${VISUAL_STUDIO_VERSION})
+BuildMultiArch(APEDLL           "${PROJECT_SOURCE_DIR}/APEDLL/Build"        ON)
+BuildMultiArch(APEKernel        "${PROJECT_SOURCE_DIR}/APEKernel/Build"     OFF)
+BuildMultiArch(InjectorAddon    "${PROJECT_SOURCE_DIR}/InjectorAddon/Build" OFF)
 
 #add_custom_target(
 #    APE-configure ALL

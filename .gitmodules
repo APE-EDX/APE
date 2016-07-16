@@ -1,0 +1,9 @@
+[submodule "InjectorAddon"]
+	path = InjectorAddon
+	url = https://github.com/APE-EDX/InjectorAddon.git
+[submodule "APEKernel"]
+	path = APEKernel
+	url = https://github.com/APE-EDX/APEKernel.git
+[submodule "APEDLL"]
+	path = APEDLL
+	url = https://github.com/APE-EDX/APEDLL.git
