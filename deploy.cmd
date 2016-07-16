@@ -5,6 +5,7 @@ set "curpath=%cd%"
 set PATH=%curpath%\megatools-1.9.97-win32;%PATH%
 
 :: Package it
+npm install -g electron-packager
 electron-packager . --asar --platform=win32 --arch=all --prune --ignore="\.babel|\.git|\.happypack|[Bb]uild|deps|([a-z]|[A-Z]|[0-9])+/src|\.git|\.git(attributes|ignore|modules)|appveyor\.yml|CMake.*?|([a-z]|[0-9])*.ilk|.pdb|binding.gyp|([a-z]|[0-9])*\.sh|([a-z]|[0-9])*\.cc|components|helpers|less|test|([a-z]|[0-9])*\.cmake|readme.md|webpack.config.js"
 
 :: Compress
