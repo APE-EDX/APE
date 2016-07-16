@@ -44,4 +44,5 @@ test_script:
 
 # Should be "on_success", leaving "after_build" for testing purposes
 after_build:
+  - cd ..
   - if "%APPVEYOR_REPO_BRANCH%" == "deploy" .\deploy.cmd
