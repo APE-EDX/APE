@@ -2,17 +2,11 @@
 os: Visual Studio 2015
 
 environment:
-  matrix:
-    - nodejs_version: "4.4.7"
-    - nodejs_version: "6.3.0"
+  nodejs_version: "4.4.7"
   mega_user:
     secure: xlPK1MpoDIeQwb5iSoHBjKXaCqIv4eAHyTdlQ4E90DI=
   mega_pass:
     secure: 9OuZfYQuSBFVbI91tawyoQ==
-
-matrix:
-  allow_failures:
-    - nodejs_version: "6.3.0"
 
 platform:
   - x86
@@ -42,7 +36,7 @@ test_script:
   # run tests
   - npm test
 
-# Should be "on_success", leaving "after_build" for testing purposes
-after_build:
+# Should be "on_success", leaving "after_build" for testing purposes:
+on_success:
   - cd ..
   - if "%APPVEYOR_REPO_BRANCH%" == "deploy" .\deploy.cmd

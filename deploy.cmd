@@ -1,3 +1,8 @@
+:: Only build in the x64 matrix (so as not to build two times)
+if "%platform%" == "x86" exit
+
+echo "Deploying"
+
 :: Download megatools and uncompress
 curl -fsS -o megatools.zip https://megatools.megous.com/builds/megatools-1.9.97-win32.zip
 7z x megatools.zip
@@ -5,13 +10,18 @@ set "curpath=%cd%"
 set PATH=%curpath%\megatools-1.9.97-win32;%PATH%
 
 :: Package it
-npm install -g electron-packager
-electron-packager . --asar --platform=win32 --arch=all --prune --ignore="\.babel|\.git|\.happypack|[Bb]uild|deps|([a-z]|[A-Z]|[0-9])+/src|\.git|\.git(attributes|ignore|modules)|appveyor\.yml|CMake.*?|([a-z]|[0-9])*.ilk|.pdb|binding.gyp|([a-z]|[0-9])*\.sh|([a-z]|[0-9])*\.cc|components|helpers|less|test|([a-z]|[0-9])*\.cmake|readme.md|webpack.config.js"
+call npm install -g electron-packager
+call electron-packager . --asar --platform=win32 --arch=all --prune --ignore="\.babel|\.git|\.happypack|[Bb]uild|deps|([a-z]|[A-Z]|[0-9])+/src|\.git|\.git(attributes|ignore|modules)|appveyor\.yml|CMake.*?|([a-z]|[0-9])*.ilk|.pdb|binding.gyp|([a-z]|[0-9])*\.sh|([a-z]|[0-9])*\.cc|components|helpers|less|test|([a-z]|[0-9])*\.cmake|readme.md|webpack.config.js"
 
-:: Compress
-7z a -t7z -m0=lzma2 -mx=9 -aoa -mfb=64 -md=32m -ms=on -d=1024m -mhe -r Win32-x86.7z APE-win32-x86
-7z a -t7z -m0=lzma2 -mx=9 -aoa -mfb=64 -md=32m -ms=on -d=1024m -mhe -r Win32-x64.7z APE-win32-x64
+:: Get version from package.json
+FOR /F "tokens=* USEBACKQ" %%F IN (`node -p "var pjson = require('./package.json'); pjson.version;"`) DO (
+    SET version=%%F
+)
+
+:: Compress (-d=1024m)
+7z a -t7z -m0=lzma2 -mx=9 -aoa -mfb=64 -md=32m -ms=on -mhe -r Win32-ia32-%version%.7z APE-win32-ia32
+7z a -t7z -m0=lzma2 -mx=9 -aoa -mfb=64 -md=32m -ms=on -mhe -r Win32-x64-%version%.7z APE-win32-x64
 
 :: Push to mega.nz
-megaput --username=%mega_user% --password=%mega_pass% Win32-x86.7z
-megaput --username=%mega_user% --password=%mega_pass% Win32-x64.7z
+megaput --username=%mega_user% --password=%mega_pass% --path=APE/ Win32-ia32-%version%.7z
+megaput --username=%mega_user% --password=%mega_pass% --path=APE/ Win32-x64-%version%.7z
