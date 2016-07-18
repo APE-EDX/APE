@@ -1,11 +1,34 @@
 // Require electron modules
 const {app, BrowserWindow, ipcMain}  = require('electron');
 const path = require("path");
+const exec = require('child_process').exec;
 
 // TODO: Remove the callback
 const inject = require('./inject')(function() {
     console.log("Injection result: " + inject.inject('notepad.exe'));
 });
+
+
+
+// TODO: Change Location?
+ipcMain.on('getProc', (event, arg) => {
+
+   console.log(arg);  // prints "ping"
+   console.log("getPRoc");  // prints "ping"
+   
+   exec('tasklist /fo csv /nh', (err, stdout, stderr) => {
+	  if (err) {
+		console.error(err);
+		return;
+	  }
+	    event.sender.send('procReply', stdout);
+
+	} );
+
+});
+
+
+
 
 let argv = [process.argv[0], '.'];
 Array.prototype.push.apply(argv, process.argv.slice(1));

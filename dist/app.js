@@ -3138,7 +3138,25 @@
 	var _require = __webpack_require__(13);
 
 	var ipcRenderer = _require.ipcRenderer;
+
+
+	//TODO: Improve 
+	ipcRenderer.on('procReply', function (event, arg) {
+		console.log(arg); // prints "pong"
+		var res = arg.replace(/\r/g, ",");
+		res = res.split(",");
+
+		document.getElementById("procContainer").innerHTML = "";
+		for (var i = 0; i < res.length / 5; i++) {
+			document.getElementById("procContainer").innerHTML += "Name: " + res[i * 5] + " PID: " + res[i * 5 + 1] + "<hr>";
+		}
+	});
+
 	exports.default = {
+		reloadProc: function reloadProc() {
+			ipcRenderer.send('getProc', 'getProc-value');
+		},
+
 		controller: function controller(attrs) {
 			return {
 				showing: attrs.showing,
@@ -3163,7 +3181,7 @@
 		view: function view(ctrl, attrs) {
 			ctrl.showing = attrs.showing;
 
-			return (0, _mithril2.default)('div#consoleDialog', { className: ctrl.showing ? 'modal fade in show' : 'modal fade hidden', role: 'dialog' }, (0, _mithril2.default)('div', { class: 'modal-dialog modal-lg' }, (0, _mithril2.default)('div', { class: 'modal-content' }, (0, _mithril2.default)('div', { class: 'modal-header' }, (0, _mithril2.default)('button', { class: 'close', onclick: ctrl.closeOverlayFrame }, 'x'), (0, _mithril2.default)('h4', 'Select Process:', { class: 'modal-title' })), (0, _mithril2.default)('div', { class: 'modal-body' }, 'aaa'), (0, _mithril2.default)('div', { class: 'modal-footer' }, (0, _mithril2.default)('button', { onclick: ctrl.closeOverlayFrame, class: 'btn btn-default' }, 'Close')))));
+			return (0, _mithril2.default)('div#consoleDialog', { className: ctrl.showing ? 'modal fade in show' : 'modal fade hidden', role: 'dialog' }, (0, _mithril2.default)('div', { class: 'modal-dialog modal-lg' }, (0, _mithril2.default)('div', { class: 'modal-content' }, (0, _mithril2.default)('div', { class: 'modal-header' }, (0, _mithril2.default)('button', { class: 'close', onclick: ctrl.closeOverlayFrame }, 'x'), (0, _mithril2.default)('h4', 'Select Process:', { class: 'modal-title' })), (0, _mithril2.default)('div#procContainer', { class: 'modal-body' }, ''), (0, _mithril2.default)('div', { class: 'modal-footer' }, (0, _mithril2.default)('button', { onclick: ctrl.closeOverlayFrame, class: 'btn btn-default' }, 'Close')), (0, _mithril2.default)('button', { onclick: this.reloadProc.bind(this), class: 'btn btn-default' }, 'Reload'))));
 		}
 	};
 
