@@ -7,3 +7,6 @@
 [submodule "APEDLL"]
 	path = APEDLL
 	url = https://github.com/APE-EDX/APEDLL.git
+[submodule "jsAPI"]
+	path = jsAPI
+	url = https://github.com/APE-EDX/jsAPI.git
