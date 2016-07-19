@@ -12,8 +12,8 @@ catch(e) {
     console.error("Injector not available yet in this platform");
 }
 
-const dllPath = path.resolve(__dirname, "../APEDLL/bin/APEDLL_{}.dll");
-const kernelExe = path.resolve(__dirname, "../APEKernel/bin/APEKernel{}.exe");
+const dllPath = path.resolve(__dirname, "../APEDLL/bin/APEDLL_{}.dll").replace("app.asar", "app.asar.unpacked");
+const kernelExe = path.resolve(__dirname, "../APEKernel/bin/APEKernel{}.exe").replace("app.asar", "app.asar.unpacked");
 
 let dllSocket = null;
 let serverReady = false;
