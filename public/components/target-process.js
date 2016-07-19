@@ -11,9 +11,9 @@ ipcRenderer.on('procReply', (event, arg) => {
 
 
 
-	document.getElementById("procContainer").innerHTML = ""; 
+	document.getElementById("processList").innerHTML = ""; 
 	for(var i = 0; i < res.length/5 ; i++){
-		document.getElementById("procContainer").innerHTML += "Name: " +res[i*5]+ " PID: "+ res[i*5 +1] +"<hr>";
+		document.getElementById("processList").innerHTML += "<li id='proL' class='list-group-item'><span class='badge'>"+res[i*5 +1]+ "</span> "+ res[i*5] +"</li>";
 	}
 });
 
@@ -60,16 +60,17 @@ return m('div#consoleDialog', {className: ctrl.showing ? 'modal fade in show' : 
    			 ),
 			 
 				 
-				m('div#procContainer', {class: 'modal-body'}, ''
-				 ), 
+				m('div#procContainer', {class: 'modal-body'}, '',
+				 	m('ul#processList',{class: 'list-group'}
+				 		)), 
 				 
 		
 
 			 
 			m('div', {class: 'modal-footer'},
+				m('button', {onclick: this.reloadProc.bind(this), class: 'btn btn-default'}, 'Reload'),
 				m('button', {onclick: ctrl.closeOverlayFrame, class: 'btn btn-default'}, 'Close')
-			 ),
-				m('button', {onclick: this.reloadProc.bind(this), class: 'btn btn-default'}, 'Reload')
+			 )
 			)
 		 )
  	 );
