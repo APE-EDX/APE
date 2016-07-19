@@ -11,7 +11,16 @@ set PATH=%curpath%\megatools-1.9.97-win32;%PATH%
 
 :: Package it
 call npm install -g electron-packager
-call electron-packager . --asar --platform=win32 --arch=all --prune --ignore="\.babel|\.git|\.happypack|[Bb]uild|deps|([a-z]|[A-Z]|[0-9])+/src|\.git|\.git(attributes|ignore|modules)|appveyor\.yml|CMake.*?|([a-z]|[0-9])*.ilk|.pdb|binding.gyp|([a-z]|[0-9])*\.sh|([a-z]|[0-9])*\.cc|components|helpers|less|test|([a-z]|[0-9])*\.cmake|readme.md|webpack.config.js"
+call electron-packager . --asar --platform=win32 --arch=all --prune --ignore="\.babel|\.git|\.happypack|init\.js|jsAPI|[Bb]uild|deps|([a-z]|[A-Z]|[0-9])+/src|\.git|\.git(attributes|ignore|modules)|appveyor\.yml|CMake.*?|([a-z]|[0-9])*.ilk|.pdb|binding.gyp|([a-z]|[0-9])*\.sh|([a-z]|[0-9])*\.cc|components|helpers|less|test|([a-z]|[0-9])*\.cmake|readme.md|webpack.config.js"
+
+:: Copy init.js and jsAPI/**/*.js
+xcopy .\init.js APE-win32-ia32 /y
+mkdir APE-win32-ia32\jsAPI
+xcopy jsAPI\*.js APE-win32-ia32\jsAPI /s /e /y
+
+xcopy .\init.js APE-win32-x64 /y
+mkdir APE-win32-x64\jsAPI
+xcopy jsAPI\*.js APE-win32-x64\jsAPI /s /e /y
 
 :: Get version from package.json
 FOR /F "tokens=* USEBACKQ" %%F IN (`node -p "var pjson = require('./package.json'); pjson.version;"`) DO (
