@@ -14,7 +14,7 @@ export default {
 	view: function(ctrl, attrs) {
         ctrl.showing = attrs.showing;
 		if (ctrl.showing.every((x) => x == false)) {
-			ctrl.showing[ctrl.default] = true;
+			ctrl.overlayFrame({target: {dataset: {target: ctrl.default}}});
 		}
 
         return m('div', {class: 'menu-lateral'}, //col-sm-3 col-md-2 sidebar

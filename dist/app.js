@@ -2880,7 +2880,7 @@
 	        if (ctrl.showing.every(function (x) {
 	            return x == false;
 	        })) {
-	            ctrl.showing[ctrl.default] = true;
+	            ctrl.overlayFrame({ target: { dataset: { target: ctrl.default } } });
 	        }
 
 	        return (0, _mithril2.default)('div', { class: 'menu-lateral' }, //col-sm-3 col-md-2 sidebar

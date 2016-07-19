@@ -54,7 +54,7 @@ macro(BuildMultiArch TARGET_NAME BUILD_PATH SKIP64)
     endif ()
 endmacro(BuildMultiArch)
 
-BuildMultiArch(APEDLL           "${PROJECT_SOURCE_DIR}/APEDLL/Build"        ON)
+BuildMultiArch(APEDLL           "${PROJECT_SOURCE_DIR}/APEDLL/Build"        OFF)
 BuildMultiArch(APEKernel        "${PROJECT_SOURCE_DIR}/APEKernel/Build"     OFF)
 BuildMultiArch(InjectorAddon    "${PROJECT_SOURCE_DIR}/InjectorAddon/Build" OFF)
 
