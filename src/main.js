@@ -5,7 +5,7 @@ const exec = require('child_process').exec;
 
 // TODO: Remove the callback
 const inject = require('./inject')(function() {
-    console.log("Injection result: " + inject.inject('notepad.exe'));
+    console.log("Injection result: " + inject.inject('NostaleX-0.9.3.3057-local.exe'));
 });
 
 
@@ -15,7 +15,7 @@ ipcMain.on('getProc', (event, arg) => {
 
    console.log(arg);  // prints "ping"
    console.log("getPRoc");  // prints "ping"
-   
+
    exec('tasklist /fo csv /nh', (err, stdout, stderr) => {
 	  if (err) {
 		console.error(err);
