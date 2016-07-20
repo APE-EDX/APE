@@ -2951,7 +2951,7 @@
 	  view: function view(ctrl, attrs) {
 	    ctrl.showing = attrs.showing;
 
-	    return (0, _mithril2.default)('div.quick-edit-body.body-frame', { className: ctrl.showing ? '' : 'hidden' }, (0, _mithril2.default)('h1', 'Javascript Editor'), (0, _mithril2.default)("div#jseditor", { 'data-language': "javascript", config: this.configEditor.bind(this) }), (0, _mithril2.default)('div.buttons', (0, _mithril2.default)('button', { onclick: this.sendCode.bind(this), class: 'btn btn-success' }, 'Enviar')));
+	    return (0, _mithril2.default)('div.quick-edit-body.body-frame', { className: ctrl.showing ? '' : 'hidden' }, (0, _mithril2.default)('h1', 'Javascript Editor'), (0, _mithril2.default)("div#jseditor", { 'data-language': "javascript", config: this.configEditor.bind(this) }), (0, _mithril2.default)('div.buttons', (0, _mithril2.default)('button', { onclick: this.sendCode.bind(this), class: 'btn btn-success' }, 'Enviar'), (0, _mithril2.default)('button#basico', { class: 'btn btn-success' }, 'Notification 1'), (0, _mithril2.default)('button#imagen', { class: 'btn btn-success' }, 'Notification 2')));
 	  }
 	};
 
