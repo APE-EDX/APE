@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	var _window = __webpack_require__(1);
 
@@ -56,7 +56,50 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var electron = __webpack_require__(13);
+	var remote = electron.remote;
+	var Menu = remote.Menu;
+
 	_mithril2.default.mount(document.body, _window2.default);
+
+	var InputMenu = Menu.buildFromTemplate([{
+	    label: 'Undo',
+	    role: 'undo'
+	}, {
+	    label: 'Redo',
+	    role: 'redo'
+	}, {
+	    type: 'separator'
+	}, {
+	    label: 'Cut',
+	    role: 'cut'
+	}, {
+	    label: 'Copy',
+	    role: 'copy'
+	}, {
+	    label: 'Paste',
+	    role: 'paste'
+	}, {
+	    type: 'separator'
+	}, {
+	    label: 'Select all',
+	    role: 'selectall'
+	}]);
+
+	document.body.addEventListener('contextmenu', function (e) {
+	    e.preventDefault();
+	    e.stopPropagation();
+
+	    var node = e.target;
+
+	    while (node) {
+	        if (node.nodeName.match(/^(input|textarea)$/i) || node.isContentEditable) {
+	            InputMenu.popup(remote.getCurrentWindow());
+	            break;
+	        }
+	        node = node.parentNode;
+	    }
+	});
 
 /***/ },
 /* 1 */
@@ -2420,7 +2463,7 @@
 
 
 	// module
-	exports.push([module.id, "* {\n  -webkit-user-select: none;\n}\nhtml,\nbody,\n.height100 {\n  width: 100%;\n  height: 100%;\n  max-height: 100%;\n  background-color: #37474f ;\n}\ninput {\n  background-color: #ccc;\n  width: 100%;\n}\n.title-frame {\n  position: relative;\n  width: 100%;\n  height: 23px;\n  background-color: #2E2E2E;\n  text-align: right;\n  color: white;\n}\n.title-frame > .title {\n  position: relative;\n  text-align: center;\n  -webkit-app-region: drag;\n  line-height: 23px;\n}\n.title-frame > .buttons {\n  position: relative;\n  top: -23px;\n  z-index: 2;\n  padding-right: 3px;\n}\n.title-frame > .buttons > button {\n  -webkit-app-region: no-drag;\n}\n.close-button {\n  position: relative;\n  box-shadow: inset 0px -3px 7px 0px #29bbff;\n  background-color: #2dabf9;\n  border-radius: 3px;\n  border: 1px solid #0b0e07;\n  display: inline-block;\n  cursor: pointer;\n  color: #ffffff;\n  font-family: Arial;\n  font-size: 10px;\n  padding: 1px 4px;\n  text-decoration: none;\n  text-shadow: 0px 1px 0px #263666;\n}\n.close-button:hover {\n  background-color: #0688fa;\n}\n.close-button:active {\n  position: relative;\n  top: 1px;\n}\n.menu-frame {\n  position: relative;\n  height: 23px;\n  background-color: #232323;\n}\n.menu-frame > .buttons > a {\n  color: white;\n  padding: 12px;\n}\n.menu-lateral {\n  position: absolute;\n  height: 554px;\n  width: 134px;\n  background-color: #263238;\n  border-style: solid;\n  border-right: 2px solid #000000;\n  border-left: 0px;\n  border-top: 0px;\n  border-bottom: 0px;\n}\nul {\n  position: relative;\n  top: 50%;\n  transform: translateY(-50%);\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\nul li:first-child {\n  margin-top: 0;\n}\nul li:last-child {\n  margin-bottom: 0;\n}\nli {\n  margin: 15px;\n  margin-left: 0px;\n  padding-left: 15px;\n  position: relative;\n  list-style-type: none;\n  font-weight: bold;\n  text-align: left;\n}\nli > a {\n  color: #fafafa;\n  text-decoration: none;\n  font-weight: bold;\n  font-variant: small-caps;\n  cursor: pointer;\n}\nli > a:hover {\n  color: #cacaca;\n  text-decoration: none;\n}\nli.menu-active {\n  width: 134px;\n  height: 40px;\n  background-color: white;\n  line-height: 40px;\n}\n.menu-active > a {\n  color: black;\n}\n.menu-active > a:hover {\n  color: black;\n}\n.menu-active::after {\n  position: relative;\n  left: 105px;\n  top: -34px;\n  display: block;\n  width: 28.28px;\n  height: 28.28px;\n  background-color: white;\n  transform: rotate(45deg);\n  content: ' ';\n  z-index: -1;\n}\n.body-frame {\n  position: relative;\n  left: 134px;\n  width: 866px;\n  height: 554px;\n  padding: 15px 30px 15px 30px;\n}\n.body-frame > h1 {\n  color: #cfd8dc;\n}\n.quick-edit-body > .buttons {\n  margin: 0 auto;\n  text-align: right;\n  width: 100%;\n}\n.quick-edit-body > .buttons > button {\n  margin-top: 10px;\n  margin-left: 15px;\n}\n#jseditor {\n  position: relative;\n  width: 100%;\n  height: 404px;\n  border: 1px solid #000;\n  background: #263238;\n}\n#jseditor > pre > code {\n  text-shadow: 0 1px #263238;\n}\n#consoleDialog {\n  background-color: rgba(0, 0, 0, 0.6);\n}\n.modal-content {\n  background-color: #263238;\n  color: white;\n}\n.modal-body {\n  color: black;\n  overflow: auto;\n  height: 400px;\n}\n.process-list {\n  color: black;\n  font-size: 12px;\n  width: 100%;\n  height: 70%;\n}\n.list-group {\n  padding-left: 0;\n  margin-bottom: 20px;\n  height: 400px;\n}\n.modal-content {\n  width: 400px;\n  margin: auto;\n}\n.list-group-item {\n  margin-botton: -5%;\n  margin: 0px;\n}\n", ""]);
+	exports.push([module.id, "* {\n  -webkit-user-select: none;\n}\nhtml,\nbody,\n.height100 {\n  width: 100%;\n  height: 100%;\n  max-height: 100%;\n  background-color: #37474f ;\n}\ninput {\n  background-color: #ccc;\n  width: 100%;\n}\n.dark .title-frame {\n  position: relative;\n  width: 100%;\n  height: 23px;\n  background-color: #2E2E2E;\n  text-align: right;\n  color: white;\n}\n.dark .title-frame > .title {\n  position: relative;\n  text-align: center;\n  -webkit-app-region: drag;\n  line-height: 23px;\n}\n.dark .title-frame > .buttons {\n  position: relative;\n  top: -23px;\n  z-index: 2;\n  padding-right: 3px;\n}\n.dark .title-frame > .buttons > button {\n  -webkit-app-region: no-drag;\n}\n.dark .close-button {\n  position: relative;\n  box-shadow: inset 0px -3px 7px 0px #29bbff;\n  background-color: #2dabf9;\n  border-radius: 3px;\n  border: 1px solid #0b0e07;\n  display: inline-block;\n  cursor: pointer;\n  color: #ffffff;\n  font-family: Arial;\n  font-size: 10px;\n  padding: 1px 4px;\n  text-decoration: none;\n  text-shadow: 0px 1px 0px #263666;\n}\n.dark .close-button:hover {\n  background-color: #0688fa;\n}\n.dark .close-button:active {\n  position: relative;\n  top: 1px;\n}\n.dark .menu-frame {\n  position: relative;\n  height: 23px;\n  background-color: #232323;\n}\n.dark .menu-frame > .buttons > a {\n  color: white;\n  padding: 12px;\n}\n.dark .menu-lateral {\n  position: absolute;\n  height: 554px;\n  width: 134px;\n  background-color: #263238;\n  border-style: solid;\n  border-right: 2px solid #000000;\n  border-left: 0px;\n  border-top: 0px;\n  border-bottom: 0px;\n}\n.dark ul {\n  position: relative;\n  top: 50%;\n  transform: translateY(-50%);\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.dark ul li:first-child {\n  margin-top: 0;\n}\n.dark ul li:last-child {\n  margin-bottom: 0;\n}\n.dark li {\n  margin: 15px;\n  margin-left: 0px;\n  padding-left: 15px;\n  position: relative;\n  list-style-type: none;\n  font-weight: bold;\n  text-align: left;\n}\n.dark li > a {\n  color: #fafafa;\n  text-decoration: none;\n  font-weight: bold;\n  font-variant: small-caps;\n  cursor: pointer;\n}\n.dark li > a:hover {\n  color: #cacaca;\n  text-decoration: none;\n}\n.dark li.menu-active {\n  width: 134px;\n  height: 40px;\n  background-color: white;\n  line-height: 40px;\n}\n.dark .menu-active > a {\n  color: black;\n}\n.dark .menu-active > a:hover {\n  color: black;\n}\n.dark .menu-active::after {\n  position: relative;\n  left: 105px;\n  top: -34px;\n  display: block;\n  width: 28.28px;\n  height: 28.28px;\n  background-color: white;\n  transform: rotate(45deg);\n  content: ' ';\n  z-index: -1;\n}\n.dark .body-frame {\n  position: relative;\n  left: 134px;\n  width: 866px;\n  height: 554px;\n  padding: 15px 30px 15px 30px;\n}\n.dark .body-frame > h1 {\n  color: #cfd8dc;\n}\n.dark .quick-edit-body > .buttons {\n  margin: 0 auto;\n  text-align: right;\n  width: 100%;\n}\n.dark .quick-edit-body > .buttons > button {\n  margin-top: 10px;\n  margin-left: 15px;\n}\n.dark #jseditor > textarea {\n  color: #ccc;\n  text-shadow: 0px 0px 0px #000;\n  -webkit-text-fill-color: transparent;\n  position: relative;\n  width: 100%;\n  height: 404px;\n  border: 1px solid #000;\n  background: #263238;\n}\n.dark input::-webkit-input-placeholder,\n.dark textarea::-webkit-input-placeholder {\n  color: #ccc;\n  text-shadow: none;\n  -webkit-text-fill-color: initial;\n}\n.dark textarea::selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.dark textarea::-webkit-selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.dark #jseditor > pre > code {\n  color: #c3c3c3;\n  text-shadow: 0 1px #263238;\n}\n.dark #jseditor > pre > code > .token.function {\n  color: #ff3e65;\n}\n.dark #jseditor > pre > code > .token.keyword {\n  color: #16b9ff;\n}\n.dark #jseditor > pre > code > .token.number {\n  color: #ff008e;\n}\n.dark #jseditor > pre > code > .token.operator {\n  background: rgba(0, 0, 0, 0.2);\n}\n.dark #consoleDialog {\n  background-color: rgba(0, 0, 0, 0.6);\n}\n.dark .modal-content {\n  background-color: #263238;\n  color: white;\n}\n.dark .modal-body {\n  color: black;\n  overflow: auto;\n  height: 400px;\n}\n.dark .process-list {\n  color: black;\n  font-size: 12px;\n  width: 100%;\n  height: 70%;\n}\n.dark .list-group {\n  padding-left: 0;\n  margin-bottom: 20px;\n  height: 400px;\n}\n.dark .modal-content {\n  width: 400px;\n  margin: auto;\n}\n.dark .list-group-item {\n  margin-botton: -5%;\n  margin: 0px;\n}\n", ""]);
 
 	// exports
 
@@ -3071,7 +3114,7 @@
 	CodeFlask.prototype.handleScroll = function (textarea, highlightPre) {
 	    textarea.addEventListener('scroll', function () {
 
-	        roundedScroll = Math.floor(this.scrollTop);
+	        var roundedScroll = Math.floor(this.scrollTop);
 
 	        // Fixes issue of desync text on mouse wheel, fuck Firefox.
 	        if (navigator.userAgent.toLowerCase().indexOf('firefox') < 0) {
