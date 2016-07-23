@@ -2,7 +2,7 @@ import m from 'mithril';
 const {ipcRenderer} = require('electron');
 import CodeFlask from './codeflask';
 
-var allProcesses = [];
+var processes = [];
 var searchProcesses = [];
 
 //TODO: Improve
@@ -13,12 +13,12 @@ ipcRenderer.on('procReply', (event, arg) => {
     // Remove quotes
     var trim = (x) => ((x) => x.substr(1, x.length - 2))(x.trim());
 
-    allProcesses = [];
+    processes = [];
     for(var i = 0; i < res.length / 5 - 1; i++){
         var pid = res[i * 5 + 1];
         var name = res[i * 5];
 
-        allProcesses.push({pid: parseInt(trim(pid)), name: trim(name)});
+        processes.push({pid: parseInt(trim(pid)), name: trim(name)});
     }
 
     reorderProcesses('name', 'pid');
@@ -35,7 +35,7 @@ function reorderProcesses(by, sec) {
         return compare(sec, a, b);
     }
 
-    allProcesses = allProcesses.sort(compare.bind(null, by));
+    processes = processes.sort(compare.bind(null, by));
 }
 
 
@@ -63,17 +63,21 @@ export default {
         ctrl.closeOverlayFrame();
     },
 
-    search: function(str) {
+    search: function(processes, str) {
         var matches = [];
         var re = new RegExp(str);
 
-        for (var i = 0; i < allProcesses.length; ++i) {
-            if (allProcesses[i].name.match(re)) {
-                matches.push(allProcesses[i]);
+        for (var i = 0; i < processes.length; ++i) {
+            if (processes[i].name.match(re)) {
+                matches.push(processes[i]);
             }
         }
 
         return matches;
+    },
+
+    focusSearch: function(el, hasInit) {
+        hasInit && el.focus();
     },
 
     view: function(ctrl, attrs) {
@@ -93,16 +97,19 @@ export default {
                         m('h4','Select Process:', {class: 'modal-title'})
                     ),
                     m('input.process-search[type=text]', {
+                        config: this.focusSearch.bind(this),
                         inputValue: ctrl.inputValue(),
                         oninput: m.withAttr('value', ctrl.inputValue),
                         placeholder: 'Search process'
                     }),
                     m('div#procContainer', {class: 'modal-body'}, '',
                         m('ul#processList', {class: 'list-group'},
-                            (ctrl.inputValue() ? this.search(ctrl.inputValue()) : allProcesses).map((e) => m('li.list-group-item', {onclick: this.setTarget.bind(this, ctrl, e)},
+                            (ctrl.inputValue() ? this.search(processes, ctrl.inputValue()) : processes).map((e) => {
+                                return m('li.list-group-item', {onclick: this.setTarget.bind(this, ctrl, e)},
                                     m('span.badge', e.pid),
                                     e.name
-                                ))
+                                )
+                            })
                         )
                     ),
                     m('div', {class: 'modal-footer'},

@@ -86,6 +86,11 @@ input {
         background-color: #232323;
     }
 
+    .menu-frame > .buttons {
+        position: relative;
+        top: 2px;
+    }
+
     .menu-frame > .buttons > a {
         color: white;
         padding: 12px;
@@ -93,10 +98,10 @@ input {
 
     .menu-frame > .target-info {
         position: relative;
-        top: -@title-height;
+        top: -@title-height + 3px;
         z-index: 2;
         padding-right: 3px;
-        line-height: @menu-height + 5px;
+        line-height: @menu-height;
         text-align: right;
         color: #c13434;
         font-weight: bold;

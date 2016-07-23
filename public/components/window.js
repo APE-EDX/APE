@@ -9,12 +9,26 @@ import Header from './header';
 import Menu from './menu';
 import QuickEdit from './quick-edit';
 import Target from './target-process';
-
+import Notifications from './notifications';
 
 var target = null;
 ipcRenderer.on('set-target', (event, resultTarget) => {
-	target = resultTarget.result ? resultTarget : null;
+	if (resultTarget.result) {
+		Notifications.doNotify({title: 'Injection', body: 'APE injection was successful'}, true);
+		target = resultTarget;
+	}
+	else {
+		Notifications.doNotify({title: 'Injection', body: 'APE could not inject the DLL'}, true);
+		target = null;
+	}
+
 	m.endComputation();
+});
+
+ipcRenderer.on('lost-target', (event, lostTarget) => {
+	Notifications.doNotify({title: 'Injection', body: 'APE lost connection with ' + lostTarget.name}, true);
+	target = lostTarget;
+	m.redraw();
 });
 
 export default {

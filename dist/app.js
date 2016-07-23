@@ -137,6 +137,10 @@
 
 	var _targetProcess2 = _interopRequireDefault(_targetProcess);
 
+	var _notifications = __webpack_require__(18);
+
+	var _notifications2 = _interopRequireDefault(_notifications);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var _require = __webpack_require__(13);
@@ -147,8 +151,21 @@
 
 	var target = null;
 	ipcRenderer.on('set-target', function (event, resultTarget) {
-		target = resultTarget.result ? resultTarget : null;
+		if (resultTarget.result) {
+			_notifications2.default.doNotify({ title: 'Injection', body: 'APE injection was successful' }, true);
+			target = resultTarget;
+		} else {
+			_notifications2.default.doNotify({ title: 'Injection', body: 'APE could not inject the DLL' }, true);
+			target = null;
+		}
+
 		_mithril2.default.endComputation();
+	});
+
+	ipcRenderer.on('lost-target', function (event, lostTarget) {
+		_notifications2.default.doNotify({ title: 'Injection', body: 'APE lost connection with ' + lostTarget.name }, true);
+		target = lostTarget;
+		_mithril2.default.redraw();
 	});
 
 	exports.default = {
@@ -2474,7 +2491,7 @@
 
 
 	// module
-	exports.push([module.id, "* {\n  -webkit-user-select: none;\n}\nhtml,\nbody,\n.height100 {\n  width: 100%;\n  height: 100%;\n  max-height: 100%;\n  background-color: #37474f ;\n}\ninput {\n  background-color: #ccc;\n  width: 100%;\n}\n.dark .title-frame {\n  position: relative;\n  width: 100%;\n  height: 23px;\n  background-color: #2E2E2E;\n  text-align: right;\n  color: white;\n}\n.dark .title-frame > .title {\n  position: relative;\n  text-align: center;\n  -webkit-app-region: drag;\n  line-height: 23px;\n}\n.dark .title-frame > .buttons {\n  position: relative;\n  top: -23px;\n  z-index: 2;\n  padding-right: 3px;\n}\n.dark .title-frame > .buttons > button {\n  -webkit-app-region: no-drag;\n}\n.dark .close-button {\n  position: relative;\n  box-shadow: inset 0px -3px 7px 0px #29bbff;\n  background-color: #2dabf9;\n  border-radius: 3px;\n  border: 1px solid #0b0e07;\n  display: inline-block;\n  cursor: pointer;\n  color: #ffffff;\n  font-family: Arial;\n  font-size: 10px;\n  padding: 1px 4px;\n  text-decoration: none;\n  text-shadow: 0px 1px 0px #263666;\n}\n.dark .close-button:hover {\n  background-color: #0688fa;\n}\n.dark .close-button:active {\n  position: relative;\n  top: 1px;\n}\n.dark .menu-frame {\n  position: relative;\n  height: 23px;\n  background-color: #232323;\n}\n.dark .menu-frame > .buttons > a {\n  color: white;\n  padding: 12px;\n}\n.dark .menu-frame > .target-info {\n  position: relative;\n  top: -23px;\n  z-index: 2;\n  padding-right: 3px;\n  line-height: 28px;\n  text-align: right;\n  color: #c13434;\n  font-weight: bold;\n}\n.dark .menu-lateral {\n  position: absolute;\n  height: 554px;\n  width: 134px;\n  background-color: #263238;\n  border-style: solid;\n  border-right: 2px solid #000000;\n  border-left: 0px;\n  border-top: 0px;\n  border-bottom: 0px;\n}\n.dark ul {\n  position: relative;\n  top: 50%;\n  transform: translateY(-50%);\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.dark ul li:first-child {\n  margin-top: 0;\n}\n.dark ul li:last-child {\n  margin-bottom: 0;\n}\n.dark li {\n  margin: 15px;\n  margin-left: 0px;\n  padding-left: 15px;\n  position: relative;\n  list-style-type: none;\n  font-weight: bold;\n  text-align: left;\n}\n.dark li > a {\n  color: #fafafa;\n  text-decoration: none;\n  font-weight: bold;\n  font-variant: small-caps;\n  cursor: pointer;\n}\n.dark li > a:hover {\n  color: #cacaca;\n  text-decoration: none;\n}\n.dark li.menu-active {\n  width: 134px;\n  height: 40px;\n  background-color: white;\n  line-height: 40px;\n}\n.dark .menu-active > a {\n  color: black;\n}\n.dark .menu-active > a:hover {\n  color: black;\n}\n.dark .menu-active::after {\n  position: relative;\n  left: 105px;\n  top: -34px;\n  display: block;\n  width: 28.28px;\n  height: 28.28px;\n  background-color: white;\n  transform: rotate(45deg);\n  content: ' ';\n  z-index: -1;\n}\n.dark .body-frame {\n  position: relative;\n  left: 134px;\n  width: 866px;\n  height: 554px;\n  padding: 15px 30px 15px 30px;\n}\n.dark .body-frame > h1 {\n  color: #cfd8dc;\n}\n.dark .quick-edit-body > .buttons {\n  margin: 0 auto;\n  text-align: right;\n  width: 100%;\n}\n.dark .quick-edit-body > .buttons > button {\n  margin-top: 10px;\n  margin-left: 15px;\n}\n.dark #jseditor > textarea {\n  color: #ccc;\n  text-shadow: 0px 0px 0px #000;\n  -webkit-text-fill-color: transparent;\n  position: relative;\n  width: 100%;\n  height: 404px;\n  border: 1px solid #000;\n  background: #263238;\n}\n.dark input::-webkit-input-placeholder,\n.dark textarea::-webkit-input-placeholder {\n  color: #ccc;\n  text-shadow: none;\n  -webkit-text-fill-color: initial;\n}\n.dark textarea::selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.dark textarea::-webkit-selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.dark #jseditor > pre > code {\n  color: #c3c3c3;\n  text-shadow: 0 1px #263238;\n}\n.dark #jseditor > pre > code > .token.function {\n  color: #ff3e65;\n}\n.dark #jseditor > pre > code > .token.keyword {\n  color: #16b9ff;\n}\n.dark #jseditor > pre > code > .token.number {\n  color: #ff008e;\n}\n.dark #jseditor > pre > code > .token.operator {\n  background: rgba(0, 0, 0, 0.2);\n}\n.dark #consoleDialog {\n  background-color: rgba(0, 0, 0, 0.6);\n}\n.dark .modal-content {\n  background-color: #263238;\n  color: white;\n}\n.dark .modal-body {\n  color: black;\n  overflow: auto;\n  height: 400px;\n}\n.dark .process-search {\n  color: #000;\n  padding: 0 5px 0 5px;\n  margin-bottom: 5px;\n}\n.dark .process-search::-webkit-input-placeholder {\n  color: #444;\n}\n.dark .process-list {\n  color: black;\n  font-size: 12px;\n  width: 100%;\n  height: 70%;\n}\n.dark .list-group {\n  padding-left: 0;\n  margin-bottom: 20px;\n  height: 400px;\n}\n.dark .modal-content {\n  width: 400px;\n  margin: auto;\n}\n.dark .list-group-item {\n  margin-botton: -5%;\n  margin: 0px;\n  cursor: pointer;\n}\n", ""]);
+	exports.push([module.id, "* {\n  -webkit-user-select: none;\n}\nhtml,\nbody,\n.height100 {\n  width: 100%;\n  height: 100%;\n  max-height: 100%;\n  background-color: #37474f ;\n}\ninput {\n  background-color: #ccc;\n  width: 100%;\n}\n.dark .title-frame {\n  position: relative;\n  width: 100%;\n  height: 23px;\n  background-color: #2E2E2E;\n  text-align: right;\n  color: white;\n}\n.dark .title-frame > .title {\n  position: relative;\n  text-align: center;\n  -webkit-app-region: drag;\n  line-height: 23px;\n}\n.dark .title-frame > .buttons {\n  position: relative;\n  top: -23px;\n  z-index: 2;\n  padding-right: 3px;\n}\n.dark .title-frame > .buttons > button {\n  -webkit-app-region: no-drag;\n}\n.dark .close-button {\n  position: relative;\n  box-shadow: inset 0px -3px 7px 0px #29bbff;\n  background-color: #2dabf9;\n  border-radius: 3px;\n  border: 1px solid #0b0e07;\n  display: inline-block;\n  cursor: pointer;\n  color: #ffffff;\n  font-family: Arial;\n  font-size: 10px;\n  padding: 1px 4px;\n  text-decoration: none;\n  text-shadow: 0px 1px 0px #263666;\n}\n.dark .close-button:hover {\n  background-color: #0688fa;\n}\n.dark .close-button:active {\n  position: relative;\n  top: 1px;\n}\n.dark .menu-frame {\n  position: relative;\n  height: 23px;\n  background-color: #232323;\n}\n.dark .menu-frame > .buttons {\n  position: relative;\n  top: 2px;\n}\n.dark .menu-frame > .buttons > a {\n  color: white;\n  padding: 12px;\n}\n.dark .menu-frame > .target-info {\n  position: relative;\n  top: -20px;\n  z-index: 2;\n  padding-right: 3px;\n  line-height: 23px;\n  text-align: right;\n  color: #c13434;\n  font-weight: bold;\n}\n.dark .menu-lateral {\n  position: absolute;\n  height: 554px;\n  width: 134px;\n  background-color: #263238;\n  border-style: solid;\n  border-right: 2px solid #000000;\n  border-left: 0px;\n  border-top: 0px;\n  border-bottom: 0px;\n}\n.dark ul {\n  position: relative;\n  top: 50%;\n  transform: translateY(-50%);\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.dark ul li:first-child {\n  margin-top: 0;\n}\n.dark ul li:last-child {\n  margin-bottom: 0;\n}\n.dark li {\n  margin: 15px;\n  margin-left: 0px;\n  padding-left: 15px;\n  position: relative;\n  list-style-type: none;\n  font-weight: bold;\n  text-align: left;\n}\n.dark li > a {\n  color: #fafafa;\n  text-decoration: none;\n  font-weight: bold;\n  font-variant: small-caps;\n  cursor: pointer;\n}\n.dark li > a:hover {\n  color: #cacaca;\n  text-decoration: none;\n}\n.dark li.menu-active {\n  width: 134px;\n  height: 40px;\n  background-color: white;\n  line-height: 40px;\n}\n.dark .menu-active > a {\n  color: black;\n}\n.dark .menu-active > a:hover {\n  color: black;\n}\n.dark .menu-active::after {\n  position: relative;\n  left: 105px;\n  top: -34px;\n  display: block;\n  width: 28.28px;\n  height: 28.28px;\n  background-color: white;\n  transform: rotate(45deg);\n  content: ' ';\n  z-index: -1;\n}\n.dark .body-frame {\n  position: relative;\n  left: 134px;\n  width: 866px;\n  height: 554px;\n  padding: 15px 30px 15px 30px;\n}\n.dark .body-frame > h1 {\n  color: #cfd8dc;\n}\n.dark .quick-edit-body > .buttons {\n  margin: 0 auto;\n  text-align: right;\n  width: 100%;\n}\n.dark .quick-edit-body > .buttons > button {\n  margin-top: 10px;\n  margin-left: 15px;\n}\n.dark #jseditor > textarea {\n  color: #ccc;\n  text-shadow: 0px 0px 0px #000;\n  -webkit-text-fill-color: transparent;\n  position: relative;\n  width: 100%;\n  height: 404px;\n  border: 1px solid #000;\n  background: #263238;\n}\n.dark input::-webkit-input-placeholder,\n.dark textarea::-webkit-input-placeholder {\n  color: #ccc;\n  text-shadow: none;\n  -webkit-text-fill-color: initial;\n}\n.dark textarea::selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.dark textarea::-webkit-selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.dark #jseditor > pre > code {\n  color: #c3c3c3;\n  text-shadow: 0 1px #263238;\n}\n.dark #jseditor > pre > code > .token.function {\n  color: #ff3e65;\n}\n.dark #jseditor > pre > code > .token.keyword {\n  color: #16b9ff;\n}\n.dark #jseditor > pre > code > .token.number {\n  color: #ff008e;\n}\n.dark #jseditor > pre > code > .token.operator {\n  background: rgba(0, 0, 0, 0.2);\n}\n.dark #consoleDialog {\n  background-color: rgba(0, 0, 0, 0.6);\n}\n.dark .modal-content {\n  background-color: #263238;\n  color: white;\n}\n.dark .modal-body {\n  color: black;\n  overflow: auto;\n  height: 400px;\n}\n.dark .process-search {\n  color: #000;\n  padding: 0 5px 0 5px;\n  margin-bottom: 5px;\n}\n.dark .process-search::-webkit-input-placeholder {\n  color: #444;\n}\n.dark .process-list {\n  color: black;\n  font-size: 12px;\n  width: 100%;\n  height: 70%;\n}\n.dark .list-group {\n  padding-left: 0;\n  margin-bottom: 20px;\n  height: 400px;\n}\n.dark .modal-content {\n  width: 400px;\n  margin: auto;\n}\n.dark .list-group-item {\n  margin-botton: -5%;\n  margin: 0px;\n  cursor: pointer;\n}\n", ""]);
 
 	// exports
 
@@ -2892,7 +2909,7 @@
 	    },
 
 	    view: function view(ctrl, attrs) {
-	        console.log(attrs.target);
+
 	        return (0, _mithril2.default)("div", (0, _mithril2.default)('div.title-frame', (0, _mithril2.default)('div.title', (0, _mithril2.default)('span', 'APE')), (0, _mithril2.default)('div.buttons', (0, _mithril2.default)('button.close-button', { onclick: this.closeApp.bind(this) }, 'X'))), (0, _mithril2.default)('div.menu-frame', (0, _mithril2.default)('div.buttons', (0, _mithril2.default)('a', 'File'), (0, _mithril2.default)('a', 'Edit'), (0, _mithril2.default)('a', 'About')), attrs.target ? (0, _mithril2.default)('div.target-info', 'Target: ' + attrs.target.name + (attrs.target.lost ? ' <lost>' : '')) : null));
 	    }
 	};
@@ -3006,7 +3023,7 @@
 	  view: function view(ctrl, attrs) {
 	    ctrl.showing = attrs.showing;
 
-	    return (0, _mithril2.default)('div.quick-edit-body.body-frame', { className: ctrl.showing ? '' : 'hidden' }, (0, _mithril2.default)('h1', 'Javascript Editor'), (0, _mithril2.default)("div#jseditor", { 'data-language': "javascript", config: this.configEditor.bind(this) }), (0, _mithril2.default)('div.buttons', (0, _mithril2.default)('button', { onclick: this.sendCode.bind(this), class: 'btn btn-success' }, 'Enviar'), (0, _mithril2.default)('button#basico', { class: 'btn btn-success' }, 'Notification 1'), (0, _mithril2.default)('button#imagen', { class: 'btn btn-success' }, 'Notification 2')));
+	    return (0, _mithril2.default)('div.quick-edit-body.body-frame', { className: ctrl.showing ? '' : 'hidden' }, (0, _mithril2.default)('h1', 'Javascript Editor'), (0, _mithril2.default)("div#jseditor", { 'data-language': "javascript", config: this.configEditor.bind(this) }), (0, _mithril2.default)('div.buttons', (0, _mithril2.default)('button', { onclick: this.sendCode.bind(this), class: 'btn btn-success' }, 'Enviar')));
 	  }
 	};
 
@@ -3195,7 +3212,7 @@
 	var ipcRenderer = _require.ipcRenderer;
 
 
-	var allProcesses = [];
+	var processes = [];
 	var searchProcesses = [];
 
 	//TODO: Improve
@@ -3210,12 +3227,12 @@
 	        }(x.trim());
 	    };
 
-	    allProcesses = [];
+	    processes = [];
 	    for (var i = 0; i < res.length / 5 - 1; i++) {
 	        var pid = res[i * 5 + 1];
 	        var name = res[i * 5];
 
-	        allProcesses.push({ pid: parseInt(trim(pid)), name: trim(name) });
+	        processes.push({ pid: parseInt(trim(pid)), name: trim(name) });
 	    }
 
 	    reorderProcesses('name', 'pid');
@@ -3232,7 +3249,7 @@
 	        return compare(sec, a, b);
 	    }
 
-	    allProcesses = allProcesses.sort(compare.bind(null, by));
+	    processes = processes.sort(compare.bind(null, by));
 	}
 
 	exports.default = {
@@ -3259,25 +3276,27 @@
 	        ctrl.closeOverlayFrame();
 	    },
 
-	    search: function search(str) {
+	    search: function search(processes, str) {
 	        var matches = [];
 	        var re = new RegExp(str);
 
-	        for (var i = 0; i < allProcesses.length; ++i) {
-	            if (allProcesses[i].name.match(re)) {
-	                matches.push(allProcesses[i]);
+	        for (var i = 0; i < processes.length; ++i) {
+	            if (processes[i].name.match(re)) {
+	                matches.push(processes[i]);
 	            }
 	        }
 
 	        return matches;
 	    },
 
+	    focusSearch: function focusSearch(el, hasInit) {
+	        hasInit && el.focus();
+	    },
+
 	    view: function view(ctrl, attrs) {
 	        var _this = this;
 
-	        console.log(ctrl.showing);
-	        console.log(attrs.showing);
-	        // Reload now
+	        // Reload now if it was not showing before
 	        if (!ctrl.showing && attrs.showing) {
 	            this.reloadNow();
 	        }
@@ -3285,14 +3304,392 @@
 	        ctrl.showing = attrs.showing;
 
 	        return (0, _mithril2.default)('div#consoleDialog', { className: ctrl.showing ? 'modal fade in show' : 'modal fade hidden', role: 'dialog' }, (0, _mithril2.default)('div', { class: 'modal-dialog modal-lg' }, (0, _mithril2.default)('div', { class: 'modal-content' }, (0, _mithril2.default)('div', { class: 'modal-header' }, (0, _mithril2.default)('button', { class: 'close', onclick: ctrl.closeOverlayFrame }, 'x'), (0, _mithril2.default)('h4', 'Select Process:', { class: 'modal-title' })), (0, _mithril2.default)('input.process-search[type=text]', {
+	            config: this.focusSearch.bind(this),
 	            inputValue: ctrl.inputValue(),
 	            oninput: _mithril2.default.withAttr('value', ctrl.inputValue),
 	            placeholder: 'Search process'
-	        }), (0, _mithril2.default)('div#procContainer', { class: 'modal-body' }, '', (0, _mithril2.default)('ul#processList', { class: 'list-group' }, (ctrl.inputValue() ? this.search(ctrl.inputValue()) : allProcesses).map(function (e) {
+	        }), (0, _mithril2.default)('div#procContainer', { class: 'modal-body' }, '', (0, _mithril2.default)('ul#processList', { class: 'list-group' }, (ctrl.inputValue() ? this.search(processes, ctrl.inputValue()) : processes).map(function (e) {
 	            return (0, _mithril2.default)('li.list-group-item', { onclick: _this.setTarget.bind(_this, ctrl, e) }, (0, _mithril2.default)('span.badge', e.pid), e.name);
 	        }))), (0, _mithril2.default)('div', { class: 'modal-footer' }, (0, _mithril2.default)('button', { onclick: reorderProcesses.bind(this, 'name', 'pid'), class: 'btn btn-default' }, 'By name'), (0, _mithril2.default)('button', { onclick: reorderProcesses.bind(this, 'pid', null), class: 'btn btn-default' }, 'By PID'), (0, _mithril2.default)('button', { onclick: this.reloadProc.bind(this), class: 'btn btn-default' }, 'Reload'), (0, _mithril2.default)('button', { onclick: ctrl.closeOverlayFrame, class: 'btn btn-default' }, 'Close')))));
 	    }
 	};
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var path = __webpack_require__(19);
+
+	function doNotify(options, image) {
+	    if (!image) {
+	        new Notification(options.title, options);
+	    } else {
+	        options.icon = 'LogoApe.ico';
+	        new Notification(options.title, options);
+	    }
+	}
+
+	module.exports = {
+	    doNotify: doNotify
+	};
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+	// resolves . and .. elements in a path array with directory names there
+	// must be no slashes, empty elements, or device names (c:\) in the array
+	// (so also no leading and trailing slashes - it does not distinguish
+	// relative and absolute paths)
+	function normalizeArray(parts, allowAboveRoot) {
+	  // if the path tries to go above the root, `up` ends up > 0
+	  var up = 0;
+	  for (var i = parts.length - 1; i >= 0; i--) {
+	    var last = parts[i];
+	    if (last === '.') {
+	      parts.splice(i, 1);
+	    } else if (last === '..') {
+	      parts.splice(i, 1);
+	      up++;
+	    } else if (up) {
+	      parts.splice(i, 1);
+	      up--;
+	    }
+	  }
+
+	  // if the path is allowed to go above the root, restore leading ..s
+	  if (allowAboveRoot) {
+	    for (; up--; up) {
+	      parts.unshift('..');
+	    }
+	  }
+
+	  return parts;
+	}
+
+	// Split a filename into [root, dir, basename, ext], unix version
+	// 'root' is just a slash, or nothing.
+	var splitPathRe =
+	    /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
+	var splitPath = function(filename) {
+	  return splitPathRe.exec(filename).slice(1);
+	};
+
+	// path.resolve([from ...], to)
+	// posix version
+	exports.resolve = function() {
+	  var resolvedPath = '',
+	      resolvedAbsolute = false;
+
+	  for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
+	    var path = (i >= 0) ? arguments[i] : process.cwd();
+
+	    // Skip empty and invalid entries
+	    if (typeof path !== 'string') {
+	      throw new TypeError('Arguments to path.resolve must be strings');
+	    } else if (!path) {
+	      continue;
+	    }
+
+	    resolvedPath = path + '/' + resolvedPath;
+	    resolvedAbsolute = path.charAt(0) === '/';
+	  }
+
+	  // At this point the path should be resolved to a full absolute path, but
+	  // handle relative paths to be safe (might happen when process.cwd() fails)
+
+	  // Normalize the path
+	  resolvedPath = normalizeArray(filter(resolvedPath.split('/'), function(p) {
+	    return !!p;
+	  }), !resolvedAbsolute).join('/');
+
+	  return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
+	};
+
+	// path.normalize(path)
+	// posix version
+	exports.normalize = function(path) {
+	  var isAbsolute = exports.isAbsolute(path),
+	      trailingSlash = substr(path, -1) === '/';
+
+	  // Normalize the path
+	  path = normalizeArray(filter(path.split('/'), function(p) {
+	    return !!p;
+	  }), !isAbsolute).join('/');
+
+	  if (!path && !isAbsolute) {
+	    path = '.';
+	  }
+	  if (path && trailingSlash) {
+	    path += '/';
+	  }
+
+	  return (isAbsolute ? '/' : '') + path;
+	};
+
+	// posix version
+	exports.isAbsolute = function(path) {
+	  return path.charAt(0) === '/';
+	};
+
+	// posix version
+	exports.join = function() {
+	  var paths = Array.prototype.slice.call(arguments, 0);
+	  return exports.normalize(filter(paths, function(p, index) {
+	    if (typeof p !== 'string') {
+	      throw new TypeError('Arguments to path.join must be strings');
+	    }
+	    return p;
+	  }).join('/'));
+	};
+
+
+	// path.relative(from, to)
+	// posix version
+	exports.relative = function(from, to) {
+	  from = exports.resolve(from).substr(1);
+	  to = exports.resolve(to).substr(1);
+
+	  function trim(arr) {
+	    var start = 0;
+	    for (; start < arr.length; start++) {
+	      if (arr[start] !== '') break;
+	    }
+
+	    var end = arr.length - 1;
+	    for (; end >= 0; end--) {
+	      if (arr[end] !== '') break;
+	    }
+
+	    if (start > end) return [];
+	    return arr.slice(start, end - start + 1);
+	  }
+
+	  var fromParts = trim(from.split('/'));
+	  var toParts = trim(to.split('/'));
+
+	  var length = Math.min(fromParts.length, toParts.length);
+	  var samePartsLength = length;
+	  for (var i = 0; i < length; i++) {
+	    if (fromParts[i] !== toParts[i]) {
+	      samePartsLength = i;
+	      break;
+	    }
+	  }
+
+	  var outputParts = [];
+	  for (var i = samePartsLength; i < fromParts.length; i++) {
+	    outputParts.push('..');
+	  }
+
+	  outputParts = outputParts.concat(toParts.slice(samePartsLength));
+
+	  return outputParts.join('/');
+	};
+
+	exports.sep = '/';
+	exports.delimiter = ':';
+
+	exports.dirname = function(path) {
+	  var result = splitPath(path),
+	      root = result[0],
+	      dir = result[1];
+
+	  if (!root && !dir) {
+	    // No dirname whatsoever
+	    return '.';
+	  }
+
+	  if (dir) {
+	    // It has a dirname, strip trailing slash
+	    dir = dir.substr(0, dir.length - 1);
+	  }
+
+	  return root + dir;
+	};
+
+
+	exports.basename = function(path, ext) {
+	  var f = splitPath(path)[2];
+	  // TODO: make this comparison case-insensitive on windows?
+	  if (ext && f.substr(-1 * ext.length) === ext) {
+	    f = f.substr(0, f.length - ext.length);
+	  }
+	  return f;
+	};
+
+
+	exports.extname = function(path) {
+	  return splitPath(path)[3];
+	};
+
+	function filter (xs, f) {
+	    if (xs.filter) return xs.filter(f);
+	    var res = [];
+	    for (var i = 0; i < xs.length; i++) {
+	        if (f(xs[i], i, xs)) res.push(xs[i]);
+	    }
+	    return res;
+	}
+
+	// String.prototype.substr - negative index don't work in IE8
+	var substr = 'ab'.substr(-1) === 'b'
+	    ? function (str, start, len) { return str.substr(start, len) }
+	    : function (str, start, len) {
+	        if (start < 0) start = str.length + start;
+	        return str.substr(start, len);
+	    }
+	;
+
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20)))
+
+/***/ },
+/* 20 */
+/***/ function(module, exports) {
+
+	// shim for using process in browser
+
+	var process = module.exports = {};
+
+	// cached from whatever global is present so that test runners that stub it
+	// don't break things.  But we need to wrap it in a try catch in case it is
+	// wrapped in strict mode code which doesn't define any globals.  It's inside a
+	// function because try/catches deoptimize in certain engines.
+
+	var cachedSetTimeout;
+	var cachedClearTimeout;
+
+	(function () {
+	  try {
+	    cachedSetTimeout = setTimeout;
+	  } catch (e) {
+	    cachedSetTimeout = function () {
+	      throw new Error('setTimeout is not defined');
+	    }
+	  }
+	  try {
+	    cachedClearTimeout = clearTimeout;
+	  } catch (e) {
+	    cachedClearTimeout = function () {
+	      throw new Error('clearTimeout is not defined');
+	    }
+	  }
+	} ())
+	var queue = [];
+	var draining = false;
+	var currentQueue;
+	var queueIndex = -1;
+
+	function cleanUpNextTick() {
+	    if (!draining || !currentQueue) {
+	        return;
+	    }
+	    draining = false;
+	    if (currentQueue.length) {
+	        queue = currentQueue.concat(queue);
+	    } else {
+	        queueIndex = -1;
+	    }
+	    if (queue.length) {
+	        drainQueue();
+	    }
+	}
+
+	function drainQueue() {
+	    if (draining) {
+	        return;
+	    }
+	    var timeout = cachedSetTimeout(cleanUpNextTick);
+	    draining = true;
+
+	    var len = queue.length;
+	    while(len) {
+	        currentQueue = queue;
+	        queue = [];
+	        while (++queueIndex < len) {
+	            if (currentQueue) {
+	                currentQueue[queueIndex].run();
+	            }
+	        }
+	        queueIndex = -1;
+	        len = queue.length;
+	    }
+	    currentQueue = null;
+	    draining = false;
+	    cachedClearTimeout(timeout);
+	}
+
+	process.nextTick = function (fun) {
+	    var args = new Array(arguments.length - 1);
+	    if (arguments.length > 1) {
+	        for (var i = 1; i < arguments.length; i++) {
+	            args[i - 1] = arguments[i];
+	        }
+	    }
+	    queue.push(new Item(fun, args));
+	    if (queue.length === 1 && !draining) {
+	        cachedSetTimeout(drainQueue, 0);
+	    }
+	};
+
+	// v8 likes predictible objects
+	function Item(fun, array) {
+	    this.fun = fun;
+	    this.array = array;
+	}
+	Item.prototype.run = function () {
+	    this.fun.apply(null, this.array);
+	};
+	process.title = 'browser';
+	process.browser = true;
+	process.env = {};
+	process.argv = [];
+	process.version = ''; // empty string to avoid regexp issues
+	process.versions = {};
+
+	function noop() {}
+
+	process.on = noop;
+	process.addListener = noop;
+	process.once = noop;
+	process.off = noop;
+	process.removeListener = noop;
+	process.removeAllListeners = noop;
+	process.emit = noop;
+
+	process.binding = function (name) {
+	    throw new Error('process.binding is not supported');
+	};
+
+	process.cwd = function () { return '/' };
+	process.chdir = function (dir) {
+	    throw new Error('process.chdir is not supported');
+	};
+	process.umask = function() { return 0; };
+
 
 /***/ }
 /******/ ]);

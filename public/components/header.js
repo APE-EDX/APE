@@ -7,7 +7,7 @@ export default {
 	},
 
 	view: function(ctrl, attrs) {
-		console.log(attrs.target);
+		
         return m("div",
             m('div.title-frame',
                 m('div.title',

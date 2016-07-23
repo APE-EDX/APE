@@ -19,7 +19,24 @@ let dllSocket = null;
 let serverReady = false;
 let currentTarget = null;
 
+
+var debounce = (x) => {
+    return () => {
+        var now = +new Date;
+        (!debounce.last || (now - debounce.last) > 2000) && x();
+        debounce.last = now;
+    };
+};
+
 let inject = (target) => {
+    if (dllSocket) {
+        // Avoid having a notification
+        debounce(() => {});
+        // Disconnect and null-it
+        dllSocket.destroy();
+        dllSocket = null;
+    }
+
     currentTarget = target;
     return serverReady && injector && injector.injectDLLByPID(target.pid, dllPath, kernelExe);
 }
@@ -33,12 +50,12 @@ module.exports = (rendererWindow, callback) => {
             var lostConn = () => {
                 currentTarget.lost = true;
                 rendererWindow.webContents.send('lost-target', currentTarget);
-                rendererWindow = null;
             };
 
             socket
-                .on('disconnect', lostConn)
-                .on('error', lostConn);
+                .on('disconnect', debounce(lostConn))
+                .on('error', debounce(lostConn))
+                .on('close', debounce(lostConn));
         }
     }).on('error', (err) => {
         dllSocket = null;

@@ -28,9 +28,7 @@ export default {
     			m('h1', 'Javascript Editor'),
     			m("div#jseditor", {'data-language': "javascript", config: this.configEditor.bind(this)}),
     			m('div.buttons',
-    				m('button', {onclick: this.sendCode.bind(this), class:'btn btn-success' }, 'Enviar'),
-                    m('button#basico', {class:'btn btn-success' }, 'Notification 1'),
-                    m('button#imagen', {class:'btn btn-success' }, 'Notification 2')
+    				m('button', {onclick: this.sendCode.bind(this), class:'btn btn-success' }, 'Enviar')
     			)
     		);
 	}
