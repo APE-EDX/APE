@@ -27,3 +27,25 @@ var customCode = function(socket, buf, len, flags) {
 Redirect(Find('ws2_32.dll', 'send'), customCode);
 
 */
+
+
+/*
+Redirect.restoreAll();
+
+var customSend = function(socket, buf, len, flags) {
+    var str = buf.string(len.get());
+    print('Send (' + len.get() + ') : ' + str);
+    return this.fn(socket, buf, len, flags);
+}
+
+Redirect(Find('ws2_32.dll', 'send'), customSend);
+
+var customRecv = function(socket, buf, len, flags) {
+    var len = this.fn(socket, buf, len, flags);
+    var str = buf.string(len.get());
+    print('Recv (' + len.get() + ') : ' + str);
+    return len;
+}
+
+Redirect(Find('ws2_32.dll', 'recv'), customRecv);
+*/

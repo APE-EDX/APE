@@ -5,7 +5,7 @@ const exec = require('child_process').exec;
 
 // TODO: Remove the callback
 const inject = require('./inject')(function() {
-    console.log("Injection result: " + inject.inject('NostaleX-0.9.3.3057-local.exe'));
+    console.log("Injection result: " + inject.inject('javaw.exe'));
 });
 
 
