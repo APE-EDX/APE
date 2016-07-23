@@ -6,7 +6,8 @@ export default {
 		remote.getCurrentWindow().close();
 	},
 
-	view: function(ctrl) {
+	view: function(ctrl, attrs) {
+		console.log(attrs.target);
         return m("div",
             m('div.title-frame',
                 m('div.title',
@@ -21,7 +22,9 @@ export default {
                     m('a','File'),
                     m('a','Edit'),
                     m('a','About')
-                )
+                ),
+				attrs.target ?
+					m('div.target-info', 'Target: ' + attrs.target.name + (attrs.target.lost ? ' <lost>' : '')) : null
             )
         );
 	}

@@ -139,7 +139,18 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var _require = __webpack_require__(13);
+
+	var ipcRenderer = _require.ipcRenderer;
+
 	// Other modules
+
+	var target = null;
+	ipcRenderer.on('set-target', function (event, resultTarget) {
+		target = resultTarget.result ? resultTarget : null;
+		_mithril2.default.endComputation();
+	});
+
 	exports.default = {
 		controller: function controller() {
 			return {
@@ -162,7 +173,7 @@
 		},
 
 		view: function view(ctrl) {
-			return (0, _mithril2.default)("div.height100", (0, _mithril2.default)(_header2.default), (0, _mithril2.default)(_menu2.default, {
+			return (0, _mithril2.default)("div.height100", (0, _mithril2.default)(_header2.default, { target: target }), (0, _mithril2.default)(_menu2.default, {
 				showing: ctrl.showing,
 				default: 2,
 				changeFrame: this.changeFrame.bind(ctrl),
@@ -2463,7 +2474,7 @@
 
 
 	// module
-	exports.push([module.id, "* {\n  -webkit-user-select: none;\n}\nhtml,\nbody,\n.height100 {\n  width: 100%;\n  height: 100%;\n  max-height: 100%;\n  background-color: #37474f ;\n}\ninput {\n  background-color: #ccc;\n  width: 100%;\n}\n.dark .title-frame {\n  position: relative;\n  width: 100%;\n  height: 23px;\n  background-color: #2E2E2E;\n  text-align: right;\n  color: white;\n}\n.dark .title-frame > .title {\n  position: relative;\n  text-align: center;\n  -webkit-app-region: drag;\n  line-height: 23px;\n}\n.dark .title-frame > .buttons {\n  position: relative;\n  top: -23px;\n  z-index: 2;\n  padding-right: 3px;\n}\n.dark .title-frame > .buttons > button {\n  -webkit-app-region: no-drag;\n}\n.dark .close-button {\n  position: relative;\n  box-shadow: inset 0px -3px 7px 0px #29bbff;\n  background-color: #2dabf9;\n  border-radius: 3px;\n  border: 1px solid #0b0e07;\n  display: inline-block;\n  cursor: pointer;\n  color: #ffffff;\n  font-family: Arial;\n  font-size: 10px;\n  padding: 1px 4px;\n  text-decoration: none;\n  text-shadow: 0px 1px 0px #263666;\n}\n.dark .close-button:hover {\n  background-color: #0688fa;\n}\n.dark .close-button:active {\n  position: relative;\n  top: 1px;\n}\n.dark .menu-frame {\n  position: relative;\n  height: 23px;\n  background-color: #232323;\n}\n.dark .menu-frame > .buttons > a {\n  color: white;\n  padding: 12px;\n}\n.dark .menu-lateral {\n  position: absolute;\n  height: 554px;\n  width: 134px;\n  background-color: #263238;\n  border-style: solid;\n  border-right: 2px solid #000000;\n  border-left: 0px;\n  border-top: 0px;\n  border-bottom: 0px;\n}\n.dark ul {\n  position: relative;\n  top: 50%;\n  transform: translateY(-50%);\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.dark ul li:first-child {\n  margin-top: 0;\n}\n.dark ul li:last-child {\n  margin-bottom: 0;\n}\n.dark li {\n  margin: 15px;\n  margin-left: 0px;\n  padding-left: 15px;\n  position: relative;\n  list-style-type: none;\n  font-weight: bold;\n  text-align: left;\n}\n.dark li > a {\n  color: #fafafa;\n  text-decoration: none;\n  font-weight: bold;\n  font-variant: small-caps;\n  cursor: pointer;\n}\n.dark li > a:hover {\n  color: #cacaca;\n  text-decoration: none;\n}\n.dark li.menu-active {\n  width: 134px;\n  height: 40px;\n  background-color: white;\n  line-height: 40px;\n}\n.dark .menu-active > a {\n  color: black;\n}\n.dark .menu-active > a:hover {\n  color: black;\n}\n.dark .menu-active::after {\n  position: relative;\n  left: 105px;\n  top: -34px;\n  display: block;\n  width: 28.28px;\n  height: 28.28px;\n  background-color: white;\n  transform: rotate(45deg);\n  content: ' ';\n  z-index: -1;\n}\n.dark .body-frame {\n  position: relative;\n  left: 134px;\n  width: 866px;\n  height: 554px;\n  padding: 15px 30px 15px 30px;\n}\n.dark .body-frame > h1 {\n  color: #cfd8dc;\n}\n.dark .quick-edit-body > .buttons {\n  margin: 0 auto;\n  text-align: right;\n  width: 100%;\n}\n.dark .quick-edit-body > .buttons > button {\n  margin-top: 10px;\n  margin-left: 15px;\n}\n.dark #jseditor > textarea {\n  color: #ccc;\n  text-shadow: 0px 0px 0px #000;\n  -webkit-text-fill-color: transparent;\n  position: relative;\n  width: 100%;\n  height: 404px;\n  border: 1px solid #000;\n  background: #263238;\n}\n.dark input::-webkit-input-placeholder,\n.dark textarea::-webkit-input-placeholder {\n  color: #ccc;\n  text-shadow: none;\n  -webkit-text-fill-color: initial;\n}\n.dark textarea::selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.dark textarea::-webkit-selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.dark #jseditor > pre > code {\n  color: #c3c3c3;\n  text-shadow: 0 1px #263238;\n}\n.dark #jseditor > pre > code > .token.function {\n  color: #ff3e65;\n}\n.dark #jseditor > pre > code > .token.keyword {\n  color: #16b9ff;\n}\n.dark #jseditor > pre > code > .token.number {\n  color: #ff008e;\n}\n.dark #jseditor > pre > code > .token.operator {\n  background: rgba(0, 0, 0, 0.2);\n}\n.dark #consoleDialog {\n  background-color: rgba(0, 0, 0, 0.6);\n}\n.dark .modal-content {\n  background-color: #263238;\n  color: white;\n}\n.dark .modal-body {\n  color: black;\n  overflow: auto;\n  height: 400px;\n}\n.dark .process-list {\n  color: black;\n  font-size: 12px;\n  width: 100%;\n  height: 70%;\n}\n.dark .list-group {\n  padding-left: 0;\n  margin-bottom: 20px;\n  height: 400px;\n}\n.dark .modal-content {\n  width: 400px;\n  margin: auto;\n}\n.dark .list-group-item {\n  margin-botton: -5%;\n  margin: 0px;\n}\n", ""]);
+	exports.push([module.id, "* {\n  -webkit-user-select: none;\n}\nhtml,\nbody,\n.height100 {\n  width: 100%;\n  height: 100%;\n  max-height: 100%;\n  background-color: #37474f ;\n}\ninput {\n  background-color: #ccc;\n  width: 100%;\n}\n.dark .title-frame {\n  position: relative;\n  width: 100%;\n  height: 23px;\n  background-color: #2E2E2E;\n  text-align: right;\n  color: white;\n}\n.dark .title-frame > .title {\n  position: relative;\n  text-align: center;\n  -webkit-app-region: drag;\n  line-height: 23px;\n}\n.dark .title-frame > .buttons {\n  position: relative;\n  top: -23px;\n  z-index: 2;\n  padding-right: 3px;\n}\n.dark .title-frame > .buttons > button {\n  -webkit-app-region: no-drag;\n}\n.dark .close-button {\n  position: relative;\n  box-shadow: inset 0px -3px 7px 0px #29bbff;\n  background-color: #2dabf9;\n  border-radius: 3px;\n  border: 1px solid #0b0e07;\n  display: inline-block;\n  cursor: pointer;\n  color: #ffffff;\n  font-family: Arial;\n  font-size: 10px;\n  padding: 1px 4px;\n  text-decoration: none;\n  text-shadow: 0px 1px 0px #263666;\n}\n.dark .close-button:hover {\n  background-color: #0688fa;\n}\n.dark .close-button:active {\n  position: relative;\n  top: 1px;\n}\n.dark .menu-frame {\n  position: relative;\n  height: 23px;\n  background-color: #232323;\n}\n.dark .menu-frame > .buttons > a {\n  color: white;\n  padding: 12px;\n}\n.dark .menu-frame > .target-info {\n  position: relative;\n  top: -23px;\n  z-index: 2;\n  padding-right: 3px;\n  line-height: 28px;\n  text-align: right;\n  color: #c13434;\n  font-weight: bold;\n}\n.dark .menu-lateral {\n  position: absolute;\n  height: 554px;\n  width: 134px;\n  background-color: #263238;\n  border-style: solid;\n  border-right: 2px solid #000000;\n  border-left: 0px;\n  border-top: 0px;\n  border-bottom: 0px;\n}\n.dark ul {\n  position: relative;\n  top: 50%;\n  transform: translateY(-50%);\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.dark ul li:first-child {\n  margin-top: 0;\n}\n.dark ul li:last-child {\n  margin-bottom: 0;\n}\n.dark li {\n  margin: 15px;\n  margin-left: 0px;\n  padding-left: 15px;\n  position: relative;\n  list-style-type: none;\n  font-weight: bold;\n  text-align: left;\n}\n.dark li > a {\n  color: #fafafa;\n  text-decoration: none;\n  font-weight: bold;\n  font-variant: small-caps;\n  cursor: pointer;\n}\n.dark li > a:hover {\n  color: #cacaca;\n  text-decoration: none;\n}\n.dark li.menu-active {\n  width: 134px;\n  height: 40px;\n  background-color: white;\n  line-height: 40px;\n}\n.dark .menu-active > a {\n  color: black;\n}\n.dark .menu-active > a:hover {\n  color: black;\n}\n.dark .menu-active::after {\n  position: relative;\n  left: 105px;\n  top: -34px;\n  display: block;\n  width: 28.28px;\n  height: 28.28px;\n  background-color: white;\n  transform: rotate(45deg);\n  content: ' ';\n  z-index: -1;\n}\n.dark .body-frame {\n  position: relative;\n  left: 134px;\n  width: 866px;\n  height: 554px;\n  padding: 15px 30px 15px 30px;\n}\n.dark .body-frame > h1 {\n  color: #cfd8dc;\n}\n.dark .quick-edit-body > .buttons {\n  margin: 0 auto;\n  text-align: right;\n  width: 100%;\n}\n.dark .quick-edit-body > .buttons > button {\n  margin-top: 10px;\n  margin-left: 15px;\n}\n.dark #jseditor > textarea {\n  color: #ccc;\n  text-shadow: 0px 0px 0px #000;\n  -webkit-text-fill-color: transparent;\n  position: relative;\n  width: 100%;\n  height: 404px;\n  border: 1px solid #000;\n  background: #263238;\n}\n.dark input::-webkit-input-placeholder,\n.dark textarea::-webkit-input-placeholder {\n  color: #ccc;\n  text-shadow: none;\n  -webkit-text-fill-color: initial;\n}\n.dark textarea::selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.dark textarea::-webkit-selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.dark #jseditor > pre > code {\n  color: #c3c3c3;\n  text-shadow: 0 1px #263238;\n}\n.dark #jseditor > pre > code > .token.function {\n  color: #ff3e65;\n}\n.dark #jseditor > pre > code > .token.keyword {\n  color: #16b9ff;\n}\n.dark #jseditor > pre > code > .token.number {\n  color: #ff008e;\n}\n.dark #jseditor > pre > code > .token.operator {\n  background: rgba(0, 0, 0, 0.2);\n}\n.dark #consoleDialog {\n  background-color: rgba(0, 0, 0, 0.6);\n}\n.dark .modal-content {\n  background-color: #263238;\n  color: white;\n}\n.dark .modal-body {\n  color: black;\n  overflow: auto;\n  height: 400px;\n}\n.dark .process-search {\n  color: #000;\n  padding: 0 5px 0 5px;\n  margin-bottom: 5px;\n}\n.dark .process-search::-webkit-input-placeholder {\n  color: #444;\n}\n.dark .process-list {\n  color: black;\n  font-size: 12px;\n  width: 100%;\n  height: 70%;\n}\n.dark .list-group {\n  padding-left: 0;\n  margin-bottom: 20px;\n  height: 400px;\n}\n.dark .modal-content {\n  width: 400px;\n  margin: auto;\n}\n.dark .list-group-item {\n  margin-botton: -5%;\n  margin: 0px;\n  cursor: pointer;\n}\n", ""]);
 
 	// exports
 
@@ -2880,8 +2891,9 @@
 	        remote.getCurrentWindow().close();
 	    },
 
-	    view: function view(ctrl) {
-	        return (0, _mithril2.default)("div", (0, _mithril2.default)('div.title-frame', (0, _mithril2.default)('div.title', (0, _mithril2.default)('span', 'APE')), (0, _mithril2.default)('div.buttons', (0, _mithril2.default)('button.close-button', { onclick: this.closeApp.bind(this) }, 'X'))), (0, _mithril2.default)('div.menu-frame', (0, _mithril2.default)('div.buttons', (0, _mithril2.default)('a', 'File'), (0, _mithril2.default)('a', 'Edit'), (0, _mithril2.default)('a', 'About'))));
+	    view: function view(ctrl, attrs) {
+	        console.log(attrs.target);
+	        return (0, _mithril2.default)("div", (0, _mithril2.default)('div.title-frame', (0, _mithril2.default)('div.title', (0, _mithril2.default)('span', 'APE')), (0, _mithril2.default)('div.buttons', (0, _mithril2.default)('button.close-button', { onclick: this.closeApp.bind(this) }, 'X'))), (0, _mithril2.default)('div.menu-frame', (0, _mithril2.default)('div.buttons', (0, _mithril2.default)('a', 'File'), (0, _mithril2.default)('a', 'Edit'), (0, _mithril2.default)('a', 'About')), attrs.target ? (0, _mithril2.default)('div.target-info', 'Target: ' + attrs.target.name + (attrs.target.lost ? ' <lost>' : '')) : null));
 	    }
 	};
 
@@ -3165,7 +3177,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+	    value: true
 	});
 
 	var _mithril = __webpack_require__(2);
@@ -3183,49 +3195,103 @@
 	var ipcRenderer = _require.ipcRenderer;
 
 
-	//TODO: Improve 
-	ipcRenderer.on('procReply', function (event, arg) {
-		console.log(arg); // prints "pong"
-		var res = arg.replace(/\r/g, ",");
-		res = res.split(",");
+	var allProcesses = [];
+	var searchProcesses = [];
 
-		document.getElementById("processList").innerHTML = "";
-		for (var i = 0; i < res.length / 5; i++) {
-			document.getElementById("processList").innerHTML += "<li id='proL' class='list-group-item'><span class='badge'>" + res[i * 5 + 1] + "</span> " + res[i * 5] + "</li>";
-		}
+	//TODO: Improve
+	ipcRenderer.on('procReply', function (event, arg) {
+	    var res = arg.replace(/\r/g, ",");
+	    res = res.split(",");
+
+	    // Remove quotes
+	    var trim = function trim(x) {
+	        return function (x) {
+	            return x.substr(1, x.length - 2);
+	        }(x.trim());
+	    };
+
+	    allProcesses = [];
+	    for (var i = 0; i < res.length / 5 - 1; i++) {
+	        var pid = res[i * 5 + 1];
+	        var name = res[i * 5];
+
+	        allProcesses.push({ pid: parseInt(trim(pid)), name: trim(name) });
+	    }
+
+	    reorderProcesses('name', 'pid');
+	    _mithril2.default.endComputation();
 	});
 
+	function reorderProcesses(by, sec) {
+	    function compare(what, a, b) {
+	        var ap = isNaN(a[what]) ? a[what].toLowerCase() : a[what];
+	        var bp = isNaN(b[what]) ? b[what].toLowerCase() : b[what];
+
+	        if (ap < bp) return -1;
+	        if (ap > bp) return 1;
+	        return compare(sec, a, b);
+	    }
+
+	    allProcesses = allProcesses.sort(compare.bind(null, by));
+	}
+
 	exports.default = {
-		reloadProc: function reloadProc() {
-			ipcRenderer.send('getProc', 'getProc-value');
-		},
+	    reloadProc: function reloadProc() {
+	        _mithril2.default.startComputation();
+	        ipcRenderer.send('getProc', null);
+	    },
 
-		controller: function controller(attrs) {
-			return {
-				showing: attrs.showing,
-				closeOverlayFrame: attrs.closeOverlayFrame
-			};
-		},
+	    controller: function controller(attrs) {
+	        return {
+	            showing: attrs.showing,
+	            closeOverlayFrame: attrs.closeOverlayFrame,
+	            inputValue: _mithril2.default.prop("")
+	        };
+	    },
 
-		hideConsole: function hideConsole() {
-			if (this.showing && !this.closing) {
-				this.showing = false;
-				this.closing = false;
+	    reloadNow: function reloadNow() {
+	        this.reloadProc();
+	    },
 
-				this.dialog.className = 'model fade show';
+	    setTarget: function setTarget(ctrl, target, e) {
+	        _mithril2.default.startComputation();
+	        ipcRenderer.send('set-target', target);
+	        ctrl.closeOverlayFrame();
+	    },
 
-				setTimeout(function () {
-					this.dialog.className = 'model fade hide';
-					this.closing = false;
-				}.bind(this), 500);
-			}
-		},
+	    search: function search(str) {
+	        var matches = [];
+	        var re = new RegExp(str);
 
-		view: function view(ctrl, attrs) {
-			ctrl.showing = attrs.showing;
+	        for (var i = 0; i < allProcesses.length; ++i) {
+	            if (allProcesses[i].name.match(re)) {
+	                matches.push(allProcesses[i]);
+	            }
+	        }
 
-			return (0, _mithril2.default)('div#consoleDialog', { className: ctrl.showing ? 'modal fade in show' : 'modal fade hidden', role: 'dialog' }, (0, _mithril2.default)('div', { class: 'modal-dialog modal-lg' }, (0, _mithril2.default)('div', { class: 'modal-content' }, (0, _mithril2.default)('div', { class: 'modal-header' }, (0, _mithril2.default)('button', { class: 'close', onclick: ctrl.closeOverlayFrame }, 'x'), (0, _mithril2.default)('h4', 'Select Process:', { class: 'modal-title' })), (0, _mithril2.default)('div#procContainer', { class: 'modal-body' }, '', (0, _mithril2.default)('ul#processList', { class: 'list-group' })), (0, _mithril2.default)('div', { class: 'modal-footer' }, (0, _mithril2.default)('button', { onclick: this.reloadProc.bind(this), class: 'btn btn-default' }, 'Reload'), (0, _mithril2.default)('button', { onclick: ctrl.closeOverlayFrame, class: 'btn btn-default' }, 'Close')))));
-		}
+	        return matches;
+	    },
+
+	    view: function view(ctrl, attrs) {
+	        var _this = this;
+
+	        console.log(ctrl.showing);
+	        console.log(attrs.showing);
+	        // Reload now
+	        if (!ctrl.showing && attrs.showing) {
+	            this.reloadNow();
+	        }
+
+	        ctrl.showing = attrs.showing;
+
+	        return (0, _mithril2.default)('div#consoleDialog', { className: ctrl.showing ? 'modal fade in show' : 'modal fade hidden', role: 'dialog' }, (0, _mithril2.default)('div', { class: 'modal-dialog modal-lg' }, (0, _mithril2.default)('div', { class: 'modal-content' }, (0, _mithril2.default)('div', { class: 'modal-header' }, (0, _mithril2.default)('button', { class: 'close', onclick: ctrl.closeOverlayFrame }, 'x'), (0, _mithril2.default)('h4', 'Select Process:', { class: 'modal-title' })), (0, _mithril2.default)('input.process-search[type=text]', {
+	            inputValue: ctrl.inputValue(),
+	            oninput: _mithril2.default.withAttr('value', ctrl.inputValue),
+	            placeholder: 'Search process'
+	        }), (0, _mithril2.default)('div#procContainer', { class: 'modal-body' }, '', (0, _mithril2.default)('ul#processList', { class: 'list-group' }, (ctrl.inputValue() ? this.search(ctrl.inputValue()) : allProcesses).map(function (e) {
+	            return (0, _mithril2.default)('li.list-group-item', { onclick: _this.setTarget.bind(_this, ctrl, e) }, (0, _mithril2.default)('span.badge', e.pid), e.name);
+	        }))), (0, _mithril2.default)('div', { class: 'modal-footer' }, (0, _mithril2.default)('button', { onclick: reorderProcesses.bind(this, 'name', 'pid'), class: 'btn btn-default' }, 'By name'), (0, _mithril2.default)('button', { onclick: reorderProcesses.bind(this, 'pid', null), class: 'btn btn-default' }, 'By PID'), (0, _mithril2.default)('button', { onclick: this.reloadProc.bind(this), class: 'btn btn-default' }, 'Reload'), (0, _mithril2.default)('button', { onclick: ctrl.closeOverlayFrame, class: 'btn btn-default' }, 'Close')))));
+	    }
 	};
 
 /***/ }

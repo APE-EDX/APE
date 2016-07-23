@@ -2,12 +2,20 @@ import m from 'mithril';
 import '../less/main.less';
 import '../less/codeflask.less';
 import '../less/prism.less';
+const {ipcRenderer} = require('electron');
 
 // Other modules
 import Header from './header';
 import Menu from './menu';
 import QuickEdit from './quick-edit';
 import Target from './target-process';
+
+
+var target = null;
+ipcRenderer.on('set-target', (event, resultTarget) => {
+	target = resultTarget.result ? resultTarget : null;
+	m.endComputation();
+});
 
 export default {
 	controller: function() {
@@ -32,7 +40,7 @@ export default {
 
 	view: function(ctrl) {
 		return 	m("div.height100",
-			m(Header),
+			m(Header, {target: target}),
 			m(Menu, {
 				showing: ctrl.showing,
 				default: 2,

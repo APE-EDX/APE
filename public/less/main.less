@@ -91,6 +91,17 @@ input {
         padding: 12px;
     }
 
+    .menu-frame > .target-info {
+        position: relative;
+        top: -@title-height;
+        z-index: 2;
+        padding-right: 3px;
+        line-height: @menu-height + 5px;
+        text-align: right;
+        color: #c13434;
+        font-weight: bold;
+    }
+
     .menu-lateral {
         position: absolute;
         height: @window-height - @header-height;
@@ -248,6 +259,16 @@ input {
         height: 400px;
     }
 
+    .process-search {
+        color: #000;
+        padding: 0 5px 0 5px;
+        margin-bottom: 5px;
+    }
+
+    .process-search::-webkit-input-placeholder {
+        color: #444;
+    }
+
     .process-list {
         color: black;
         font-size: 12px;
@@ -269,5 +290,6 @@ input {
     .list-group-item {
         margin-botton: -5%;
         margin: 0px;
+        cursor: pointer;
      }
 }

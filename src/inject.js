@@ -17,16 +17,28 @@ const kernelExe = path.resolve(__dirname, "../APEKernel/bin/APEKernel{}.exe").re
 
 let dllSocket = null;
 let serverReady = false;
+let currentTarget = null;
 
-let inject = (targetProcess) => {
-    return serverReady && injector && injector.injectDLL(targetProcess, dllPath, kernelExe);
+let inject = (target) => {
+    currentTarget = target;
+    return serverReady && injector && injector.injectDLLByPID(target.pid, dllPath, kernelExe);
 }
 
-module.exports = (callback) => {
+module.exports = (rendererWindow, callback) => {
     // Create the TCP server
     var server = net.createServer((socket) => {
         if (dllSocket == null) {
             dllSocket = socket;
+
+            var lostConn = () => {
+                currentTarget.lost = true;
+                rendererWindow.webContents.send('lost-target', currentTarget);
+                rendererWindow = null;
+            };
+
+            socket
+                .on('disconnect', lostConn)
+                .on('error', lostConn);
         }
     }).on('error', (err) => {
         dllSocket = null;

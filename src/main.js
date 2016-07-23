@@ -2,31 +2,30 @@
 const {app, BrowserWindow, ipcMain}  = require('electron');
 const path = require("path");
 const exec = require('child_process').exec;
+var inject = require('./inject');
 
-// TODO: Remove the callback
-const inject = require('./inject')(function() {
-    console.log("Injection result: " + inject.inject('javaw.exe'));
-});
-
-
+// Keep a global reference of the window object, if you don't, the window will
+// be closed automatically when the javascript object is GCed.
+var mainWindow = null;
 
 // TODO: Change Location?
 ipcMain.on('getProc', (event, arg) => {
-
-   console.log(arg);  // prints "ping"
-   console.log("getPRoc");  // prints "ping"
-
    exec('tasklist /fo csv /nh', (err, stdout, stderr) => {
 	  if (err) {
 		console.error(err);
 		return;
 	  }
-	    event.sender.send('procReply', stdout);
 
-	} );
-
+      event.sender.send('procReply', stdout);
+	});
 });
 
+// Broadcast set-target
+ipcMain.on('set-target', (event, target) => {
+    var result = inject.inject(target);
+    target.result = result;
+    event.sender.send('set-target', target);
+});
 
 
 
@@ -37,10 +36,6 @@ const program = require("commander")
     .option("-d, --dev-tools", "Open Dev Tools on start up")
     .option("-r, --hard-reloading", "Open Dev Tools on start up")
     .parse(argv)
-
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the javascript object is GCed.
-var mainWindow = null;
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
@@ -75,6 +70,9 @@ app.on('ready', function() {
     // Create the browser window.
     mainWindow = new BrowserWindow({width: 1000, height: 600, frame: false, resizable: false});
     mainWindow.setMenu(null);
+
+    // Setup inject
+    inject = inject(mainWindow);
 
     // and load the index.html of the app.
     mainWindow.loadURL('file://' + path.resolve(__dirname, '../public/index.html'));
