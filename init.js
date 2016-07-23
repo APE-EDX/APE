@@ -52,6 +52,8 @@ Redirect(Find('ws2_32.dll', 'recv'), customRecv);
 
 
 /*
+Redirect.restoreAll();
+
 var customSend = function(socket, bufs, count, bytes, flags, overlapped, completion) {
     var len = bufs.value.get();
     var buf = Ptr(bufs.get(), ptrSize()).value;
@@ -64,7 +66,10 @@ Redirect(Find('ws2_32.dll', 'WSASend'), customSend);
 */
 
 /*
+Redirect.restoreAll();
+
 var customSend = function(socket, bufs, count, bytes, flags, overlapped, completion) {
+    print('--------------------------');
     print(socket);
     print(bufs);
     print(count);
@@ -72,6 +77,7 @@ var customSend = function(socket, bufs, count, bytes, flags, overlapped, complet
     print(flags);
     print(overlapped);
     print(completion);
+    print('bufs[0].len = ' + bufs.value);
     return this.fn(socket, bufs, count, bytes, flags, overlapped, completion);
 }
 
