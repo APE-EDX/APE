@@ -1,6 +1,6 @@
 {
   "name": "APE",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "Advanced Process Explorer",
   "repository": "https://github.com/Push-EDX/APE.git",
   "main": "src/main.js",
