@@ -49,6 +49,11 @@ export default {
         // Broadcast edition
         ipcRenderer.send('quick-edit-file', path.join(e.target.dataset.root, e.target.dataset.name));
 
+        // Set active
+        ctrl.lastActive && (ctrl.lastActive.className = '');
+        e.target.className = 'active';
+        ctrl.lastActive = e.target;
+
         // Goto quick-edit
         ctrl.changeFrame({target: {dataset: {target: 3}}});
     },
