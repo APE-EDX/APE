@@ -10,3 +10,6 @@
 [submodule "jsAPI"]
 	path = jsAPI
 	url = https://github.com/APE-EDX/jsAPI.git
+[submodule "Projects"]
+	path = Projects
+	url = https://github.com/APE-EDX/Projects.git
