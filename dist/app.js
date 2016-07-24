@@ -129,15 +129,23 @@
 
 	var _menu2 = _interopRequireDefault(_menu);
 
-	var _quickEdit = __webpack_require__(15);
+	var _explorer = __webpack_require__(15);
+
+	var _explorer2 = _interopRequireDefault(_explorer);
+
+	var _project = __webpack_require__(17);
+
+	var _project2 = _interopRequireDefault(_project);
+
+	var _quickEdit = __webpack_require__(18);
 
 	var _quickEdit2 = _interopRequireDefault(_quickEdit);
 
-	var _targetProcess = __webpack_require__(17);
+	var _targetProcess = __webpack_require__(20);
 
 	var _targetProcess2 = _interopRequireDefault(_targetProcess);
 
-	var _notifications = __webpack_require__(18);
+	var _notifications = __webpack_require__(21);
 
 	var _notifications2 = _interopRequireDefault(_notifications);
 
@@ -190,13 +198,15 @@
 		},
 
 		view: function view(ctrl) {
-			return (0, _mithril2.default)("div.height100", (0, _mithril2.default)(_header2.default, { target: target }), (0, _mithril2.default)(_menu2.default, {
+			return (0, _mithril2.default)("div.height100.showing-explorer", (0, _mithril2.default)(_header2.default, { target: target }), (0, _mithril2.default)(_menu2.default, {
 				showing: ctrl.showing,
 				default: 2,
 				changeFrame: this.changeFrame.bind(ctrl),
 				overlayFrame: this.overlayFrame.bind(ctrl),
 				closeOverlayFrame: this.closeOverlayFrame.bind(ctrl)
-			}), (0, _mithril2.default)(_quickEdit2.default, { showing: ctrl.showing[3] }), (0, _mithril2.default)(_targetProcess2.default, { showing: ctrl.showing[0], closeOverlayFrame: this.closeOverlayFrame.bind(ctrl, 0) }));
+			}), (0, _mithril2.default)(_project2.default, {
+				showing: ctrl.showing[1]
+			}), (0, _mithril2.default)(_quickEdit2.default, { showing: ctrl.showing[3] }), (0, _mithril2.default)(_targetProcess2.default, { showing: ctrl.showing[0], closeOverlayFrame: this.closeOverlayFrame.bind(ctrl, 0) }), (0, _mithril2.default)(_explorer2.default));
 		}
 	};
 
@@ -2491,7 +2501,7 @@
 
 
 	// module
-	exports.push([module.id, "* {\n  -webkit-user-select: none;\n}\nhtml,\nbody,\n.height100 {\n  width: 100%;\n  height: 100%;\n  max-height: 100%;\n  background-color: #37474f ;\n}\ninput {\n  background-color: #ccc;\n  width: 100%;\n}\n.dark .title-frame {\n  position: relative;\n  width: 100%;\n  height: 23px;\n  background-color: #2E2E2E;\n  text-align: right;\n  color: white;\n}\n.dark .title-frame > .title {\n  position: relative;\n  text-align: center;\n  -webkit-app-region: drag;\n  line-height: 23px;\n}\n.dark .title-frame > .buttons {\n  position: relative;\n  top: -23px;\n  z-index: 2;\n  padding-right: 3px;\n}\n.dark .title-frame > .buttons > button {\n  -webkit-app-region: no-drag;\n}\n.dark .close-button {\n  position: relative;\n  box-shadow: inset 0px -3px 7px 0px #29bbff;\n  background-color: #2dabf9;\n  border-radius: 3px;\n  border: 1px solid #0b0e07;\n  display: inline-block;\n  cursor: pointer;\n  color: #ffffff;\n  font-family: Arial;\n  font-size: 10px;\n  padding: 1px 4px;\n  text-decoration: none;\n  text-shadow: 0px 1px 0px #263666;\n}\n.dark .close-button:hover {\n  background-color: #0688fa;\n}\n.dark .close-button:active {\n  position: relative;\n  top: 1px;\n}\n.dark .menu-frame {\n  position: relative;\n  height: 23px;\n  background-color: #232323;\n}\n.dark .menu-frame > .buttons {\n  position: relative;\n  top: 2px;\n}\n.dark .menu-frame > .buttons > a {\n  color: white;\n  padding: 12px;\n}\n.dark .menu-frame > .target-info {\n  position: relative;\n  top: -20px;\n  z-index: 2;\n  padding-right: 3px;\n  line-height: 23px;\n  text-align: right;\n  color: #c13434;\n  font-weight: bold;\n}\n.dark .menu-lateral {\n  position: absolute;\n  height: 554px;\n  width: 134px;\n  background-color: #263238;\n  border-style: solid;\n  border-right: 2px solid #000000;\n  border-left: 0px;\n  border-top: 0px;\n  border-bottom: 0px;\n}\n.dark ul {\n  position: relative;\n  top: 50%;\n  transform: translateY(-50%);\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.dark ul li:first-child {\n  margin-top: 0;\n}\n.dark ul li:last-child {\n  margin-bottom: 0;\n}\n.dark li {\n  margin: 15px;\n  margin-left: 0px;\n  padding-left: 15px;\n  position: relative;\n  list-style-type: none;\n  font-weight: bold;\n  text-align: left;\n}\n.dark li > a {\n  color: #fafafa;\n  text-decoration: none;\n  font-weight: bold;\n  font-variant: small-caps;\n  cursor: pointer;\n}\n.dark li > a:hover {\n  color: #cacaca;\n  text-decoration: none;\n}\n.dark li.menu-active {\n  width: 134px;\n  height: 40px;\n  background-color: white;\n  line-height: 40px;\n}\n.dark .modal {\n  top: 23px;\n}\n.dark .modal-dialog {\n  top: -23px;\n}\n.dark .menu-active > a {\n  color: black;\n}\n.dark .menu-active > a:hover {\n  color: black;\n}\n.dark .menu-active::after {\n  position: relative;\n  left: 105px;\n  top: -34px;\n  display: block;\n  width: 28.28px;\n  height: 28.28px;\n  background-color: white;\n  transform: rotate(45deg);\n  content: ' ';\n  z-index: -1;\n}\n.dark .body-frame {\n  position: relative;\n  left: 134px;\n  width: 866px;\n  height: 554px;\n  padding: 15px 30px 15px 30px;\n}\n.dark .body-frame > h1 {\n  color: #cfd8dc;\n}\n.dark .quick-edit-body > .buttons {\n  margin: 0 auto;\n  text-align: right;\n  width: 100%;\n}\n.dark .quick-edit-body > .buttons > button {\n  margin-top: 10px;\n  margin-left: 15px;\n}\n.dark #jseditor > textarea {\n  color: #ccc;\n  text-shadow: 0px 0px 0px #000;\n  -webkit-text-fill-color: transparent;\n  position: relative;\n  width: 100%;\n  height: 404px;\n  border: 1px solid #000;\n  background: #263238;\n}\n.dark input::-webkit-input-placeholder,\n.dark textarea::-webkit-input-placeholder {\n  color: #ccc;\n  text-shadow: none;\n  -webkit-text-fill-color: initial;\n}\n.dark textarea::selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.dark textarea::-webkit-selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.dark #jseditor > pre > code {\n  color: #c3c3c3;\n  text-shadow: 0 1px #263238;\n}\n.dark #jseditor > pre > code > .token.function {\n  color: #ff3e65;\n}\n.dark #jseditor > pre > code > .token.keyword {\n  color: #16b9ff;\n}\n.dark #jseditor > pre > code > .token.number {\n  color: #ff008e;\n}\n.dark #jseditor > pre > code > .token.operator {\n  background: rgba(0, 0, 0, 0.2);\n}\n.dark #consoleDialog {\n  background-color: rgba(0, 0, 0, 0.6);\n}\n.dark .modal-content {\n  background-color: #263238;\n  color: white;\n}\n.dark .modal-body {\n  color: black;\n  overflow: auto;\n  height: 400px;\n}\n.dark .process-search {\n  color: #000;\n  padding: 0 5px 0 5px;\n  margin-bottom: 5px;\n}\n.dark .process-search::-webkit-input-placeholder {\n  color: #444;\n}\n.dark .process-list {\n  color: black;\n  font-size: 12px;\n  width: 100%;\n  height: 70%;\n}\n.dark .list-group {\n  padding-left: 0;\n  margin-bottom: 20px;\n  height: 400px;\n}\n.dark .modal-content {\n  width: 400px;\n  margin: auto;\n}\n.dark .list-group-item {\n  margin-botton: -5%;\n  margin: 0px;\n  cursor: pointer;\n}\n", ""]);
+	exports.push([module.id, "*,\n*:before,\n*:after {\n  -webkit-user-select: none;\n  box-sizing: border-box;\n}\nhtml,\nbody,\n.height100 {\n  width: 1000px;\n  height: 600px;\n  max-height: 1000px;\n}\nbody.dark {\n  background-color: #37474f;\n}\n.height100 {\n  position: relative;\n}\n.dark input {\n  background-color: #ccc;\n  width: 100%;\n}\n.dark .title-frame {\n  position: relative;\n  width: 100%;\n  height: 23px;\n  background-color: #2E2E2E;\n  text-align: right;\n  color: white;\n}\n.dark .title-frame .title {\n  position: relative;\n  text-align: center;\n  -webkit-app-region: drag;\n  line-height: 23px;\n}\n.dark .title-frame .buttons {\n  position: relative;\n  top: -23px;\n  z-index: 2;\n  padding-right: 3px;\n}\n.dark .title-frame .buttons > button {\n  -webkit-app-region: no-drag;\n}\n.dark .title-frame .close-button {\n  position: relative;\n  box-shadow: inset 0px -3px 7px 0px #29bbff;\n  background-color: #2dabf9;\n  border-radius: 3px;\n  border: 1px solid #0b0e07;\n  display: inline-block;\n  cursor: pointer;\n  color: #ffffff;\n  font-family: Arial;\n  font-size: 10px;\n  padding: 1px 4px;\n  text-decoration: none;\n  text-shadow: 0px 1px 0px #263666;\n}\n.dark .title-frame .close-button:hover {\n  background-color: #0688fa;\n}\n.dark .title-frame .close-button:active {\n  position: relative;\n  top: 1px;\n}\n.dark .menu-frame {\n  position: relative;\n  height: 23px;\n  background-color: #232323;\n}\n.dark .menu-frame .buttons {\n  position: relative;\n  top: 2px;\n}\n.dark .menu-frame .buttons > a {\n  color: white;\n  padding: 12px;\n}\n.dark .menu-frame .target-info {\n  position: relative;\n  top: -20px;\n  z-index: 2;\n  padding-right: 3px;\n  line-height: 23px;\n  text-align: right;\n  color: #c13434;\n  font-weight: bold;\n}\n.dark .menu-lateral {\n  position: relative;\n  float: left;\n  height: 554px;\n  width: 134px;\n  background-color: #263238;\n  border-style: solid;\n  border-right: 2px solid #000000;\n  border-left: 0px;\n  border-top: 0px;\n  border-bottom: 0px;\n}\n.dark .menu-lateral ul {\n  position: relative;\n  top: 50%;\n  transform: translateY(-50%);\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.dark .menu-lateral ul li:first-child {\n  margin-top: 0;\n}\n.dark .menu-lateral ul li:last-child {\n  margin-bottom: 0;\n}\n.dark .menu-lateral li {\n  margin: 15px;\n  margin-left: 0px;\n  padding-left: 15px;\n  position: relative;\n  list-style-type: none;\n  font-weight: bold;\n  text-align: left;\n}\n.dark .menu-lateral li > a {\n  color: #fafafa;\n  text-decoration: none;\n  font-weight: bold;\n  font-variant: small-caps;\n  cursor: pointer;\n}\n.dark .menu-lateral li > a:hover {\n  color: #cacaca;\n  text-decoration: none;\n}\n.dark .menu-lateral li.menu-active {\n  width: 134px;\n  height: 40px;\n  background-color: white;\n  line-height: 40px;\n}\n.dark .menu-lateral li.menu-active > a {\n  color: black;\n}\n.dark .menu-lateral li.menu-active > a:hover {\n  color: black;\n}\n.dark .menu-lateral li.menu-active::after {\n  position: relative;\n  left: 105px;\n  top: -34px;\n  display: block;\n  width: 28.28px;\n  height: 28.28px;\n  background-color: white;\n  transform: rotate(45deg);\n  content: ' ';\n  z-index: -1;\n}\n.dark .body-frame {\n  position: relative;\n  float: left;\n  width: 866px;\n  height: 554px;\n  padding: 15px 30px 15px 30px;\n}\n.dark .body-frame h1 {\n  color: #cfd8dc;\n}\n.dark .explorer {\n  display: none;\n  position: relative;\n  float: left;\n  width: 150px;\n  height: 554px;\n  border-left: 2px solid black;\n  background: #263238;\n  text-align: center;\n  padding-top: 10px;\n}\n.dark .explorer span {\n  color: #c3c3c3;\n  font-size: 18px;\n  font-weight: bold;\n}\n.dark .showing-explorer .body-frame {\n  width: 716px;\n}\n.dark .showing-explorer .explorer {\n  display: block;\n  float: left;\n}\n.dark .quick-edit-body .buttons {\n  margin: 0 auto;\n  text-align: right;\n  width: 100%;\n}\n.dark .quick-edit-body .buttons > button {\n  margin-top: 10px;\n  margin-left: 15px;\n}\n.dark .quick-edit-body #jseditor > textarea {\n  color: #ccc;\n  text-shadow: 0px 0px 0px #000;\n  -webkit-text-fill-color: transparent;\n  position: relative;\n  width: 100%;\n  height: 404px;\n  border: 1px solid #000;\n  background: #263238;\n}\n.dark .quick-edit-body input::-webkit-input-placeholder,\n.dark .quick-edit-body textarea::-webkit-input-placeholder {\n  color: #ccc;\n  text-shadow: none;\n  -webkit-text-fill-color: initial;\n}\n.dark .quick-edit-body textarea::selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.dark .quick-edit-body textarea::-webkit-selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.dark .quick-edit-body #jseditor > pre > code {\n  color: #c3c3c3;\n  text-shadow: 0 1px #263238;\n}\n.dark .quick-edit-body #jseditor > pre > code > .token.function {\n  color: #ff3e65;\n}\n.dark .quick-edit-body #jseditor > pre > code > .token.keyword {\n  color: #16b9ff;\n}\n.dark .quick-edit-body #jseditor > pre > code > .token.number {\n  color: #ff008e;\n}\n.dark .quick-edit-body #jseditor > pre > code > .token.operator {\n  background: rgba(0, 0, 0, 0.2);\n}\n.dark .modal {\n  top: 23px;\n}\n.dark .modal .modal-dialog {\n  top: -23px;\n}\n.dark .modal .modal-body {\n  color: black;\n  overflow: auto;\n  height: 390px;\n}\n.dark .target-body {\n  background-color: rgba(0, 0, 0, 0.6);\n}\n.dark .target-body .modal-content {\n  background-color: #263238;\n  color: white;\n}\n.dark .target-body .process-search {\n  color: #000;\n  padding: 0 5px 0 5px;\n  margin-bottom: 5px;\n}\n.dark .target-body .process-search::-webkit-input-placeholder {\n  color: #444;\n}\n.dark .target-body .process-list {\n  color: black;\n  font-size: 12px;\n  width: 100%;\n  height: 70%;\n}\n.dark .target-body .list-group {\n  padding-left: 0;\n  margin-bottom: 20px;\n  height: 400px;\n}\n.dark .target-body .modal-content {\n  width: 400px;\n  margin: auto;\n}\n.dark .target-body .list-group-item {\n  margin-botton: -5%;\n  margin: 0px;\n  cursor: pointer;\n}\n.dark .project-body div.inputfile {\n  font-weight: 700;\n  color: #333;\n  border-radius: 5px;\n  border: 1px solid black;\n  background-color: #c3c3c3;\n  display: inline-block;\n  width: 100%;\n  height: 25px;\n  line-height: 25px;\n  padding-left: 10px;\n}\n.dark .project-body div.inputfile:hover {\n  background-color: #b2b2b2;\n}\n.dark .project-body div.inputfile {\n  cursor: pointer;\n}\n.dark .project-body div.inputfile {\n  outline: 1px dotted #000;\n  outline: -webkit-focus-ring-color auto 5px;\n}\n.dark .project-body div.inputfile * {\n  pointer-events: none;\n}\n.dark .project-body div.button {\n  position: relative;\n  top: -25px;\n  height: 25px;\n  line-height: 25px;\n  left: calc(100% - 150px);\n  width: 150px;\n  border: 1px solid #000;\n  border-top-right-radius: 5px;\n  border-bottom-right-radius: 5px;\n  background: #666;\n  text-align: center;\n  color: #e3e3e3;\n  cursor: pointer;\n}\n.dark .project-body ul,\n.dark .project-body li {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.dark .project-body li {\n  font-size: 16px;\n  border: 1px solid #333;\n  border-radius: 2px;\n  height: 35px;\n  line-height: 35px;\n  padding-left: 10px;\n  background: #546e7a;\n  color: #e3e3e3;\n  cursor: pointer;\n}\n.dark .project-body li:hover {\n  background: #455a64;\n}\n.dark .project-body li.active {\n  background: #263238;\n  color: #FFF;\n}\n", ""]);
 
 	// exports
 
@@ -2983,6 +2993,175 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _mithril = __webpack_require__(2);
+
+	var _mithril2 = _interopRequireDefault(_mithril);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _require = __webpack_require__(13);
+
+	var ipcRenderer = _require.ipcRenderer;
+
+	var _require2 = __webpack_require__(16);
+
+	var TreeView = _require2.component;
+	var TreeElement = _require2.TreeElement;
+
+
+	var config = ipcRenderer.sendSync('get-config');
+	var files = [];
+
+	ipcRenderer.on('reload-config', function (event, newConfig) {
+	    config = newConfig;
+	    _mithril2.default.redraw();
+	});
+
+	ipcRenderer.on('reload-project-files', function (event, newFiles) {
+	    console.log(newFiles);
+	    files = newFiles;
+	    _mithril2.default.redraw();
+	});
+
+	ipcRenderer.send('request-project-files');
+
+	exports.default = {
+	    controller: function controller(attrs) {
+	        return {};
+	    },
+
+	    view: function view(ctrl, attrs) {
+	        return (0, _mithril2.default)('div.explorer', (0, _mithril2.default)('span', config.activeProject), (0, _mithril2.default)(TreeView, { treeRoot: [] }));
+	    }
+	};
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _mithril = __webpack_require__(2);
+
+	var _mithril2 = _interopRequireDefault(_mithril);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	module.exports = {
+	    component: {
+	        controller: function controller(attrs) {
+	            return {
+	                treeRoot: _mithril2.default.prop(attrs.treeRoot)
+	            };
+	        },
+
+	        view: function view(ctrl) {
+	            var recurse = function recurse(list) {
+	                return list.map(function (item) {
+	                    return (0, _mithril2.default)('li', [item.name(), item.children() ? (0, _mithril2.default)('ul', recurse(item.children())) : null]);
+	                });
+	            };
+	            return (0, _mithril2.default)('ul', [recurse(ctrl.treeRoot())]);
+	        }
+	    },
+
+	    TreeElement: function TreeElement(name, children) {
+	        this.children = _mithril2.default.prop(children || []);
+	        this.name = _mithril2.default.prop(name);
+	        this.type = this.children.length > 0 ? 'menu' : 'link';
+	    }
+	};
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _mithril = __webpack_require__(2);
+
+	var _mithril2 = _interopRequireDefault(_mithril);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _require = __webpack_require__(13);
+
+	var ipcRenderer = _require.ipcRenderer;
+
+	var dialog = __webpack_require__(13).remote.dialog;
+
+	var projects = [];
+
+	var scanProjects = function scanProjects(config) {
+	    ipcRenderer.send('scan-projects', config.projectFolder);
+	    _mithril2.default.startComputation();
+	};
+
+	ipcRenderer.on('scanned-projects', function (event, args) {
+	    projects = args;
+	    _mithril2.default.endComputation();
+	});
+
+	exports.default = {
+	    controller: function controller(attrs) {
+	        var config = ipcRenderer.sendSync('get-config');
+	        if (!config.projectFolder) {
+	            config.projectFolder = ipcRenderer.sendSync('get-default-projects-path');
+	            ipcRenderer.send('set-config', config);
+	        }
+
+	        return {
+	            showing: attrs.showing,
+	            config: config
+	        };
+	    },
+
+	    showDialog: function showDialog(ctrl, e) {
+	        var folder = dialog.showOpenDialog({ properties: ['openDirectory'], defaultPath: ctrl.config.projectFolder });
+	        if (folder) {
+	            ctrl.config.projectFolder = folder[0];
+	            ipcRenderer.send('set-config', ctrl.config);
+	            scanProjects(ctrl.config);
+	        }
+	    },
+
+	    setActive: function setActive(ctrl, el, e) {
+	        ctrl.config.activeProject = el;
+	        ipcRenderer.send('set-config', ctrl.config);
+	    },
+
+	    view: function view(ctrl, attrs) {
+	        var _this = this;
+
+	        if (!ctrl.showing && attrs.showing) {
+	            scanProjects(ctrl.config);
+	        }
+
+	        ctrl.showing = attrs.showing;
+
+	        return (0, _mithril2.default)('div.project-body.body-frame', { className: ctrl.showing ? '' : 'hidden' }, (0, _mithril2.default)('h1', 'Config Folder'), (0, _mithril2.default)('div.inputfile', { onclick: this.showDialog.bind(this, ctrl) }, ctrl.config.projectFolder), (0, _mithril2.default)('div.button', { onclick: this.showDialog.bind(this, ctrl) }, 'Click to select'), (0, _mithril2.default)('h1', 'Projects'), (0, _mithril2.default)('ul', projects.map(function (el) {
+	            return (0, _mithril2.default)('li', {
+	                className: ctrl.config.activeProject == el ? 'project active' : 'project',
+	                onclick: _this.setActive.bind(_this, ctrl, el)
+	            }, el);
+	        })));
+	    }
+	};
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 
@@ -2990,7 +3169,7 @@
 
 	var _mithril2 = _interopRequireDefault(_mithril);
 
-	var _codeflask = __webpack_require__(16);
+	var _codeflask = __webpack_require__(19);
 
 	var _codeflask2 = _interopRequireDefault(_codeflask);
 
@@ -3028,7 +3207,7 @@
 	};
 
 /***/ },
-/* 16 */
+/* 19 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -3188,7 +3367,7 @@
 	module.exports = CodeFlask;
 
 /***/ },
-/* 17 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3201,7 +3380,7 @@
 
 	var _mithril2 = _interopRequireDefault(_mithril);
 
-	var _codeflask = __webpack_require__(16);
+	var _codeflask = __webpack_require__(19);
 
 	var _codeflask2 = _interopRequireDefault(_codeflask);
 
@@ -3278,7 +3457,7 @@
 
 	    search: function search(processes, str) {
 	        var matches = [];
-	        var re = new RegExp(str);
+	        var re = new RegExp(str, 'i');
 
 	        for (var i = 0; i < processes.length; ++i) {
 	            if (processes[i].name.match(re)) {
@@ -3303,7 +3482,7 @@
 
 	        ctrl.showing = attrs.showing;
 
-	        return (0, _mithril2.default)('div#consoleDialog', { className: ctrl.showing ? 'modal fade in show' : 'modal fade hidden', role: 'dialog' }, (0, _mithril2.default)('div', { class: 'modal-dialog modal-lg' }, (0, _mithril2.default)('div', { class: 'modal-content' }, (0, _mithril2.default)('div', { class: 'modal-header' }, (0, _mithril2.default)('button', { class: 'close', onclick: ctrl.closeOverlayFrame }, 'x'), (0, _mithril2.default)('h4', 'Select Process:', { class: 'modal-title' })), (0, _mithril2.default)('input.process-search[type=text]', {
+	        return (0, _mithril2.default)('div.target-body', { className: ctrl.showing ? 'modal fade in show' : 'modal fade hidden', role: 'dialog' }, (0, _mithril2.default)('div', { class: 'modal-dialog modal-lg' }, (0, _mithril2.default)('div', { class: 'modal-content' }, (0, _mithril2.default)('div', { class: 'modal-header' }, (0, _mithril2.default)('button', { class: 'close', onclick: ctrl.closeOverlayFrame }, 'x'), (0, _mithril2.default)('h4', 'Select Process:', { class: 'modal-title' })), (0, _mithril2.default)('input.process-search[type=text]', {
 	            config: this.focusSearch.bind(this),
 	            inputValue: ctrl.inputValue(),
 	            oninput: _mithril2.default.withAttr('value', ctrl.inputValue),
@@ -3315,12 +3494,12 @@
 	};
 
 /***/ },
-/* 18 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var path = __webpack_require__(19);
+	var path = __webpack_require__(22);
 
 	function doNotify(options, image) {
 	    if (!image) {
@@ -3336,7 +3515,7 @@
 	};
 
 /***/ },
-/* 19 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -3564,10 +3743,10 @@
 	    }
 	;
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)))
 
 /***/ },
-/* 20 */
+/* 23 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser

@@ -7,6 +7,8 @@ const {ipcRenderer} = require('electron');
 // Other modules
 import Header from './header';
 import Menu from './menu';
+import Explorer from './explorer';
+import Project from './project';
 import QuickEdit from './quick-edit';
 import Target from './target-process';
 import Notifications from './notifications';
@@ -53,7 +55,7 @@ export default {
     },
 
 	view: function(ctrl) {
-		return 	m("div.height100",
+		return 	m("div.height100.showing-explorer",
 			m(Header, {target: target}),
 			m(Menu, {
 				showing: ctrl.showing,
@@ -62,8 +64,12 @@ export default {
 				overlayFrame: this.overlayFrame.bind(ctrl),
 				closeOverlayFrame: this.closeOverlayFrame.bind(ctrl)
 			}),
+			m(Project, {
+				showing: ctrl.showing[1]
+			}),
 			m(QuickEdit, {showing: ctrl.showing[3]}),
-			m(Target, {showing: ctrl.showing[0], closeOverlayFrame: this.closeOverlayFrame.bind(ctrl, 0)})
+			m(Target, {showing: ctrl.showing[0], closeOverlayFrame: this.closeOverlayFrame.bind(ctrl, 0)}),
+			m(Explorer)
 		);
 	}
 };

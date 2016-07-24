@@ -1,8 +1,14 @@
 // Require electron modules
 const {app, BrowserWindow, ipcMain}  = require('electron');
 const path = require("path");
+const fs = require('fs');
 const exec = require('child_process').exec;
+var jsonfile = require('jsonfile');
 var inject = require('./inject');
+
+const configPath = path.resolve(__dirname, path.join('..', 'config', 'default.json'));
+var config = {};
+jsonfile.readFile(configPath, (err, obj) => { config = obj; });
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the javascript object is GCed.
@@ -28,6 +34,62 @@ ipcMain.on('set-target', (event, target) => {
 });
 
 
+ipcMain.on('get-default-projects-path', (event, target) => {
+    event.returnValue = path.resolve(__dirname, path.join('..', 'Projects'));
+});
+
+ipcMain.on('get-config', (event, target) => {
+    event.returnValue = config;
+});
+
+ipcMain.on('set-config', (event, newConfig) => {
+    var isReloadProjectFiles = config.activeProject != newConfig.activeProject;
+    config = newConfig;
+    jsonfile.writeFile(configPath, config, () => {});
+    event.sender.send('reload-config', config);
+    isReloadProjectFiles && reloadProjectFiles(event.sender);
+});
+
+ipcMain.on('scan-projects', (event, where) => {
+    var projects = fs.readdirSync(where).filter(function(file) {
+        var current = path.join(where, file);
+        if (fs.statSync(current).isDirectory()) {
+            return fs.statSync(path.join(current, '.ape')).isFile();
+        }
+        return false;
+    });
+
+    event.sender.send('scanned-projects', projects);
+})
+
+ipcMain.on('request-project-files', (event, args) => {
+    reloadProjectFiles(event.sender);
+});
+
+function reloadProjectFiles(sender) {
+    var recur = function(dir, acc) {
+        var list = fs.readdirSync(dir);
+
+        list.forEach(function(file){
+            var file2 = path.resolve(dir, file);
+            var stats = fs.statSync(file2);
+
+            if(stats.isDirectory()) {
+                acc.push(recur(file2, []));
+            }
+            else {
+                acc.push(file2);
+            }
+        });
+
+        var o = {};
+        o[path.basename(dir)] = acc;
+        return o;
+    };
+    
+    var files = recur(path.join(config.projectFolder, config.activeProject), []);
+    (sender || mainWindow.webContents).send('reload-project-files', files);
+}
 
 let argv = [process.argv[0], '.'];
 Array.prototype.push.apply(argv, process.argv.slice(1));
@@ -68,7 +130,7 @@ app.on('ready', function() {
     app.commandLine.appendSwitch('js-flags', '--harmony_arrow_functions');
 
     // Create the browser window.
-    mainWindow = new BrowserWindow({width: 1000, height: 600, frame: false, resizable: false});
+    mainWindow = new BrowserWindow({width: 1000, height: 600, frame: false, resizable: false, show: false});
     mainWindow.setMenu(null);
 
     // Setup inject
@@ -80,7 +142,7 @@ app.on('ready', function() {
     // Create Splash Screen.
     let splashWindow = new BrowserWindow({width: 400, height: 560, frame: false, resizable: false, algaysOnTop: true });
     splashWindow.setMenu(null);
-    setTimeout(() => { splashWindow.close(); }, 2000);
+    setTimeout(() => { splashWindow.close(); mainWindow.show(); }, 2000);
 
     // load the splash.html of the app.
     splashWindow.loadURL('file://' + path.resolve(__dirname,'../public/splash.html'));
