@@ -69,7 +69,9 @@ export default {
 			}),
 			m(QuickEdit, {showing: ctrl.showing[3]}),
 			m(Target, {showing: ctrl.showing[0], closeOverlayFrame: this.closeOverlayFrame.bind(ctrl, 0)}),
-			m(Explorer)
+			m(Explorer, {
+				changeFrame: this.changeFrame.bind(ctrl)
+			})
 		);
 	}
 };

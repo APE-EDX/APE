@@ -133,19 +133,19 @@
 
 	var _explorer2 = _interopRequireDefault(_explorer);
 
-	var _project = __webpack_require__(17);
+	var _project = __webpack_require__(19);
 
 	var _project2 = _interopRequireDefault(_project);
 
-	var _quickEdit = __webpack_require__(18);
+	var _quickEdit = __webpack_require__(20);
 
 	var _quickEdit2 = _interopRequireDefault(_quickEdit);
 
-	var _targetProcess = __webpack_require__(20);
+	var _targetProcess = __webpack_require__(22);
 
 	var _targetProcess2 = _interopRequireDefault(_targetProcess);
 
-	var _notifications = __webpack_require__(21);
+	var _notifications = __webpack_require__(23);
 
 	var _notifications2 = _interopRequireDefault(_notifications);
 
@@ -206,7 +206,9 @@
 				closeOverlayFrame: this.closeOverlayFrame.bind(ctrl)
 			}), (0, _mithril2.default)(_project2.default, {
 				showing: ctrl.showing[1]
-			}), (0, _mithril2.default)(_quickEdit2.default, { showing: ctrl.showing[3] }), (0, _mithril2.default)(_targetProcess2.default, { showing: ctrl.showing[0], closeOverlayFrame: this.closeOverlayFrame.bind(ctrl, 0) }), (0, _mithril2.default)(_explorer2.default));
+			}), (0, _mithril2.default)(_quickEdit2.default, { showing: ctrl.showing[3] }), (0, _mithril2.default)(_targetProcess2.default, { showing: ctrl.showing[0], closeOverlayFrame: this.closeOverlayFrame.bind(ctrl, 0) }), (0, _mithril2.default)(_explorer2.default, {
+				changeFrame: this.changeFrame.bind(ctrl)
+			}));
 		}
 	};
 
@@ -2501,7 +2503,7 @@
 
 
 	// module
-	exports.push([module.id, "*,\n*:before,\n*:after {\n  -webkit-user-select: none;\n  box-sizing: border-box;\n}\nhtml,\nbody,\n.height100 {\n  width: 1000px;\n  height: 600px;\n  max-height: 1000px;\n}\nbody.dark {\n  background-color: #37474f;\n}\n.height100 {\n  position: relative;\n}\n.dark input {\n  background-color: #ccc;\n  width: 100%;\n}\n.dark .title-frame {\n  position: relative;\n  width: 100%;\n  height: 23px;\n  background-color: #2E2E2E;\n  text-align: right;\n  color: white;\n}\n.dark .title-frame .title {\n  position: relative;\n  text-align: center;\n  -webkit-app-region: drag;\n  line-height: 23px;\n}\n.dark .title-frame .buttons {\n  position: relative;\n  top: -23px;\n  z-index: 2;\n  padding-right: 3px;\n}\n.dark .title-frame .buttons > button {\n  -webkit-app-region: no-drag;\n}\n.dark .title-frame .close-button {\n  position: relative;\n  box-shadow: inset 0px -3px 7px 0px #29bbff;\n  background-color: #2dabf9;\n  border-radius: 3px;\n  border: 1px solid #0b0e07;\n  display: inline-block;\n  cursor: pointer;\n  color: #ffffff;\n  font-family: Arial;\n  font-size: 10px;\n  padding: 1px 4px;\n  text-decoration: none;\n  text-shadow: 0px 1px 0px #263666;\n}\n.dark .title-frame .close-button:hover {\n  background-color: #0688fa;\n}\n.dark .title-frame .close-button:active {\n  position: relative;\n  top: 1px;\n}\n.dark .menu-frame {\n  position: relative;\n  height: 23px;\n  background-color: #232323;\n}\n.dark .menu-frame .buttons {\n  position: relative;\n  top: 2px;\n}\n.dark .menu-frame .buttons > a {\n  color: white;\n  padding: 12px;\n}\n.dark .menu-frame .target-info {\n  position: relative;\n  top: -20px;\n  z-index: 2;\n  padding-right: 3px;\n  line-height: 23px;\n  text-align: right;\n  color: #c13434;\n  font-weight: bold;\n}\n.dark .menu-lateral {\n  position: relative;\n  float: left;\n  height: 554px;\n  width: 134px;\n  background-color: #263238;\n  border-style: solid;\n  border-right: 2px solid #000000;\n  border-left: 0px;\n  border-top: 0px;\n  border-bottom: 0px;\n}\n.dark .menu-lateral ul {\n  position: relative;\n  top: 50%;\n  transform: translateY(-50%);\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.dark .menu-lateral ul li:first-child {\n  margin-top: 0;\n}\n.dark .menu-lateral ul li:last-child {\n  margin-bottom: 0;\n}\n.dark .menu-lateral li {\n  margin: 15px;\n  margin-left: 0px;\n  padding-left: 15px;\n  position: relative;\n  list-style-type: none;\n  font-weight: bold;\n  text-align: left;\n}\n.dark .menu-lateral li > a {\n  color: #fafafa;\n  text-decoration: none;\n  font-weight: bold;\n  font-variant: small-caps;\n  cursor: pointer;\n}\n.dark .menu-lateral li > a:hover {\n  color: #cacaca;\n  text-decoration: none;\n}\n.dark .menu-lateral li.menu-active {\n  width: 134px;\n  height: 40px;\n  background-color: white;\n  line-height: 40px;\n}\n.dark .menu-lateral li.menu-active > a {\n  color: black;\n}\n.dark .menu-lateral li.menu-active > a:hover {\n  color: black;\n}\n.dark .menu-lateral li.menu-active::after {\n  position: relative;\n  left: 105px;\n  top: -34px;\n  display: block;\n  width: 28.28px;\n  height: 28.28px;\n  background-color: white;\n  transform: rotate(45deg);\n  content: ' ';\n  z-index: -1;\n}\n.dark .body-frame {\n  position: relative;\n  float: left;\n  width: 866px;\n  height: 554px;\n  padding: 15px 30px 15px 30px;\n}\n.dark .body-frame h1 {\n  color: #cfd8dc;\n}\n.dark .explorer {\n  display: none;\n  position: relative;\n  float: left;\n  width: 150px;\n  height: 554px;\n  border-left: 2px solid black;\n  background: #263238;\n  text-align: center;\n  padding-top: 10px;\n}\n.dark .explorer span {\n  color: #c3c3c3;\n  font-size: 18px;\n  font-weight: bold;\n}\n.dark .showing-explorer .body-frame {\n  width: 716px;\n}\n.dark .showing-explorer .explorer {\n  display: block;\n  float: left;\n}\n.dark .quick-edit-body .buttons {\n  margin: 0 auto;\n  text-align: right;\n  width: 100%;\n}\n.dark .quick-edit-body .buttons > button {\n  margin-top: 10px;\n  margin-left: 15px;\n}\n.dark .quick-edit-body #jseditor > textarea {\n  color: #ccc;\n  text-shadow: 0px 0px 0px #000;\n  -webkit-text-fill-color: transparent;\n  position: relative;\n  width: 100%;\n  height: 404px;\n  border: 1px solid #000;\n  background: #263238;\n}\n.dark .quick-edit-body input::-webkit-input-placeholder,\n.dark .quick-edit-body textarea::-webkit-input-placeholder {\n  color: #ccc;\n  text-shadow: none;\n  -webkit-text-fill-color: initial;\n}\n.dark .quick-edit-body textarea::selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.dark .quick-edit-body textarea::-webkit-selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.dark .quick-edit-body #jseditor > pre > code {\n  color: #c3c3c3;\n  text-shadow: 0 1px #263238;\n}\n.dark .quick-edit-body #jseditor > pre > code > .token.function {\n  color: #ff3e65;\n}\n.dark .quick-edit-body #jseditor > pre > code > .token.keyword {\n  color: #16b9ff;\n}\n.dark .quick-edit-body #jseditor > pre > code > .token.number {\n  color: #ff008e;\n}\n.dark .quick-edit-body #jseditor > pre > code > .token.operator {\n  background: rgba(0, 0, 0, 0.2);\n}\n.dark .modal {\n  top: 23px;\n}\n.dark .modal .modal-dialog {\n  top: -23px;\n}\n.dark .modal .modal-body {\n  color: black;\n  overflow: auto;\n  height: 390px;\n}\n.dark .target-body {\n  background-color: rgba(0, 0, 0, 0.6);\n}\n.dark .target-body .modal-content {\n  background-color: #263238;\n  color: white;\n}\n.dark .target-body .process-search {\n  color: #000;\n  padding: 0 5px 0 5px;\n  margin-bottom: 5px;\n}\n.dark .target-body .process-search::-webkit-input-placeholder {\n  color: #444;\n}\n.dark .target-body .process-list {\n  color: black;\n  font-size: 12px;\n  width: 100%;\n  height: 70%;\n}\n.dark .target-body .list-group {\n  padding-left: 0;\n  margin-bottom: 20px;\n  height: 400px;\n}\n.dark .target-body .modal-content {\n  width: 400px;\n  margin: auto;\n}\n.dark .target-body .list-group-item {\n  margin-botton: -5%;\n  margin: 0px;\n  cursor: pointer;\n}\n.dark .project-body div.inputfile {\n  font-weight: 700;\n  color: #333;\n  border-radius: 5px;\n  border: 1px solid black;\n  background-color: #c3c3c3;\n  display: inline-block;\n  width: 100%;\n  height: 25px;\n  line-height: 25px;\n  padding-left: 10px;\n}\n.dark .project-body div.inputfile:hover {\n  background-color: #b2b2b2;\n}\n.dark .project-body div.inputfile {\n  cursor: pointer;\n}\n.dark .project-body div.inputfile {\n  outline: 1px dotted #000;\n  outline: -webkit-focus-ring-color auto 5px;\n}\n.dark .project-body div.inputfile * {\n  pointer-events: none;\n}\n.dark .project-body div.button {\n  position: relative;\n  top: -25px;\n  height: 25px;\n  line-height: 25px;\n  left: calc(100% - 150px);\n  width: 150px;\n  border: 1px solid #000;\n  border-top-right-radius: 5px;\n  border-bottom-right-radius: 5px;\n  background: #666;\n  text-align: center;\n  color: #e3e3e3;\n  cursor: pointer;\n}\n.dark .project-body ul,\n.dark .project-body li {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.dark .project-body li {\n  font-size: 16px;\n  border: 1px solid #333;\n  border-radius: 2px;\n  height: 35px;\n  line-height: 35px;\n  padding-left: 10px;\n  background: #546e7a;\n  color: #e3e3e3;\n  cursor: pointer;\n}\n.dark .project-body li:hover {\n  background: #455a64;\n}\n.dark .project-body li.active {\n  background: #263238;\n  color: #FFF;\n}\n", ""]);
+	exports.push([module.id, "*,\n*:before,\n*:after {\n  -webkit-user-select: none;\n  box-sizing: border-box;\n}\nhtml,\nbody,\n.height100 {\n  width: 1000px;\n  height: 600px;\n  max-height: 1000px;\n}\nbody.dark {\n  background-color: #37474f;\n}\n.height100 {\n  position: relative;\n}\n.dark input {\n  background-color: #ccc;\n  width: 100%;\n}\n.dark .title-frame {\n  position: relative;\n  width: 100%;\n  height: 23px;\n  background-color: #2E2E2E;\n  text-align: right;\n  color: white;\n}\n.dark .title-frame .title {\n  position: relative;\n  text-align: center;\n  -webkit-app-region: drag;\n  line-height: 23px;\n}\n.dark .title-frame .buttons {\n  position: relative;\n  top: -23px;\n  z-index: 2;\n  padding-right: 3px;\n}\n.dark .title-frame .buttons > button {\n  -webkit-app-region: no-drag;\n}\n.dark .title-frame .close-button {\n  position: relative;\n  box-shadow: inset 0px -3px 7px 0px #29bbff;\n  background-color: #2dabf9;\n  border-radius: 3px;\n  border: 1px solid #0b0e07;\n  display: inline-block;\n  cursor: pointer;\n  color: #ffffff;\n  font-family: Arial;\n  font-size: 10px;\n  padding: 1px 4px;\n  text-decoration: none;\n  text-shadow: 0px 1px 0px #263666;\n}\n.dark .title-frame .close-button:hover {\n  background-color: #0688fa;\n}\n.dark .title-frame .close-button:active {\n  position: relative;\n  top: 1px;\n}\n.dark .menu-frame {\n  position: relative;\n  height: 23px;\n  background-color: #232323;\n}\n.dark .menu-frame .buttons {\n  position: relative;\n  top: 2px;\n}\n.dark .menu-frame .buttons > a {\n  color: white;\n  padding: 12px;\n}\n.dark .menu-frame .target-info {\n  position: relative;\n  top: -20px;\n  z-index: 2;\n  padding-right: 3px;\n  line-height: 23px;\n  text-align: right;\n  color: #c13434;\n  font-weight: bold;\n}\n.dark .menu-lateral {\n  position: relative;\n  float: left;\n  height: 554px;\n  width: 134px;\n  background-color: #263238;\n  border-style: solid;\n  border-right: 2px solid #000000;\n  border-left: 0px;\n  border-top: 0px;\n  border-bottom: 0px;\n}\n.dark .menu-lateral ul {\n  position: relative;\n  top: 50%;\n  transform: translateY(-50%);\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.dark .menu-lateral ul li:first-child {\n  margin-top: 0;\n}\n.dark .menu-lateral ul li:last-child {\n  margin-bottom: 0;\n}\n.dark .menu-lateral li {\n  margin: 15px;\n  margin-left: 0px;\n  padding-left: 15px;\n  position: relative;\n  list-style-type: none;\n  font-weight: bold;\n  text-align: left;\n}\n.dark .menu-lateral li > a {\n  color: #fafafa;\n  text-decoration: none;\n  font-weight: bold;\n  font-variant: small-caps;\n  cursor: pointer;\n}\n.dark .menu-lateral li > a:hover {\n  color: #cacaca;\n  text-decoration: none;\n}\n.dark .menu-lateral li.menu-active {\n  width: 134px;\n  height: 40px;\n  background-color: white;\n  line-height: 40px;\n}\n.dark .menu-lateral li.menu-active > a {\n  color: black;\n}\n.dark .menu-lateral li.menu-active > a:hover {\n  color: black;\n}\n.dark .menu-lateral li.menu-active::after {\n  position: relative;\n  left: 105px;\n  top: -34px;\n  display: block;\n  width: 28.28px;\n  height: 28.28px;\n  background-color: white;\n  transform: rotate(45deg);\n  content: ' ';\n  z-index: -1;\n}\n.dark .body-frame {\n  position: relative;\n  float: left;\n  width: 866px;\n  height: 554px;\n  padding: 15px 30px 15px 30px;\n}\n.dark .body-frame h1 {\n  color: #cfd8dc;\n}\n.dark .explorer {\n  display: none;\n  position: relative;\n  float: left;\n  width: 150px;\n  height: 554px;\n  border-left: 2px solid black;\n  background: #263238;\n  text-align: center;\n  padding-top: 10px;\n}\n.dark .explorer span {\n  color: #c3c3c3;\n  font-size: 18px;\n  font-weight: bold;\n}\n.dark .explorer .treeview {\n  margin-top: 10px;\n  margin-left: 10px;\n}\n.dark .explorer .treeview ul,\n.dark .explorer .treeview li {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  text-align: left;\n  font-size: 14px;\n  font-weight: normal;\n}\n.dark .explorer .treeview ul {\n  padding-left: 15px;\n}\n.dark .explorer .treeview li {\n  margin-bottom: 3px;\n  color: #c3c3c3;\n}\n.dark .explorer .treeview li img {\n  height: 13px;\n  margin-right: 5px;\n  vertical-align: baseline;\n}\n.dark .explorer .treeview li[data-type=\"file\"] {\n  cursor: pointer;\n}\n.dark .explorer .treeview > ul > li {\n  font-size: 18px;\n  font-weight: bold;\n}\n.dark .explorer .buttons {\n  position: absolute;\n  bottom: 0;\n  width: 100%;\n  margin-bottom: 20px;\n}\n.dark .explorer .buttons button {\n  width: 80%;\n  border: 1px solid #333;\n  border-radius: 5px;\n}\n.dark .showing-explorer .body-frame {\n  width: 716px;\n}\n.dark .showing-explorer .explorer {\n  display: block;\n  float: left;\n}\n.dark .quick-edit-body .buttons {\n  margin: 0 auto;\n  text-align: right;\n  width: 100%;\n}\n.dark .quick-edit-body .buttons > button {\n  margin-top: 10px;\n  margin-left: 15px;\n}\n.dark .quick-edit-body #jseditor > textarea {\n  color: #ccc;\n  text-shadow: 0px 0px 0px #000;\n  -webkit-text-fill-color: transparent;\n  position: relative;\n  width: 100%;\n  height: 404px;\n  border: 1px solid #000;\n  background: #263238;\n}\n.dark .quick-edit-body input::-webkit-input-placeholder,\n.dark .quick-edit-body textarea::-webkit-input-placeholder {\n  color: #ccc;\n  text-shadow: none;\n  -webkit-text-fill-color: initial;\n}\n.dark .quick-edit-body textarea::selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.dark .quick-edit-body textarea::-webkit-selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.dark .quick-edit-body #jseditor > pre > code {\n  color: #c3c3c3;\n  text-shadow: 0 1px #263238;\n}\n.dark .quick-edit-body #jseditor > pre > code > .token.function {\n  color: #ff3e65;\n}\n.dark .quick-edit-body #jseditor > pre > code > .token.keyword {\n  color: #16b9ff;\n}\n.dark .quick-edit-body #jseditor > pre > code > .token.number {\n  color: #ff008e;\n}\n.dark .quick-edit-body #jseditor > pre > code > .token.operator {\n  background: rgba(0, 0, 0, 0.2);\n}\n.dark .modal {\n  top: 23px;\n}\n.dark .modal .modal-dialog {\n  top: -23px;\n}\n.dark .modal .modal-body {\n  color: black;\n  overflow: auto;\n  height: 390px;\n}\n.dark .target-body {\n  background-color: rgba(0, 0, 0, 0.6);\n}\n.dark .target-body .modal-content {\n  background-color: #263238;\n  color: white;\n}\n.dark .target-body .process-search {\n  color: #000;\n  padding: 0 5px 0 5px;\n  margin-bottom: 5px;\n}\n.dark .target-body .process-search::-webkit-input-placeholder {\n  color: #444;\n}\n.dark .target-body .process-list {\n  color: black;\n  font-size: 12px;\n  width: 100%;\n  height: 70%;\n}\n.dark .target-body .list-group {\n  padding-left: 0;\n  margin-bottom: 20px;\n  height: 400px;\n}\n.dark .target-body .modal-content {\n  width: 400px;\n  margin: auto;\n}\n.dark .target-body .list-group-item {\n  margin-botton: -5%;\n  margin: 0px;\n  cursor: pointer;\n}\n.dark .project-body div.inputfile {\n  font-weight: 700;\n  color: #333;\n  border-radius: 5px;\n  border: 1px solid black;\n  background-color: #c3c3c3;\n  display: inline-block;\n  width: 100%;\n  height: 25px;\n  line-height: 25px;\n  padding-left: 10px;\n}\n.dark .project-body div.inputfile:hover {\n  background-color: #b2b2b2;\n}\n.dark .project-body div.inputfile {\n  cursor: pointer;\n}\n.dark .project-body div.inputfile {\n  outline: 1px dotted #000;\n  outline: -webkit-focus-ring-color auto 5px;\n}\n.dark .project-body div.inputfile * {\n  pointer-events: none;\n}\n.dark .project-body div.button {\n  position: relative;\n  top: -25px;\n  height: 25px;\n  line-height: 25px;\n  left: calc(100% - 150px);\n  width: 150px;\n  border: 1px solid #000;\n  border-top-right-radius: 5px;\n  border-bottom-right-radius: 5px;\n  background: #666;\n  text-align: center;\n  color: #e3e3e3;\n  cursor: pointer;\n}\n.dark .project-body ul,\n.dark .project-body li {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.dark .project-body li {\n  font-size: 16px;\n  border: 1px solid #333;\n  border-radius: 2px;\n  height: 35px;\n  line-height: 35px;\n  padding-left: 10px;\n  background: #546e7a;\n  color: #e3e3e3;\n  cursor: pointer;\n}\n.dark .project-body li:hover {\n  background: #455a64;\n}\n.dark .project-body li.active {\n  background: #263238;\n  color: #FFF;\n}\n", ""]);
 
 	// exports
 
@@ -2996,6 +2998,8 @@
 	    value: true
 	});
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 	var _mithril = __webpack_require__(2);
 
 	var _mithril2 = _interopRequireDefault(_mithril);
@@ -3011,6 +3015,7 @@
 	var TreeView = _require2.component;
 	var TreeElement = _require2.TreeElement;
 
+	var path = __webpack_require__(17);
 
 	var config = ipcRenderer.sendSync('get-config');
 	var files = [];
@@ -3022,7 +3027,25 @@
 
 	ipcRenderer.on('reload-project-files', function (event, newFiles) {
 	    console.log(newFiles);
-	    files = newFiles;
+
+	    var recurse = function recurse(what, acc, root) {
+	        if (!Array.isArray(what) && (typeof what === 'undefined' ? 'undefined' : _typeof(what)) == "object") {
+	            var key = Object.keys(what)[0];
+	            var children = recurse(what[key], [], path.join(root, key));
+	            acc.push(new TreeElement(key, children));
+	        } else if (Array.isArray(what)) {
+	            for (var i = 0; i < what.length; ++i) {
+	                acc.push(recurse(what[i], [], root)[0]);
+	            }
+	        } else {
+	            acc.push(new TreeElement(what));
+	        }
+
+	        return acc;
+	    };
+
+	    files = recurse(newFiles, [], '');
+	    console.log(files);
 	    _mithril2.default.redraw();
 	});
 
@@ -3030,11 +3053,21 @@
 
 	exports.default = {
 	    controller: function controller(attrs) {
-	        return {};
+	        return {
+	            changeFrame: attrs.changeFrame
+	        };
+	    },
+
+	    fileClicked: function fileClicked(ctrl, e) {
+	        // Broadcast edition
+	        ipcRenderer.send('quick-edit-file', e.target.dataset.name);
+
+	        // Goto quick-edit
+	        ctrl.changeFrame({ target: { dataset: { target: 3 } } });
 	    },
 
 	    view: function view(ctrl, attrs) {
-	        return (0, _mithril2.default)('div.explorer', (0, _mithril2.default)('span', config.activeProject), (0, _mithril2.default)(TreeView, { treeRoot: [] }));
+	        return (0, _mithril2.default)('div.explorer', (0, _mithril2.default)('div.treeview', (0, _mithril2.default)(TreeView, { treeRoot: files, fileClick: this.fileClicked.bind(this, ctrl) })), (0, _mithril2.default)('div.buttons', (0, _mithril2.default)('button', 'Send')));
 	    }
 	};
 
@@ -3042,7 +3075,7 @@
 /* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	var _mithril = __webpack_require__(2);
 
@@ -3050,18 +3083,28 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var folderIco = "data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDU4IDU4IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1OCA1ODsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSI1MTJweCIgaGVpZ2h0PSI1MTJweCI+CjxwYXRoIHN0eWxlPSJmaWxsOiNFRkNFNEE7IiBkPSJNNTUuOTgxLDU0LjVIMi4wMTlDMC45MDQsNTQuNSwwLDUzLjU5NiwwLDUyLjQ4MVYyMC41aDU4djMxLjk4MUM1OCw1My41OTYsNTcuMDk2LDU0LjUsNTUuOTgxLDU0LjV6ICAiLz4KPHBhdGggc3R5bGU9ImZpbGw6I0VCQkExNjsiIGQ9Ik0yNi4wMTksMTEuNVY1LjUxOUMyNi4wMTksNC40MDQsMjUuMTE1LDMuNSwyNCwzLjVIMi4wMTlDMC45MDQsMy41LDAsNC40MDQsMCw1LjUxOVYxMC41djEwaDU4ICB2LTYuOTgxYzAtMS4xMTUtMC45MDQtMi4wMTktMi4wMTktMi4wMTlIMjYuMDE5eiIvPgo8Zz4KCTxwYXRoIHN0eWxlPSJmaWxsOiNFQjc5Mzc7IiBkPSJNMTgsMzIuNWgxNGMwLjU1MiwwLDEtMC40NDcsMS0xcy0wLjQ0OC0xLTEtMUgxOGMtMC41NTIsMC0xLDAuNDQ3LTEsMVMxNy40NDgsMzIuNSwxOCwzMi41eiIvPgoJPHBhdGggc3R5bGU9ImZpbGw6I0VCNzkzNzsiIGQ9Ik0xOCwzOC41aDIyYzAuNTUyLDAsMS0wLjQ0NywxLTFzLTAuNDQ4LTEtMS0xSDE4Yy0wLjU1MiwwLTEsMC40NDctMSwxUzE3LjQ0OCwzOC41LDE4LDM4LjV6Ii8+Cgk8cGF0aCBzdHlsZT0iZmlsbDojRUI3OTM3OyIgZD0iTTQwLDQyLjVIMThjLTAuNTUyLDAtMSwwLjQ0Ny0xLDFzMC40NDgsMSwxLDFoMjJjMC41NTIsMCwxLTAuNDQ3LDEtMVM0MC41NTIsNDIuNSw0MCw0Mi41eiIvPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=";
+	var fileIco = "data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDYwIDYwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA2MCA2MDsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSIzMnB4IiBoZWlnaHQ9IjMycHgiPgo8Zz4KCTxwYXRoIGQ9Ik00Mi41LDIyaC0yNWMtMC41NTIsMC0xLDAuNDQ3LTEsMXMwLjQ0OCwxLDEsMWgyNWMwLjU1MiwwLDEtMC40NDcsMS0xUzQzLjA1MiwyMiw0Mi41LDIyeiIgZmlsbD0iI0ZGRkZGRiIvPgoJPHBhdGggZD0iTTE3LjUsMTZoMTBjMC41NTIsMCwxLTAuNDQ3LDEtMXMtMC40NDgtMS0xLTFoLTEwYy0wLjU1MiwwLTEsMC40NDctMSwxUzE2Ljk0OCwxNiwxNy41LDE2eiIgZmlsbD0iI0ZGRkZGRiIvPgoJPHBhdGggZD0iTTQyLjUsMzBoLTI1Yy0wLjU1MiwwLTEsMC40NDctMSwxczAuNDQ4LDEsMSwxaDI1YzAuNTUyLDAsMS0wLjQ0NywxLTFTNDMuMDUyLDMwLDQyLjUsMzB6IiBmaWxsPSIjRkZGRkZGIi8+Cgk8cGF0aCBkPSJNNDIuNSwzOGgtMjVjLTAuNTUyLDAtMSwwLjQ0Ny0xLDFzMC40NDgsMSwxLDFoMjVjMC41NTIsMCwxLTAuNDQ3LDEtMVM0My4wNTIsMzgsNDIuNSwzOHoiIGZpbGw9IiNGRkZGRkYiLz4KCTxwYXRoIGQ9Ik00Mi41LDQ2aC0yNWMtMC41NTIsMC0xLDAuNDQ3LTEsMXMwLjQ0OCwxLDEsMWgyNWMwLjU1MiwwLDEtMC40NDcsMS0xUzQzLjA1Miw0Niw0Mi41LDQ2eiIgZmlsbD0iI0ZGRkZGRiIvPgoJPHBhdGggZD0iTTM4LjkxNCwwSDYuNXY2MGg0N1YxNC41ODZMMzguOTE0LDB6IE0zOS41LDMuNDE0TDUwLjA4NiwxNEgzOS41VjMuNDE0eiBNOC41LDU4VjJoMjl2MTRoMTR2NDJIOC41eiIgZmlsbD0iI0ZGRkZGRiIvPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=";
+
 	module.exports = {
 	    component: {
 	        controller: function controller(attrs) {
 	            return {
-	                treeRoot: _mithril2.default.prop(attrs.treeRoot)
+	                treeRoot: _mithril2.default.prop(attrs.treeRoot),
+	                fileClick: attrs.fileClick
 	            };
 	        },
 
-	        view: function view(ctrl) {
+	        view: function view(ctrl, attrs) {
+	            ctrl.treeRoot = _mithril2.default.prop(attrs.treeRoot);
+
 	            var recurse = function recurse(list) {
 	                return list.map(function (item) {
-	                    return (0, _mithril2.default)('li', [item.name(), item.children() ? (0, _mithril2.default)('ul', recurse(item.children())) : null]);
+	                    return (0, _mithril2.default)('li', {
+	                        'data-type': item.type,
+	                        'data-name': item.name(),
+	                        onclick: item.type == 'file' ? ctrl.fileClick : null
+	                    }, [(0, _mithril2.default)('img', { src: item.type == 'folder' ? folderIco : fileIco }), item.name(), item.children() ? (0, _mithril2.default)('ul', recurse(item.children())) : null]);
 	                });
 	            };
 	            return (0, _mithril2.default)('ul', [recurse(ctrl.treeRoot())]);
@@ -3071,451 +3114,12 @@
 	    TreeElement: function TreeElement(name, children) {
 	        this.children = _mithril2.default.prop(children || []);
 	        this.name = _mithril2.default.prop(name);
-	        this.type = this.children.length > 0 ? 'menu' : 'link';
+	        this.type = this.children().length > 0 ? 'folder' : 'file';
 	    }
 	};
 
 /***/ },
 /* 17 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _mithril = __webpack_require__(2);
-
-	var _mithril2 = _interopRequireDefault(_mithril);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _require = __webpack_require__(13);
-
-	var ipcRenderer = _require.ipcRenderer;
-
-	var dialog = __webpack_require__(13).remote.dialog;
-
-	var projects = [];
-
-	var scanProjects = function scanProjects(config) {
-	    ipcRenderer.send('scan-projects', config.projectFolder);
-	    _mithril2.default.startComputation();
-	};
-
-	ipcRenderer.on('scanned-projects', function (event, args) {
-	    projects = args;
-	    _mithril2.default.endComputation();
-	});
-
-	exports.default = {
-	    controller: function controller(attrs) {
-	        var config = ipcRenderer.sendSync('get-config');
-	        if (!config.projectFolder) {
-	            config.projectFolder = ipcRenderer.sendSync('get-default-projects-path');
-	            ipcRenderer.send('set-config', config);
-	        }
-
-	        return {
-	            showing: attrs.showing,
-	            config: config
-	        };
-	    },
-
-	    showDialog: function showDialog(ctrl, e) {
-	        var folder = dialog.showOpenDialog({ properties: ['openDirectory'], defaultPath: ctrl.config.projectFolder });
-	        if (folder) {
-	            ctrl.config.projectFolder = folder[0];
-	            ipcRenderer.send('set-config', ctrl.config);
-	            scanProjects(ctrl.config);
-	        }
-	    },
-
-	    setActive: function setActive(ctrl, el, e) {
-	        ctrl.config.activeProject = el;
-	        ipcRenderer.send('set-config', ctrl.config);
-	    },
-
-	    view: function view(ctrl, attrs) {
-	        var _this = this;
-
-	        if (!ctrl.showing && attrs.showing) {
-	            scanProjects(ctrl.config);
-	        }
-
-	        ctrl.showing = attrs.showing;
-
-	        return (0, _mithril2.default)('div.project-body.body-frame', { className: ctrl.showing ? '' : 'hidden' }, (0, _mithril2.default)('h1', 'Config Folder'), (0, _mithril2.default)('div.inputfile', { onclick: this.showDialog.bind(this, ctrl) }, ctrl.config.projectFolder), (0, _mithril2.default)('div.button', { onclick: this.showDialog.bind(this, ctrl) }, 'Click to select'), (0, _mithril2.default)('h1', 'Projects'), (0, _mithril2.default)('ul', projects.map(function (el) {
-	            return (0, _mithril2.default)('li', {
-	                className: ctrl.config.activeProject == el ? 'project active' : 'project',
-	                onclick: _this.setActive.bind(_this, ctrl, el)
-	            }, el);
-	        })));
-	    }
-	};
-
-/***/ },
-/* 18 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _mithril = __webpack_require__(2);
-
-	var _mithril2 = _interopRequireDefault(_mithril);
-
-	var _codeflask = __webpack_require__(19);
-
-	var _codeflask2 = _interopRequireDefault(_codeflask);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _require = __webpack_require__(13);
-
-	var ipcRenderer = _require.ipcRenderer;
-
-
-	var flask = new _codeflask2.default();
-
-	exports.default = {
-	  controller: function controller(attrs) {
-	    return {
-	      showing: attrs.showing
-	    };
-	  },
-
-	  configEditor: function configEditor(el, hasInit) {
-	    if (!hasInit) {
-	      flask.run('#jseditor', { language: 'js' });
-	    }
-	  },
-
-	  sendCode: function sendCode(e) {
-	    ipcRenderer.send('send-code', flask.textarea.value);
-	  },
-
-	  view: function view(ctrl, attrs) {
-	    ctrl.showing = attrs.showing;
-
-	    return (0, _mithril2.default)('div.quick-edit-body.body-frame', { className: ctrl.showing ? '' : 'hidden' }, (0, _mithril2.default)('h1', 'Javascript Editor'), (0, _mithril2.default)("div#jseditor", { 'data-language': "javascript", config: this.configEditor.bind(this) }), (0, _mithril2.default)('div.buttons', (0, _mithril2.default)('button', { onclick: this.sendCode.bind(this), class: 'btn btn-success' }, 'Enviar')));
-	  }
-	};
-
-/***/ },
-/* 19 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-	function CodeFlask() {}
-
-	CodeFlask.prototype.run = function (selector, opts) {
-	    var target = document.querySelectorAll(selector);
-
-	    if (target.length > 1) {
-	        throw 'CodeFlask.js ERROR: run() expects only one element, ' + target.length + ' given. Use .runAll() instead.';
-	    } else {
-	        this.scaffold(target[0], false, opts);
-	    }
-	};
-
-	CodeFlask.prototype.runAll = function (selector, opts) {
-	    // Remove update API for bulk rendering
-	    this.update = null;
-	    this.onUpdate = null;
-
-	    var target = document.querySelectorAll(selector);
-
-	    var i;
-	    for (i = 0; i < target.length; i++) {
-	        this.scaffold(target[i], true, opts);
-	    }
-	};
-
-	CodeFlask.prototype.scaffold = function (target, isMultiple, opts) {
-	    var textarea = document.createElement('TEXTAREA'),
-	        highlightPre = document.createElement('PRE'),
-	        highlightCode = document.createElement('CODE'),
-	        initialCode = target.textContent,
-	        lang;
-
-	    opts.language = this.handleLanguage(opts.language);
-
-	    this.defaultLanguage = target.dataset.language || opts.language || 'markup';
-
-	    // Prevent these vars from being refreshed when rendering multiple
-	    // instances
-	    if (!isMultiple) {
-	        this.textarea = textarea;
-	        this.highlightCode = highlightCode;
-	    }
-
-	    target.classList.add('CodeFlask');
-	    textarea.classList.add('CodeFlask__textarea');
-	    highlightPre.classList.add('CodeFlask__pre');
-	    highlightCode.classList.add('CodeFlask__code');
-	    highlightCode.classList.add('language-' + this.defaultLanguage);
-
-	    // Fixing iOS "drunk-text" issue
-	    if (/iPad|iPhone|iPod/.test(navigator.platform)) {
-	        highlightCode.style.paddingLeft = '3px';
-	    }
-
-	    // Appending editor elements to DOM
-	    target.innerHTML = '';
-	    target.appendChild(textarea);
-	    target.appendChild(highlightPre);
-	    highlightPre.appendChild(highlightCode);
-
-	    // Render initial code inside tag
-	    textarea.value = initialCode;
-	    this.renderOutput(highlightCode, textarea);
-
-	    Prism.highlightAll();
-
-	    this.handleInput(textarea, highlightCode, highlightPre);
-	    this.handleScroll(textarea, highlightPre);
-	};
-
-	CodeFlask.prototype.renderOutput = function (highlightCode, input) {
-	    highlightCode.innerHTML = input.value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") + "\n";
-	};
-
-	CodeFlask.prototype.handleInput = function (textarea, highlightCode, highlightPre) {
-	    var self = this,
-	        input,
-	        selStartPos,
-	        inputVal,
-	        roundedScroll;
-
-	    textarea.addEventListener('input', function (e) {
-	        input = this;
-
-	        self.renderOutput(highlightCode, input);
-
-	        Prism.highlightAll();
-	    });
-
-	    textarea.addEventListener('keydown', function (e) {
-	        input = this, selStartPos = input.selectionStart, inputVal = input.value;
-
-	        // If TAB pressed, insert four spaces
-	        if (e.keyCode === 9) {
-	            input.value = inputVal.substring(0, selStartPos) + "    " + inputVal.substring(selStartPos, input.value.length);
-	            input.selectionStart = selStartPos + 4;
-	            input.selectionEnd = selStartPos + 4;
-	            e.preventDefault();
-
-	            highlightCode.innerHTML = input.value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") + "\n";
-	            Prism.highlightAll();
-	        }
-	    });
-	};
-
-	CodeFlask.prototype.handleScroll = function (textarea, highlightPre) {
-	    textarea.addEventListener('scroll', function () {
-
-	        var roundedScroll = Math.floor(this.scrollTop);
-
-	        // Fixes issue of desync text on mouse wheel, fuck Firefox.
-	        if (navigator.userAgent.toLowerCase().indexOf('firefox') < 0) {
-	            this.scrollTop = roundedScroll;
-	        }
-
-	        highlightPre.style.top = "-" + roundedScroll + "px";
-	    });
-	};
-
-	CodeFlask.prototype.handleLanguage = function (lang) {
-	    if (lang.match(/html|xml|xhtml|svg/)) {
-	        return 'markup';
-	    } else if (lang.match(/js/)) {
-	        return 'javascript';
-	    } else {
-	        return lang;
-	    }
-	};
-
-	CodeFlask.prototype.onUpdate = function (cb) {
-	    if (typeof cb == "function") {
-	        this.textarea.addEventListener('input', function (e) {
-	            cb(this.value);
-	        });
-	    } else {
-	        throw 'CodeFlask.js ERROR: onUpdate() expects function, ' + (typeof cb === 'undefined' ? 'undefined' : _typeof(cb)) + ' given instead.';
-	    }
-	};
-
-	CodeFlask.prototype.update = function (string) {
-	    var evt = document.createEvent("HTMLEvents");
-
-	    this.textarea.value = string;
-	    this.renderOutput(this.highlightCode, this.textarea);
-	    Prism.highlightAll();
-
-	    evt.initEvent("input", false, true);
-	    this.textarea.dispatchEvent(evt);
-	};
-
-	module.exports = CodeFlask;
-
-/***/ },
-/* 20 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _mithril = __webpack_require__(2);
-
-	var _mithril2 = _interopRequireDefault(_mithril);
-
-	var _codeflask = __webpack_require__(19);
-
-	var _codeflask2 = _interopRequireDefault(_codeflask);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _require = __webpack_require__(13);
-
-	var ipcRenderer = _require.ipcRenderer;
-
-
-	var processes = [];
-	var searchProcesses = [];
-
-	//TODO: Improve
-	ipcRenderer.on('procReply', function (event, arg) {
-	    var res = arg.replace(/\r/g, ",");
-	    res = res.split(",");
-
-	    // Remove quotes
-	    var trim = function trim(x) {
-	        return function (x) {
-	            return x.substr(1, x.length - 2);
-	        }(x.trim());
-	    };
-
-	    processes = [];
-	    for (var i = 0; i < res.length / 5 - 1; i++) {
-	        var pid = res[i * 5 + 1];
-	        var name = res[i * 5];
-
-	        processes.push({ pid: parseInt(trim(pid)), name: trim(name) });
-	    }
-
-	    reorderProcesses('name', 'pid');
-	    _mithril2.default.endComputation();
-	});
-
-	function reorderProcesses(by, sec) {
-	    function compare(what, a, b) {
-	        var ap = isNaN(a[what]) ? a[what].toLowerCase() : a[what];
-	        var bp = isNaN(b[what]) ? b[what].toLowerCase() : b[what];
-
-	        if (ap < bp) return -1;
-	        if (ap > bp) return 1;
-	        return compare(sec, a, b);
-	    }
-
-	    processes = processes.sort(compare.bind(null, by));
-	}
-
-	exports.default = {
-	    reloadProc: function reloadProc() {
-	        _mithril2.default.startComputation();
-	        ipcRenderer.send('getProc', null);
-	    },
-
-	    controller: function controller(attrs) {
-	        return {
-	            showing: attrs.showing,
-	            closeOverlayFrame: attrs.closeOverlayFrame,
-	            inputValue: _mithril2.default.prop("")
-	        };
-	    },
-
-	    reloadNow: function reloadNow() {
-	        this.reloadProc();
-	    },
-
-	    setTarget: function setTarget(ctrl, target, e) {
-	        _mithril2.default.startComputation();
-	        ipcRenderer.send('set-target', target);
-	        ctrl.closeOverlayFrame();
-	    },
-
-	    search: function search(processes, str) {
-	        var matches = [];
-	        var re = new RegExp(str, 'i');
-
-	        for (var i = 0; i < processes.length; ++i) {
-	            if (processes[i].name.match(re)) {
-	                matches.push(processes[i]);
-	            }
-	        }
-
-	        return matches;
-	    },
-
-	    focusSearch: function focusSearch(el, hasInit) {
-	        hasInit && el.focus();
-	    },
-
-	    view: function view(ctrl, attrs) {
-	        var _this = this;
-
-	        // Reload now if it was not showing before
-	        if (!ctrl.showing && attrs.showing) {
-	            this.reloadNow();
-	        }
-
-	        ctrl.showing = attrs.showing;
-
-	        return (0, _mithril2.default)('div.target-body', { className: ctrl.showing ? 'modal fade in show' : 'modal fade hidden', role: 'dialog' }, (0, _mithril2.default)('div', { class: 'modal-dialog modal-lg' }, (0, _mithril2.default)('div', { class: 'modal-content' }, (0, _mithril2.default)('div', { class: 'modal-header' }, (0, _mithril2.default)('button', { class: 'close', onclick: ctrl.closeOverlayFrame }, 'x'), (0, _mithril2.default)('h4', 'Select Process:', { class: 'modal-title' })), (0, _mithril2.default)('input.process-search[type=text]', {
-	            config: this.focusSearch.bind(this),
-	            inputValue: ctrl.inputValue(),
-	            oninput: _mithril2.default.withAttr('value', ctrl.inputValue),
-	            placeholder: 'Search process'
-	        }), (0, _mithril2.default)('div#procContainer', { class: 'modal-body' }, '', (0, _mithril2.default)('ul#processList', { class: 'list-group' }, (ctrl.inputValue() ? this.search(processes, ctrl.inputValue()) : processes).map(function (e) {
-	            return (0, _mithril2.default)('li.list-group-item', { onclick: _this.setTarget.bind(_this, ctrl, e) }, (0, _mithril2.default)('span.badge', e.pid), e.name);
-	        }))), (0, _mithril2.default)('div', { class: 'modal-footer' }, (0, _mithril2.default)('button', { onclick: reorderProcesses.bind(this, 'name', 'pid'), class: 'btn btn-default' }, 'By name'), (0, _mithril2.default)('button', { onclick: reorderProcesses.bind(this, 'pid', null), class: 'btn btn-default' }, 'By PID'), (0, _mithril2.default)('button', { onclick: this.reloadProc.bind(this), class: 'btn btn-default' }, 'Reload'), (0, _mithril2.default)('button', { onclick: ctrl.closeOverlayFrame, class: 'btn btn-default' }, 'Close')))));
-	    }
-	};
-
-/***/ },
-/* 21 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var path = __webpack_require__(22);
-
-	function doNotify(options, image) {
-	    if (!image) {
-	        new Notification(options.title, options);
-	    } else {
-	        options.icon = 'LogoApe.ico';
-	        new Notification(options.title, options);
-	    }
-	}
-
-	module.exports = {
-	    doNotify: doNotify
-	};
-
-/***/ },
-/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -3743,10 +3347,10 @@
 	    }
 	;
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(23)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(18)))
 
 /***/ },
-/* 23 */
+/* 18 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -3869,6 +3473,445 @@
 	};
 	process.umask = function() { return 0; };
 
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _mithril = __webpack_require__(2);
+
+	var _mithril2 = _interopRequireDefault(_mithril);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _require = __webpack_require__(13);
+
+	var ipcRenderer = _require.ipcRenderer;
+
+	var dialog = __webpack_require__(13).remote.dialog;
+
+	var projects = [];
+
+	var scanProjects = function scanProjects(config) {
+	    ipcRenderer.send('scan-projects', config.projectFolder);
+	    _mithril2.default.startComputation();
+	};
+
+	ipcRenderer.on('scanned-projects', function (event, args) {
+	    projects = args;
+	    _mithril2.default.endComputation();
+	});
+
+	exports.default = {
+	    controller: function controller(attrs) {
+	        var config = ipcRenderer.sendSync('get-config');
+	        if (!config.projectFolder) {
+	            config.projectFolder = ipcRenderer.sendSync('get-default-projects-path');
+	            ipcRenderer.send('set-config', config);
+	        }
+
+	        return {
+	            showing: attrs.showing,
+	            config: config
+	        };
+	    },
+
+	    showDialog: function showDialog(ctrl, e) {
+	        var folder = dialog.showOpenDialog({ properties: ['openDirectory'], defaultPath: ctrl.config.projectFolder });
+	        if (folder) {
+	            ctrl.config.projectFolder = folder[0];
+	            ipcRenderer.send('set-config', ctrl.config);
+	            scanProjects(ctrl.config);
+	        }
+	    },
+
+	    setActive: function setActive(ctrl, el, e) {
+	        ctrl.config.activeProject = el;
+	        ipcRenderer.send('set-config', ctrl.config);
+	    },
+
+	    view: function view(ctrl, attrs) {
+	        var _this = this;
+
+	        if (!ctrl.showing && attrs.showing) {
+	            scanProjects(ctrl.config);
+	        }
+
+	        ctrl.showing = attrs.showing;
+
+	        return (0, _mithril2.default)('div.project-body.body-frame', { className: ctrl.showing ? '' : 'hidden' }, (0, _mithril2.default)('h1', 'Config Folder'), (0, _mithril2.default)('div.inputfile', { onclick: this.showDialog.bind(this, ctrl) }, ctrl.config.projectFolder), (0, _mithril2.default)('div.button', { onclick: this.showDialog.bind(this, ctrl) }, 'Click to select'), (0, _mithril2.default)('h1', 'Projects'), (0, _mithril2.default)('ul', projects.map(function (el) {
+	            return (0, _mithril2.default)('li', {
+	                className: ctrl.config.activeProject == el ? 'project active' : 'project',
+	                onclick: _this.setActive.bind(_this, ctrl, el)
+	            }, el);
+	        })));
+	    }
+	};
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _mithril = __webpack_require__(2);
+
+	var _mithril2 = _interopRequireDefault(_mithril);
+
+	var _codeflask = __webpack_require__(21);
+
+	var _codeflask2 = _interopRequireDefault(_codeflask);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _require = __webpack_require__(13);
+
+	var ipcRenderer = _require.ipcRenderer;
+
+
+	var flask = new _codeflask2.default();
+
+	exports.default = {
+	  controller: function controller(attrs) {
+	    return {
+	      showing: attrs.showing
+	    };
+	  },
+
+	  configEditor: function configEditor(el, hasInit) {
+	    if (!hasInit) {
+	      flask.run('#jseditor', { language: 'js' });
+	    }
+	  },
+
+	  sendCode: function sendCode(e) {
+	    ipcRenderer.send('send-code', flask.textarea.value);
+	  },
+
+	  view: function view(ctrl, attrs) {
+	    ctrl.showing = attrs.showing;
+
+	    return (0, _mithril2.default)('div.quick-edit-body.body-frame', { className: ctrl.showing ? '' : 'hidden' }, (0, _mithril2.default)('h1', 'Javascript Editor'), (0, _mithril2.default)("div#jseditor", { 'data-language': "javascript", config: this.configEditor.bind(this) }), (0, _mithril2.default)('div.buttons', (0, _mithril2.default)('button', { onclick: this.sendCode.bind(this), class: 'btn btn-success' }, 'Enviar')));
+	  }
+	};
+
+/***/ },
+/* 21 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	function CodeFlask() {}
+
+	CodeFlask.prototype.run = function (selector, opts) {
+	    var target = document.querySelectorAll(selector);
+
+	    if (target.length > 1) {
+	        throw 'CodeFlask.js ERROR: run() expects only one element, ' + target.length + ' given. Use .runAll() instead.';
+	    } else {
+	        this.scaffold(target[0], false, opts);
+	    }
+	};
+
+	CodeFlask.prototype.runAll = function (selector, opts) {
+	    // Remove update API for bulk rendering
+	    this.update = null;
+	    this.onUpdate = null;
+
+	    var target = document.querySelectorAll(selector);
+
+	    var i;
+	    for (i = 0; i < target.length; i++) {
+	        this.scaffold(target[i], true, opts);
+	    }
+	};
+
+	CodeFlask.prototype.scaffold = function (target, isMultiple, opts) {
+	    var textarea = document.createElement('TEXTAREA'),
+	        highlightPre = document.createElement('PRE'),
+	        highlightCode = document.createElement('CODE'),
+	        initialCode = target.textContent,
+	        lang;
+
+	    opts.language = this.handleLanguage(opts.language);
+
+	    this.defaultLanguage = target.dataset.language || opts.language || 'markup';
+
+	    // Prevent these vars from being refreshed when rendering multiple
+	    // instances
+	    if (!isMultiple) {
+	        this.textarea = textarea;
+	        this.highlightCode = highlightCode;
+	    }
+
+	    target.classList.add('CodeFlask');
+	    textarea.classList.add('CodeFlask__textarea');
+	    highlightPre.classList.add('CodeFlask__pre');
+	    highlightCode.classList.add('CodeFlask__code');
+	    highlightCode.classList.add('language-' + this.defaultLanguage);
+
+	    // Fixing iOS "drunk-text" issue
+	    if (/iPad|iPhone|iPod/.test(navigator.platform)) {
+	        highlightCode.style.paddingLeft = '3px';
+	    }
+
+	    // Appending editor elements to DOM
+	    target.innerHTML = '';
+	    target.appendChild(textarea);
+	    target.appendChild(highlightPre);
+	    highlightPre.appendChild(highlightCode);
+
+	    // Render initial code inside tag
+	    textarea.value = initialCode;
+	    this.renderOutput(highlightCode, textarea);
+
+	    Prism.highlightAll();
+
+	    this.handleInput(textarea, highlightCode, highlightPre);
+	    this.handleScroll(textarea, highlightPre);
+	};
+
+	CodeFlask.prototype.renderOutput = function (highlightCode, input) {
+	    highlightCode.innerHTML = input.value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") + "\n";
+	};
+
+	CodeFlask.prototype.handleInput = function (textarea, highlightCode, highlightPre) {
+	    var self = this,
+	        input,
+	        selStartPos,
+	        inputVal,
+	        roundedScroll;
+
+	    textarea.addEventListener('input', function (e) {
+	        input = this;
+
+	        self.renderOutput(highlightCode, input);
+
+	        Prism.highlightAll();
+	    });
+
+	    textarea.addEventListener('keydown', function (e) {
+	        input = this, selStartPos = input.selectionStart, inputVal = input.value;
+
+	        // If TAB pressed, insert four spaces
+	        if (e.keyCode === 9) {
+	            input.value = inputVal.substring(0, selStartPos) + "    " + inputVal.substring(selStartPos, input.value.length);
+	            input.selectionStart = selStartPos + 4;
+	            input.selectionEnd = selStartPos + 4;
+	            e.preventDefault();
+
+	            highlightCode.innerHTML = input.value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") + "\n";
+	            Prism.highlightAll();
+	        }
+	    });
+	};
+
+	CodeFlask.prototype.handleScroll = function (textarea, highlightPre) {
+	    textarea.addEventListener('scroll', function () {
+
+	        var roundedScroll = Math.floor(this.scrollTop);
+
+	        // Fixes issue of desync text on mouse wheel, fuck Firefox.
+	        if (navigator.userAgent.toLowerCase().indexOf('firefox') < 0) {
+	            this.scrollTop = roundedScroll;
+	        }
+
+	        highlightPre.style.top = "-" + roundedScroll + "px";
+	    });
+	};
+
+	CodeFlask.prototype.handleLanguage = function (lang) {
+	    if (lang.match(/html|xml|xhtml|svg/)) {
+	        return 'markup';
+	    } else if (lang.match(/js/)) {
+	        return 'javascript';
+	    } else {
+	        return lang;
+	    }
+	};
+
+	CodeFlask.prototype.onUpdate = function (cb) {
+	    if (typeof cb == "function") {
+	        this.textarea.addEventListener('input', function (e) {
+	            cb(this.value);
+	        });
+	    } else {
+	        throw 'CodeFlask.js ERROR: onUpdate() expects function, ' + (typeof cb === 'undefined' ? 'undefined' : _typeof(cb)) + ' given instead.';
+	    }
+	};
+
+	CodeFlask.prototype.update = function (string) {
+	    var evt = document.createEvent("HTMLEvents");
+
+	    this.textarea.value = string;
+	    this.renderOutput(this.highlightCode, this.textarea);
+	    Prism.highlightAll();
+
+	    evt.initEvent("input", false, true);
+	    this.textarea.dispatchEvent(evt);
+	};
+
+	module.exports = CodeFlask;
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _mithril = __webpack_require__(2);
+
+	var _mithril2 = _interopRequireDefault(_mithril);
+
+	var _codeflask = __webpack_require__(21);
+
+	var _codeflask2 = _interopRequireDefault(_codeflask);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _require = __webpack_require__(13);
+
+	var ipcRenderer = _require.ipcRenderer;
+
+
+	var processes = [];
+	var searchProcesses = [];
+
+	//TODO: Improve
+	ipcRenderer.on('procReply', function (event, arg) {
+	    var res = arg.replace(/\r/g, ",");
+	    res = res.split(",");
+
+	    // Remove quotes
+	    var trim = function trim(x) {
+	        return function (x) {
+	            return x.substr(1, x.length - 2);
+	        }(x.trim());
+	    };
+
+	    processes = [];
+	    for (var i = 0; i < res.length / 5 - 1; i++) {
+	        var pid = res[i * 5 + 1];
+	        var name = res[i * 5];
+
+	        processes.push({ pid: parseInt(trim(pid)), name: trim(name) });
+	    }
+
+	    reorderProcesses('name', 'pid');
+	    _mithril2.default.endComputation();
+	});
+
+	function reorderProcesses(by, sec) {
+	    function compare(what, a, b) {
+	        var ap = isNaN(a[what]) ? a[what].toLowerCase() : a[what];
+	        var bp = isNaN(b[what]) ? b[what].toLowerCase() : b[what];
+
+	        if (ap < bp) return -1;
+	        if (ap > bp) return 1;
+	        return compare(sec, a, b);
+	    }
+
+	    processes = processes.sort(compare.bind(null, by));
+	}
+
+	exports.default = {
+	    reloadProc: function reloadProc() {
+	        _mithril2.default.startComputation();
+	        ipcRenderer.send('getProc', null);
+	    },
+
+	    controller: function controller(attrs) {
+	        return {
+	            showing: attrs.showing,
+	            closeOverlayFrame: attrs.closeOverlayFrame,
+	            inputValue: _mithril2.default.prop("")
+	        };
+	    },
+
+	    reloadNow: function reloadNow() {
+	        this.reloadProc();
+	    },
+
+	    setTarget: function setTarget(ctrl, target, e) {
+	        _mithril2.default.startComputation();
+	        ipcRenderer.send('set-target', target);
+	        ctrl.closeOverlayFrame();
+	    },
+
+	    search: function search(processes, str) {
+	        var matches = [];
+	        var re = new RegExp(str, 'i');
+
+	        for (var i = 0; i < processes.length; ++i) {
+	            if (processes[i].name.match(re)) {
+	                matches.push(processes[i]);
+	            }
+	        }
+
+	        return matches;
+	    },
+
+	    focusSearch: function focusSearch(el, hasInit) {
+	        hasInit && el.focus();
+	    },
+
+	    view: function view(ctrl, attrs) {
+	        var _this = this;
+
+	        // Reload now if it was not showing before
+	        if (!ctrl.showing && attrs.showing) {
+	            this.reloadNow();
+	        }
+
+	        ctrl.showing = attrs.showing;
+
+	        return (0, _mithril2.default)('div.target-body', { className: ctrl.showing ? 'modal fade in show' : 'modal fade hidden', role: 'dialog' }, (0, _mithril2.default)('div', { class: 'modal-dialog modal-lg' }, (0, _mithril2.default)('div', { class: 'modal-content' }, (0, _mithril2.default)('div', { class: 'modal-header' }, (0, _mithril2.default)('button', { class: 'close', onclick: ctrl.closeOverlayFrame }, 'x'), (0, _mithril2.default)('h4', 'Select Process:', { class: 'modal-title' })), (0, _mithril2.default)('input.process-search[type=text]', {
+	            config: this.focusSearch.bind(this),
+	            inputValue: ctrl.inputValue(),
+	            oninput: _mithril2.default.withAttr('value', ctrl.inputValue),
+	            placeholder: 'Search process'
+	        }), (0, _mithril2.default)('div#procContainer', { class: 'modal-body' }, '', (0, _mithril2.default)('ul#processList', { class: 'list-group' }, (ctrl.inputValue() ? this.search(processes, ctrl.inputValue()) : processes).map(function (e) {
+	            return (0, _mithril2.default)('li.list-group-item', { onclick: _this.setTarget.bind(_this, ctrl, e) }, (0, _mithril2.default)('span.badge', e.pid), e.name);
+	        }))), (0, _mithril2.default)('div', { class: 'modal-footer' }, (0, _mithril2.default)('button', { onclick: reorderProcesses.bind(this, 'name', 'pid'), class: 'btn btn-default' }, 'By name'), (0, _mithril2.default)('button', { onclick: reorderProcesses.bind(this, 'pid', null), class: 'btn btn-default' }, 'By PID'), (0, _mithril2.default)('button', { onclick: this.reloadProc.bind(this), class: 'btn btn-default' }, 'Reload'), (0, _mithril2.default)('button', { onclick: ctrl.closeOverlayFrame, class: 'btn btn-default' }, 'Close')))));
+	    }
+	};
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var path = __webpack_require__(17);
+
+	function doNotify(options, image) {
+	    if (!image) {
+	        new Notification(options.title, options);
+	    } else {
+	        options.icon = 'LogoApe.ico';
+	        new Notification(options.title, options);
+	    }
+	}
+
+	module.exports = {
+	    doNotify: doNotify
+	};
 
 /***/ }
 /******/ ]);

@@ -78,7 +78,7 @@ function reloadProjectFiles(sender) {
                 acc.push(recur(file2, []));
             }
             else {
-                acc.push(file2);
+                acc.push(file);
             }
         });
 
@@ -86,7 +86,7 @@ function reloadProjectFiles(sender) {
         o[path.basename(dir)] = acc;
         return o;
     };
-    
+
     var files = recur(path.join(config.projectFolder, config.activeProject), []);
     (sender || mainWindow.webContents).send('reload-project-files', files);
 }
@@ -148,7 +148,7 @@ app.on('ready', function() {
     splashWindow.loadURL('file://' + path.resolve(__dirname,'../public/splash.html'));
 
     // Open the devtools.
-    program.devTools && mainWindow.openDevTools({detached:true});
+    program.devTools && mainWindow.openDevTools({mode: 'detach'});
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function(){
