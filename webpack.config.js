@@ -37,6 +37,10 @@ module.exports = {
                 include: path.join(__dirname, "/public"),
                 loader: "style!css!less",
                 happy: { id: 'js' }
+            },
+            {
+                test: /(\.gif|\.svg|\.jpg|\.png|\.ico)$/,
+                loader: "file-loader?limit=100000"
             }
         ],
     },
