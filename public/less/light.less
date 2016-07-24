@@ -1,0 +1,214 @@
+@test-variable: #ccc;
+
+// Sizes
+@window-height: 600px;
+@window-width: 1000px;
+@title-height: 23px;
+@menu-height: 23px;
+@header-height: @title-height + @menu-height;
+@menu-width: 134px;
+
+* {
+    -webkit-user-select: none;
+}
+
+html,
+body,
+.height100 {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    background-color: #FFFFFF ;
+}
+
+input {
+  background-color: @test-variable;
+  width: 100%;
+}
+
+.title-frame {
+    position: relative;
+    width: 100%;
+    height: @title-height;
+    background-color: #127FA3;
+    text-align: right;
+    color: white;
+}
+
+.title-frame > .title {
+    position: relative;
+    text-align: center;
+    -webkit-app-region: drag;
+    line-height: @title-height;
+}
+
+.title-frame > .buttons {
+    position: relative;
+    top: -@title-height;
+    z-index: 2;
+    padding-right: 3px;
+}
+
+.title-frame > .buttons > button {
+    -webkit-app-region: no-drag;
+}
+
+.close-button {
+    position: relative;
+    box-shadow: inset 0px -3px 7px 0px #29bbff;
+    background-color: #2dabf9;
+    border-radius: 3px;
+    border: 1px solid #0b0e07;
+    display: inline-block;
+    cursor: pointer;
+    color:#ffffff;
+    font-family: Arial;
+    font-size: 10px;
+    padding: 1px 4px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #263666;
+}
+
+.close-button:hover {
+    background-color:#0688fa;
+}
+
+.close-button:active {
+    position:relative;
+    top:1px;
+}
+
+.menu-frame {
+    position: relative;
+    height: @menu-height;
+    background-color: #1BA4D1;
+}
+
+.menu-frame > .buttons > a {
+    color: white;
+    padding: 12px;
+}
+
+.menu-lateral {
+    position: absolute;
+    height: @window-height - @header-height;
+    width: @menu-width;
+    background-color: #EBFAFF;
+    border-style: solid;
+    border-right: 2px solid #000000;
+    border-left: 0px;
+    border-top: 0px;
+    border-bottom: 0px;
+}
+
+ul {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+ul li:first-child {
+    margin-top: 0;
+}
+
+ul li:last-child {
+    margin-bottom: 0;
+}
+
+li {
+      margin: 15px;
+      margin-left: 0px;
+      padding-left: 15px;
+      position: relative;
+      list-style-type: none;
+      font-weight: bold;
+      text-align: left;
+}
+
+li > a {
+    color: #545454;
+    text-decoration: none;
+    font-weight: bold;
+    font-variant: small-caps;
+    cursor: pointer;
+}
+
+li > a:hover {
+    color: #cacaca;
+    text-decoration: none;
+}
+
+li.menu-active {
+    width: @menu-width;
+    height: 40px;
+    background-color: #9EE7FF;
+    line-height: 40px;
+}
+
+.menu-active > a {
+    color: black;
+}
+
+.menu-active > a:hover {
+    color: black;
+}
+
+.menu-active::after {
+    position: relative;
+    left: @menu-width - 29px;
+    top: -34px;
+    display: block;
+    width: 28.28px;
+    height: 28.28px;
+    background-color: #9EE7FF;
+    transform: rotate(45deg);
+    content: ' ';
+    z-index: -1;
+}
+
+.body-frame {
+    position: relative;
+    left: @menu-width;
+    width: @window-width - @menu-width;
+    height: @window-height - @header-height;
+    padding: 15px 30px 15px 30px;
+}
+
+.body-frame > h1 {
+    color: #000000
+}
+
+.quick-edit-body > .buttons {
+    margin: 0 auto;
+    text-align: right;
+    width: 100%;
+}
+
+.quick-edit-body > .buttons > button {
+    margin-top: 10px;
+    margin-left: 15px;
+}
+
+#jseditor {
+    position: relative;
+    width: 100%;
+    height: @window-height - (@header-height + 150px);
+    border: 1px solid #000;
+    background: #EBFAFF;
+}
+
+#jseditor > pre > code {
+    text-shadow: 0 1px #263238;
+}
+
+#consoleDialog {
+    background-color: rgba(0,0,0,0.6); 
+}
+
+.modal-content {
+    background-color: #EBFAFF;
+    color: black;  
+}
