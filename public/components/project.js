@@ -50,7 +50,7 @@ export default {
         ctrl.showing = attrs.showing;
 
 		return m('div.project-body.body-frame', {className: ctrl.showing ? '' : 'hidden'},
-    			m('h1', 'Config Folder'),
+    			m('h1', 'Projects root folder'),
                 m('div.inputfile', {onclick: this.showDialog.bind(this, ctrl)}, ctrl.config.projectFolder),
                 m('div.button', {onclick: this.showDialog.bind(this, ctrl)}, 'Click to select'),
                 m('h1', 'Projects'),

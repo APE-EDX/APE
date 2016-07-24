@@ -4,6 +4,11 @@ import CodeFlask from './codeflask';
 
 let flask = new CodeFlask;
 
+ipcRenderer.on('quick-edit-contents', (event, data) => {
+    flask.update(data);
+    m.redraw();
+});
+
 export default {
     controller: function(attrs) {
         return {

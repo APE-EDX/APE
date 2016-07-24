@@ -66,6 +66,12 @@ ipcMain.on('request-project-files', (event, args) => {
     reloadProjectFiles(event.sender);
 });
 
+ipcMain.on('quick-edit-file', (event, file) => {
+    fs.readFile(file, 'utf-8', (err, data) => {
+        event.sender.send('quick-edit-contents', data);
+    })
+});
+
 function reloadProjectFiles(sender) {
     var recur = function(dir, acc) {
         var list = fs.readdirSync(dir);
@@ -88,7 +94,7 @@ function reloadProjectFiles(sender) {
     };
 
     var files = recur(path.join(config.projectFolder, config.activeProject), []);
-    (sender || mainWindow.webContents).send('reload-project-files', files);
+    (sender || mainWindow.webContents).send('reload-project-files', {root: config.projectFolder, files: files});
 }
 
 let argv = [process.argv[0], '.'];

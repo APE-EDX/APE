@@ -3032,20 +3032,19 @@
 	        if (!Array.isArray(what) && (typeof what === 'undefined' ? 'undefined' : _typeof(what)) == "object") {
 	            var key = Object.keys(what)[0];
 	            var children = recurse(what[key], [], path.join(root, key));
-	            acc.push(new TreeElement(key, children));
+	            acc.push(new TreeElement(key, path.join(root, key), children));
 	        } else if (Array.isArray(what)) {
 	            for (var i = 0; i < what.length; ++i) {
 	                acc.push(recurse(what[i], [], root)[0]);
 	            }
 	        } else {
-	            acc.push(new TreeElement(what));
+	            acc.push(new TreeElement(what, root));
 	        }
 
 	        return acc;
 	    };
 
-	    files = recurse(newFiles, [], '');
-	    console.log(files);
+	    files = recurse(newFiles.files, [], newFiles.root);
 	    _mithril2.default.redraw();
 	});
 
@@ -3060,7 +3059,7 @@
 
 	    fileClicked: function fileClicked(ctrl, e) {
 	        // Broadcast edition
-	        ipcRenderer.send('quick-edit-file', e.target.dataset.name);
+	        ipcRenderer.send('quick-edit-file', path.join(e.target.dataset.root, e.target.dataset.name));
 
 	        // Goto quick-edit
 	        ctrl.changeFrame({ target: { dataset: { target: 3 } } });
@@ -3103,6 +3102,7 @@
 	                    return (0, _mithril2.default)('li', {
 	                        'data-type': item.type,
 	                        'data-name': item.name(),
+	                        'data-root': item.root(),
 	                        onclick: item.type == 'file' ? ctrl.fileClick : null
 	                    }, [(0, _mithril2.default)('img', { src: item.type == 'folder' ? folderIco : fileIco }), item.name(), item.children() ? (0, _mithril2.default)('ul', recurse(item.children())) : null]);
 	                });
@@ -3111,9 +3111,10 @@
 	        }
 	    },
 
-	    TreeElement: function TreeElement(name, children) {
+	    TreeElement: function TreeElement(name, root, children) {
 	        this.children = _mithril2.default.prop(children || []);
 	        this.name = _mithril2.default.prop(name);
+	        this.root = _mithril2.default.prop(root);
 	        this.type = this.children().length > 0 ? 'folder' : 'file';
 	    }
 	};
@@ -3545,7 +3546,7 @@
 
 	        ctrl.showing = attrs.showing;
 
-	        return (0, _mithril2.default)('div.project-body.body-frame', { className: ctrl.showing ? '' : 'hidden' }, (0, _mithril2.default)('h1', 'Config Folder'), (0, _mithril2.default)('div.inputfile', { onclick: this.showDialog.bind(this, ctrl) }, ctrl.config.projectFolder), (0, _mithril2.default)('div.button', { onclick: this.showDialog.bind(this, ctrl) }, 'Click to select'), (0, _mithril2.default)('h1', 'Projects'), (0, _mithril2.default)('ul', projects.map(function (el) {
+	        return (0, _mithril2.default)('div.project-body.body-frame', { className: ctrl.showing ? '' : 'hidden' }, (0, _mithril2.default)('h1', 'Projects root folder'), (0, _mithril2.default)('div.inputfile', { onclick: this.showDialog.bind(this, ctrl) }, ctrl.config.projectFolder), (0, _mithril2.default)('div.button', { onclick: this.showDialog.bind(this, ctrl) }, 'Click to select'), (0, _mithril2.default)('h1', 'Projects'), (0, _mithril2.default)('ul', projects.map(function (el) {
 	            return (0, _mithril2.default)('li', {
 	                className: ctrl.config.activeProject == el ? 'project active' : 'project',
 	                onclick: _this.setActive.bind(_this, ctrl, el)
@@ -3580,6 +3581,11 @@
 
 
 	var flask = new _codeflask2.default();
+
+	ipcRenderer.on('quick-edit-contents', function (event, data) {
+	  flask.update(data);
+	  _mithril2.default.redraw();
+	});
 
 	exports.default = {
 	  controller: function controller(attrs) {

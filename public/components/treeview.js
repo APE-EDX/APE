@@ -20,6 +20,7 @@ module.exports = {
                     return m('li', {
                             'data-type': item.type,
                             'data-name': item.name(),
+                            'data-root': item.root(),
                             onclick: item.type == 'file' ? ctrl.fileClick : null
                         }, [
                             m('img', {src: item.type == 'folder' ? folderIco : fileIco}),
@@ -35,9 +36,10 @@ module.exports = {
         }
     },
 
-    TreeElement: function(name, children) {
+    TreeElement: function(name, root, children) {
         this.children = m.prop(children || []);
         this.name = m.prop(name);
+        this.root = m.prop(root);
         this.type = this.children().length > 0 ? 'folder' : 'file';
     }
 };

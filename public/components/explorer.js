@@ -18,7 +18,7 @@ ipcRenderer.on('reload-project-files', (event, newFiles) => {
         if (!Array.isArray(what) && typeof what == "object") {
             var key = Object.keys(what)[0];
             var children = recurse(what[key], [], path.join(root, key));
-            acc.push(new TreeElement(key, children));
+            acc.push(new TreeElement(key, path.join(root, key), children));
         }
         else if (Array.isArray(what)) {
             for (var i = 0; i < what.length; ++i) {
@@ -26,14 +26,13 @@ ipcRenderer.on('reload-project-files', (event, newFiles) => {
             }
         }
         else {
-            acc.push(new TreeElement(what));
+            acc.push(new TreeElement(what, root));
         }
 
         return acc;
     }
 
-    files = recurse(newFiles, [], '');
-    console.log(files);
+    files = recurse(newFiles.files, [], newFiles.root);
     m.redraw();
 });
 
@@ -48,7 +47,7 @@ export default {
 
     fileClicked: function(ctrl, e) {
         // Broadcast edition
-        ipcRenderer.send('quick-edit-file', e.target.dataset.name);
+        ipcRenderer.send('quick-edit-file', path.join(e.target.dataset.root, e.target.dataset.name));
 
         // Goto quick-edit
         ctrl.changeFrame({target: {dataset: {target: 3}}});
