@@ -35,10 +35,12 @@
     "electron-mocha": "^2.3.0",
     "electron-prebuilt": "^1.2.5",
     "electron-reload": "^1.0.0",
+    "file-loader": "^0.9.0",
     "happypack": "^2.1.1",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
     "webpack": "^1.13.1"
   }
 }
