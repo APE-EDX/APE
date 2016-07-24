@@ -1,5 +1,6 @@
 import m from 'mithril';
 import '../less/main.less';
+import '../less/light.less';
 import '../less/codeflask.less';
 import '../less/prism.less';
 const {ipcRenderer} = require('electron');
