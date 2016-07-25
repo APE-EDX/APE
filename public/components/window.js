@@ -34,6 +34,15 @@ ipcRenderer.on('lost-target', (event, lostTarget) => {
 	m.redraw();
 });
 
+ipcRenderer.on('save-result', (event, result) => {
+	if (result) {
+		Notifications.doNotify({title: 'Injection', body: 'Saved file'}, true);
+	}
+	else {
+		Notifications.doNotify({title: 'Injection', body: 'Could not save file'}, true);
+	}
+});
+
 export default {
 	controller: function() {
 		return {

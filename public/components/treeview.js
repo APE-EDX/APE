@@ -15,23 +15,24 @@ module.exports = {
         view: function(ctrl, attrs) {
             ctrl.treeRoot = m.prop(attrs.treeRoot);
 
-            var recurse = function(list) {
+            var recurse = function(list, level) {
                 return list.map(function(item) {
                     return m('li', {
                             'data-type': item.type,
                             'data-name': item.name(),
                             'data-root': item.root(),
+                            style: {'text-indent': (15 * level) + 'px'},
                             onclick: item.type == 'file' ? ctrl.fileClick : null
                         }, [
                             m('img', {src: item.type == 'folder' ? folderIco : fileIco}),
                             item.name(),
-                            item.children() ? m('ul', recurse(item.children())) : null
+                            item.children() ? m('ul', recurse(item.children(), level + 1)) : null
                         ]
                     );
                 });
             };
             return m('ul', [
-                recurse(ctrl.treeRoot())
+                recurse(ctrl.treeRoot(), 1)
             ]);
         }
     },

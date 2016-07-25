@@ -22,6 +22,10 @@ export default {
 		}
 	},
 
+    saveCode: function(e) {
+        ipcRenderer.send('save-code', flask.textarea.value);
+    },
+
 	sendCode: function(e) {
 		ipcRenderer.send('send-code', flask.textarea.value);
 	},
@@ -33,7 +37,8 @@ export default {
     			m('h1', 'Javascript Editor'),
     			m("div#jseditor", {'data-language': "javascript", config: this.configEditor.bind(this)}),
     			m('div.buttons',
-    				m('button', {onclick: this.sendCode.bind(this), class:'btn btn-success' }, 'Enviar')
+                    m('button', {onclick: this.saveCode.bind(this), class: 'btn btn-success'}, 'Guardar'),
+    				m('button', {onclick: this.sendCode.bind(this), class: 'btn btn-success'}, 'Enviar')
     			)
     		);
 	}

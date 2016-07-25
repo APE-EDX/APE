@@ -66,10 +66,22 @@ ipcMain.on('request-project-files', (event, args) => {
     reloadProjectFiles(event.sender);
 });
 
+var currentFile = null;
 ipcMain.on('quick-edit-file', (event, file) => {
+    currentFile = file;
     fs.readFile(file, 'utf-8', (err, data) => {
         event.sender.send('quick-edit-contents', data);
     })
+});
+
+ipcMain.on('save-code', (event, data) => {
+    if (currentFile) {
+        fs.writeFile(currentFile, data, 'utf-8', (err) => {
+            event.sender.send('save-result', !!!err);
+        });
+    } else {
+        event.sender.send('save-result', false);
+    }
 });
 
 function reloadProjectFiles(sender) {
