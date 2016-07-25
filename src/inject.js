@@ -85,6 +85,12 @@ module.exports = (rendererWindow, callback) => {
 
     return {
         injector: injector,
-        inject: inject
+        inject: inject,
+        send: function(code) {
+            if (dllSocket) {
+                var json = {method: 'eval_js', args: [code]};
+                dllSocket.write(JSON.stringify(json));
+            }
+        }
     };
 };

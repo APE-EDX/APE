@@ -91,6 +91,39 @@ ipcMain.on('save-code', (event, data) => {
     }
 });
 
+ipcMain.on('send-all', (event, args) => {
+    var root = path.join(config.projectFolder, config.activeProject);
+    var OEP = jsonfile.readFileSync(path.join(root, '.ape')).OEP;
+
+    var recur = function(dir, root) {
+        var list = fs.readdirSync(dir);
+
+        list.forEach(function(file){
+            var file2 = path.resolve(dir, file);
+            var stats = fs.statSync(file2);
+
+            if(stats.isDirectory()) {
+                recur(file2, path.join(root, file));
+            }
+            else {
+                if (!path.relative(path.join(root, file) == OEP)) {
+                    OEP = file2;
+                }
+                else {
+                    inject.send(fs.readFileSync(file2, 'utf-8'));
+                }
+            }
+        });
+
+        var o = {};
+        o[path.basename(dir)] = acc;
+        return o;
+    };
+
+    recur(root, '.');
+    inject.send(fs.readFileSync(OEP, 'utf-8'));
+});
+
 function reloadProjectFiles(sender) {
     var recur = function(dir, acc) {
         var list = fs.readdirSync(dir);
@@ -115,12 +148,16 @@ function reloadProjectFiles(sender) {
     try {
         if (config.projectFolder && config.activeProject) {
             var files = recur(path.join(config.projectFolder, config.activeProject), []);
-            (sender || mainWindow.webContents).send('reload-project-files', {root: config.projectFolder, files: files});
+            var ret = {root: config.projectFolder, files: files};
+            (sender || mainWindow.webContents).send('reload-project-files', ret);
+            return ret;
         }
     }
     catch (e) {
         // Unexisting directory
     }
+
+    return [];
 }
 
 let argv = [process.argv[0], '.'];
