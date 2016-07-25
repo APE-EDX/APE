@@ -65,7 +65,7 @@ export default {
 
     search: function(processes, str) {
         var matches = [];
-        var re = new RegExp(str);
+        var re = new RegExp(str, 'i');
 
         for (var i = 0; i < processes.length; ++i) {
             if (processes[i].name.match(re)) {
@@ -88,7 +88,7 @@ export default {
 
         ctrl.showing = attrs.showing;
 
-        return m('div#consoleDialog', {className: ctrl.showing ? 'modal fade in show' : 'modal fade hidden', role: 'dialog'},
+        return m('div.target-body', {className: ctrl.showing ? 'modal fade in show' : 'modal fade hidden', role: 'dialog'},
             m('div', {class: 'modal-dialog modal-lg'},
                 m('div', {class: 'modal-content'},
                     m('div', {class: 'modal-header'},

@@ -56,7 +56,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var electron = __webpack_require__(13);
+	var electron = __webpack_require__(15);
 	var remote = electron.remote;
 	var Menu = remote.Menu;
 
@@ -121,29 +121,39 @@
 
 	__webpack_require__(10);
 
-	var _header = __webpack_require__(12);
+	__webpack_require__(12);
+
+	var _header = __webpack_require__(14);
 
 	var _header2 = _interopRequireDefault(_header);
 
-	var _menu = __webpack_require__(14);
+	var _menu = __webpack_require__(16);
 
 	var _menu2 = _interopRequireDefault(_menu);
 
-	var _quickEdit = __webpack_require__(15);
+	var _explorer = __webpack_require__(17);
+
+	var _explorer2 = _interopRequireDefault(_explorer);
+
+	var _project = __webpack_require__(21);
+
+	var _project2 = _interopRequireDefault(_project);
+
+	var _quickEdit = __webpack_require__(22);
 
 	var _quickEdit2 = _interopRequireDefault(_quickEdit);
 
-	var _targetProcess = __webpack_require__(17);
+	var _targetProcess = __webpack_require__(24);
 
 	var _targetProcess2 = _interopRequireDefault(_targetProcess);
 
-	var _notifications = __webpack_require__(18);
+	var _notifications = __webpack_require__(25);
 
 	var _notifications2 = _interopRequireDefault(_notifications);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var _require = __webpack_require__(13);
+	var _require = __webpack_require__(15);
 
 	var ipcRenderer = _require.ipcRenderer;
 
@@ -168,6 +178,14 @@
 		_mithril2.default.redraw();
 	});
 
+	ipcRenderer.on('save-result', function (event, result) {
+		if (result) {
+			_notifications2.default.doNotify({ title: 'Injection', body: 'Saved file' }, true);
+		} else {
+			_notifications2.default.doNotify({ title: 'Injection', body: 'Could not save file' }, true);
+		}
+	});
+
 	exports.default = {
 		controller: function controller() {
 			return {
@@ -190,13 +208,17 @@
 		},
 
 		view: function view(ctrl) {
-			return (0, _mithril2.default)("div.height100", (0, _mithril2.default)(_header2.default, { target: target }), (0, _mithril2.default)(_menu2.default, {
+			return (0, _mithril2.default)("div.height100.showing-explorer", (0, _mithril2.default)(_header2.default, { target: target }), (0, _mithril2.default)(_menu2.default, {
 				showing: ctrl.showing,
 				default: 2,
 				changeFrame: this.changeFrame.bind(ctrl),
 				overlayFrame: this.overlayFrame.bind(ctrl),
 				closeOverlayFrame: this.closeOverlayFrame.bind(ctrl)
-			}), (0, _mithril2.default)(_quickEdit2.default, { showing: ctrl.showing[3] }), (0, _mithril2.default)(_targetProcess2.default, { showing: ctrl.showing[0], closeOverlayFrame: this.closeOverlayFrame.bind(ctrl, 0) }));
+			}), (0, _mithril2.default)(_project2.default, {
+				showing: ctrl.showing[1]
+			}), (0, _mithril2.default)(_quickEdit2.default, { showing: ctrl.showing[3] }), (0, _mithril2.default)(_targetProcess2.default, { showing: ctrl.showing[0], closeOverlayFrame: this.closeOverlayFrame.bind(ctrl, 0) }), (0, _mithril2.default)(_explorer2.default, {
+				changeFrame: this.changeFrame.bind(ctrl)
+			}));
 		}
 	};
 
@@ -2491,7 +2513,7 @@
 
 
 	// module
-	exports.push([module.id, "* {\n  -webkit-user-select: none;\n}\nhtml,\nbody,\n.height100 {\n  width: 100%;\n  height: 100%;\n  max-height: 100%;\n  background-color: #37474f ;\n}\ninput {\n  background-color: #ccc;\n  width: 100%;\n}\n.dark .title-frame {\n  position: relative;\n  width: 100%;\n  height: 23px;\n  background-color: #2E2E2E;\n  text-align: right;\n  color: white;\n}\n.dark .title-frame > .title {\n  position: relative;\n  text-align: center;\n  -webkit-app-region: drag;\n  line-height: 23px;\n}\n.dark .title-frame > .buttons {\n  position: relative;\n  top: -23px;\n  z-index: 2;\n  padding-right: 3px;\n}\n.dark .title-frame > .buttons > button {\n  -webkit-app-region: no-drag;\n}\n.dark .close-button {\n  position: relative;\n  box-shadow: inset 0px -3px 7px 0px #29bbff;\n  background-color: #2dabf9;\n  border-radius: 3px;\n  border: 1px solid #0b0e07;\n  display: inline-block;\n  cursor: pointer;\n  color: #ffffff;\n  font-family: Arial;\n  font-size: 10px;\n  padding: 1px 4px;\n  text-decoration: none;\n  text-shadow: 0px 1px 0px #263666;\n}\n.dark .close-button:hover {\n  background-color: #0688fa;\n}\n.dark .close-button:active {\n  position: relative;\n  top: 1px;\n}\n.dark .menu-frame {\n  position: relative;\n  height: 23px;\n  background-color: #232323;\n}\n.dark .menu-frame > .buttons {\n  position: relative;\n  top: 2px;\n}\n.dark .menu-frame > .buttons > a {\n  color: white;\n  padding: 12px;\n}\n.dark .menu-frame > .target-info {\n  position: relative;\n  top: -20px;\n  z-index: 2;\n  padding-right: 3px;\n  line-height: 23px;\n  text-align: right;\n  color: #c13434;\n  font-weight: bold;\n}\n.dark .menu-lateral {\n  position: absolute;\n  height: 554px;\n  width: 134px;\n  background-color: #263238;\n  border-style: solid;\n  border-right: 2px solid #000000;\n  border-left: 0px;\n  border-top: 0px;\n  border-bottom: 0px;\n}\n.dark ul {\n  position: relative;\n  top: 50%;\n  transform: translateY(-50%);\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.dark ul li:first-child {\n  margin-top: 0;\n}\n.dark ul li:last-child {\n  margin-bottom: 0;\n}\n.dark li {\n  margin: 15px;\n  margin-left: 0px;\n  padding-left: 15px;\n  position: relative;\n  list-style-type: none;\n  font-weight: bold;\n  text-align: left;\n}\n.dark li > a {\n  color: #fafafa;\n  text-decoration: none;\n  font-weight: bold;\n  font-variant: small-caps;\n  cursor: pointer;\n}\n.dark li > a:hover {\n  color: #cacaca;\n  text-decoration: none;\n}\n.dark li.menu-active {\n  width: 134px;\n  height: 40px;\n  background-color: white;\n  line-height: 40px;\n}\n.dark .modal {\n  top: 23px;\n}\n.dark .modal-dialog {\n  top: -23px;\n}\n.dark .menu-active > a {\n  color: black;\n}\n.dark .menu-active > a:hover {\n  color: black;\n}\n.dark .menu-active::after {\n  position: relative;\n  left: 105px;\n  top: -34px;\n  display: block;\n  width: 28.28px;\n  height: 28.28px;\n  background-color: white;\n  transform: rotate(45deg);\n  content: ' ';\n  z-index: -1;\n}\n.dark .body-frame {\n  position: relative;\n  left: 134px;\n  width: 866px;\n  height: 554px;\n  padding: 15px 30px 15px 30px;\n}\n.dark .body-frame > h1 {\n  color: #cfd8dc;\n}\n.dark .quick-edit-body > .buttons {\n  margin: 0 auto;\n  text-align: right;\n  width: 100%;\n}\n.dark .quick-edit-body > .buttons > button {\n  margin-top: 10px;\n  margin-left: 15px;\n}\n.dark #jseditor > textarea {\n  color: #ccc;\n  text-shadow: 0px 0px 0px #000;\n  -webkit-text-fill-color: transparent;\n  position: relative;\n  width: 100%;\n  height: 404px;\n  border: 1px solid #000;\n  background: #263238;\n}\n.dark input::-webkit-input-placeholder,\n.dark textarea::-webkit-input-placeholder {\n  color: #ccc;\n  text-shadow: none;\n  -webkit-text-fill-color: initial;\n}\n.dark textarea::selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.dark textarea::-webkit-selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.dark #jseditor > pre > code {\n  color: #c3c3c3;\n  text-shadow: 0 1px #263238;\n}\n.dark #jseditor > pre > code > .token.function {\n  color: #ff3e65;\n}\n.dark #jseditor > pre > code > .token.keyword {\n  color: #16b9ff;\n}\n.dark #jseditor > pre > code > .token.number {\n  color: #ff008e;\n}\n.dark #jseditor > pre > code > .token.operator {\n  background: rgba(0, 0, 0, 0.2);\n}\n.dark #consoleDialog {\n  background-color: rgba(0, 0, 0, 0.6);\n}\n.dark .modal-content {\n  background-color: #263238;\n  color: white;\n}\n.dark .modal-body {\n  color: black;\n  overflow: auto;\n  height: 400px;\n}\n.dark .process-search {\n  color: #000;\n  padding: 0 5px 0 5px;\n  margin-bottom: 5px;\n}\n.dark .process-search::-webkit-input-placeholder {\n  color: #444;\n}\n.dark .process-list {\n  color: black;\n  font-size: 12px;\n  width: 100%;\n  height: 70%;\n}\n.dark .list-group {\n  padding-left: 0;\n  margin-bottom: 20px;\n  height: 400px;\n}\n.dark .modal-content {\n  width: 400px;\n  margin: auto;\n}\n.dark .list-group-item {\n  margin-botton: -5%;\n  margin: 0px;\n  cursor: pointer;\n}\n", ""]);
+	exports.push([module.id, "*,\n*:before,\n*:after {\n  -webkit-user-select: none;\n  box-sizing: border-box;\n}\nhtml,\nbody,\n.height100 {\n  width: 1000px;\n  height: 600px;\n  max-height: 1000px;\n}\nbody.dark {\n  background-color: #37474f;\n}\n.height100 {\n  position: relative;\n}\n.dark input {\n  background-color: #ccc;\n  width: 100%;\n}\n.dark .title-frame {\n  position: relative;\n  width: 100%;\n  height: 23px;\n  background-color: #2E2E2E;\n  text-align: right;\n  color: white;\n}\n.dark .title-frame .title {\n  position: relative;\n  text-align: center;\n  -webkit-app-region: drag;\n  line-height: 23px;\n}\n.dark .title-frame .buttons {\n  position: relative;\n  top: -23px;\n  z-index: 2;\n  padding-right: 3px;\n}\n.dark .title-frame .buttons > button {\n  -webkit-app-region: no-drag;\n}\n.dark .title-frame .close-button {\n  position: relative;\n  box-shadow: inset 0px -3px 7px 0px #29bbff;\n  background-color: #2dabf9;\n  border-radius: 3px;\n  border: 1px solid #0b0e07;\n  display: inline-block;\n  cursor: pointer;\n  color: #ffffff;\n  font-family: Arial;\n  font-size: 10px;\n  padding: 1px 4px;\n  text-decoration: none;\n  text-shadow: 0px 1px 0px #263666;\n}\n.dark .title-frame .close-button:hover {\n  background-color: #0688fa;\n}\n.dark .title-frame .close-button:active {\n  position: relative;\n  top: 1px;\n}\n.dark .menu-frame {\n  position: relative;\n  height: 23px;\n  background-color: #232323;\n}\n.dark .menu-frame .buttons {\n  position: relative;\n  top: 2px;\n}\n.dark .menu-frame .buttons > a {\n  color: white;\n  padding: 12px;\n}\n.dark .menu-frame .target-info {\n  position: relative;\n  top: -20px;\n  z-index: 2;\n  padding-right: 3px;\n  line-height: 23px;\n  text-align: right;\n  color: #c13434;\n  font-weight: bold;\n}\n.dark .menu-lateral {\n  position: relative;\n  float: left;\n  height: 554px;\n  width: 134px;\n  background-color: #263238;\n  border-style: solid;\n  border-right: 2px solid #000000;\n  border-left: 0px;\n  border-top: 0px;\n  border-bottom: 0px;\n}\n.dark .menu-lateral ul {\n  position: relative;\n  top: 50%;\n  transform: translateY(-50%);\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.dark .menu-lateral ul li:first-child {\n  margin-top: 0;\n}\n.dark .menu-lateral ul li:last-child {\n  margin-bottom: 0;\n}\n.dark .menu-lateral li {\n  margin: 15px;\n  margin-left: 0px;\n  padding-left: 15px;\n  position: relative;\n  list-style-type: none;\n  font-weight: bold;\n  text-align: left;\n}\n.dark .menu-lateral li > a {\n  color: #fafafa;\n  text-decoration: none;\n  font-weight: bold;\n  font-variant: small-caps;\n  cursor: pointer;\n}\n.dark .menu-lateral li > a:hover {\n  color: #cacaca;\n  text-decoration: none;\n}\n.dark .menu-lateral li.menu-active {\n  width: 134px;\n  height: 40px;\n  background-color: white;\n  line-height: 40px;\n}\n.dark .menu-lateral li.menu-active > a {\n  color: black;\n}\n.dark .menu-lateral li.menu-active > a:hover {\n  color: black;\n}\n.dark .menu-lateral li.menu-active::after {\n  position: relative;\n  left: 105px;\n  top: -34px;\n  display: block;\n  width: 28.28px;\n  height: 28.28px;\n  background-color: white;\n  transform: rotate(45deg);\n  content: ' ';\n  z-index: -1;\n}\n.dark .body-frame {\n  position: relative;\n  float: left;\n  width: 866px;\n  height: 554px;\n  padding: 15px 30px 15px 30px;\n}\n.dark .body-frame h1 {\n  color: #cfd8dc;\n}\n.dark .explorer {\n  display: none;\n  position: relative;\n  float: left;\n  width: 150px;\n  height: 554px;\n  border-left: 2px solid black;\n  background: #263238;\n  text-align: center;\n  padding-top: 10px;\n}\n.dark .explorer span {\n  color: #c3c3c3;\n  font-size: 18px;\n  font-weight: bold;\n}\n.dark .explorer .treeview {\n  margin-top: 10px;\n}\n.dark .explorer .treeview ul,\n.dark .explorer .treeview li {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  text-align: left;\n  font-size: 14px;\n  font-weight: normal;\n}\n.dark .explorer .treeview li {\n  margin-bottom: 3px;\n  color: #c3c3c3;\n}\n.dark .explorer .treeview li.active {\n  background-color: #888;\n}\n.dark .explorer .treeview li img {\n  height: 13px;\n  margin-right: 5px;\n  vertical-align: baseline;\n}\n.dark .explorer .treeview li[data-type=\"file\"] {\n  cursor: pointer;\n}\n.dark .explorer .treeview > ul > li {\n  font-size: 18px;\n  font-weight: bold;\n}\n.dark .explorer .buttons {\n  position: absolute;\n  bottom: 0;\n  width: 100%;\n  margin-bottom: 20px;\n}\n.dark .explorer .buttons button {\n  width: 80%;\n  border: 1px solid #333;\n  border-radius: 5px;\n}\n.dark .showing-explorer .body-frame {\n  width: 716px;\n}\n.dark .showing-explorer .explorer {\n  display: block;\n  float: left;\n}\n.dark .quick-edit-body .buttons {\n  margin: 0 auto;\n  text-align: right;\n  width: 100%;\n}\n.dark .quick-edit-body .buttons > button {\n  margin-top: 10px;\n  margin-left: 15px;\n}\n.dark .quick-edit-body #jseditor > textarea {\n  color: #ccc;\n  text-shadow: 0px 0px 0px #000;\n  -webkit-text-fill-color: transparent;\n  position: relative;\n  width: 100%;\n  height: 404px;\n  border: 1px solid #000;\n  background: #263238;\n}\n.dark .quick-edit-body input::-webkit-input-placeholder,\n.dark .quick-edit-body textarea::-webkit-input-placeholder {\n  color: #ccc;\n  text-shadow: none;\n  -webkit-text-fill-color: initial;\n}\n.dark .quick-edit-body textarea::selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.dark .quick-edit-body textarea::-webkit-selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.dark .quick-edit-body #jseditor > pre > code {\n  color: #c3c3c3;\n  text-shadow: 0 1px #263238;\n}\n.dark .quick-edit-body #jseditor > pre > code > .token.function {\n  color: #ff3e65;\n}\n.dark .quick-edit-body #jseditor > pre > code > .token.keyword {\n  color: #16b9ff;\n}\n.dark .quick-edit-body #jseditor > pre > code > .token.number {\n  color: #ff008e;\n}\n.dark .quick-edit-body #jseditor > pre > code > .token.operator {\n  background: rgba(0, 0, 0, 0.2);\n}\n.dark .modal {\n  top: 23px;\n}\n.dark .modal .modal-dialog {\n  top: -23px;\n}\n.dark .modal .modal-body {\n  color: black;\n  overflow: auto;\n  height: 390px;\n}\n.dark .target-body {\n  background-color: rgba(0, 0, 0, 0.6);\n}\n.dark .target-body .modal-content {\n  background-color: #263238;\n  color: white;\n}\n.dark .target-body .process-search {\n  color: #000;\n  padding: 0 5px 0 5px;\n  margin-bottom: 5px;\n}\n.dark .target-body .process-search::-webkit-input-placeholder {\n  color: #444;\n}\n.dark .target-body .process-list {\n  color: black;\n  font-size: 12px;\n  width: 100%;\n  height: 70%;\n}\n.dark .target-body .list-group {\n  padding-left: 0;\n  margin-bottom: 20px;\n  height: 400px;\n}\n.dark .target-body .modal-content {\n  width: 400px;\n  margin: auto;\n}\n.dark .target-body .list-group-item {\n  margin-botton: -5%;\n  margin: 0px;\n  cursor: pointer;\n}\n.dark .project-body div.inputfile {\n  font-weight: 700;\n  color: #333;\n  border-radius: 5px;\n  border: 1px solid black;\n  background-color: #c3c3c3;\n  display: inline-block;\n  width: 100%;\n  height: 25px;\n  line-height: 25px;\n  padding-left: 10px;\n}\n.dark .project-body div.inputfile:hover {\n  background-color: #b2b2b2;\n}\n.dark .project-body div.inputfile {\n  cursor: pointer;\n}\n.dark .project-body div.inputfile {\n  outline: 1px dotted #000;\n  outline: -webkit-focus-ring-color auto 5px;\n}\n.dark .project-body div.inputfile * {\n  pointer-events: none;\n}\n.dark .project-body div.button {\n  position: relative;\n  top: -25px;\n  height: 25px;\n  line-height: 25px;\n  left: calc(100% - 150px);\n  width: 150px;\n  border: 1px solid #000;\n  border-top-right-radius: 5px;\n  border-bottom-right-radius: 5px;\n  background: #666;\n  text-align: center;\n  color: #e3e3e3;\n  cursor: pointer;\n}\n.dark .project-body ul,\n.dark .project-body li {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.dark .project-body li {\n  font-size: 16px;\n  border: 1px solid #333;\n  border-radius: 2px;\n  height: 35px;\n  line-height: 35px;\n  padding-left: 10px;\n  background: #546e7a;\n  color: #e3e3e3;\n  cursor: pointer;\n}\n.dark .project-body li:hover {\n  background: #455a64;\n}\n.dark .project-body li.active {\n  background: #263238;\n  color: #FFF;\n}\n", ""]);
 
 	// exports
 
@@ -2820,8 +2842,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/less-loader/index.js!./codeflask.less", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/less-loader/index.js!./codeflask.less");
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/less-loader/index.js!./light.less", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/less-loader/index.js!./light.less");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -2839,7 +2861,7 @@
 
 
 	// module
-	exports.push([module.id, ".CodeFlask {\n  position: relative;\n  overflow: hidden;\n}\n.CodeFlask__textarea,\n.CodeFlask__pre {\n  box-sizing: border-box;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  padding: 1rem !important;\n  border: none;\n  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;\n  font-size: 13px;\n  background: transparent;\n  white-space: pre-wrap;\n  line-height: 1.5em;\n  word-wrap: break-word;\n}\n.CodeFlask__textarea {\n  border: none;\n  background: transparent;\n  outline: none;\n  resize: none;\n  opacity: 0.4;\n  color: #000;\n  margin: 0;\n  z-index: 1;\n  height: 100%;\n  -webkit-overflow-scrolling: touch;\n}\n.CodeFlask__pre {\n  z-index: 2;\n  pointer-events: none;\n  overflow-y: auto;\n  margin: 0;\n  min-height: 100%;\n  margin: 0 !important;\n  background: transparent !important;\n}\n.CodeFlask__code {\n  font-size: inherit;\n  font-family: inherit;\n  color: inherit;\n  display: block;\n}\n", ""]);
+	exports.push([module.id, "*,\n*:before,\n*:after {\n  -webkit-user-select: none;\n  box-sizing: border-box;\n}\nhtml,\nbody,\n.height100 {\n  width: 1000px;\n  height: 600px;\n  max-height: 1000px;\n}\nbody.light {\n  background-color: #FFFFFF;\n}\n.height100 {\n  position: relative;\n}\n.light input {\n  background-color: #ccc;\n  width: 100%;\n}\n.light .title-frame {\n  position: relative;\n  width: 100%;\n  height: 23px;\n  background-color: #127FA3;\n  text-align: right;\n  color: white;\n}\n.light .title-frame .title {\n  position: relative;\n  text-align: center;\n  -webkit-app-region: drag;\n  line-height: 23px;\n}\n.light .title-frame .buttons {\n  position: relative;\n  top: -23px;\n  z-index: 2;\n  padding-right: 3px;\n}\n.light .title-frame .buttons > button {\n  -webkit-app-region: no-drag;\n}\n.light .title-frame .close-button {\n  position: relative;\n  box-shadow: inset 0px -3px 7px 0px #29bbff;\n  background-color: #2dabf9;\n  border-radius: 3px;\n  border: 1px solid #0b0e07;\n  display: inline-block;\n  cursor: pointer;\n  color: #ffffff;\n  font-family: Arial;\n  font-size: 10px;\n  padding: 1px 4px;\n  text-decoration: none;\n  text-shadow: 0px 1px 0px #263666;\n}\n.light .title-frame .close-button:hover {\n  background-color: #0688fa;\n}\n.light .title-frame .close-button:active {\n  position: relative;\n  top: 1px;\n}\n.light .menu-frame {\n  position: relative;\n  height: 23px;\n  background-color: #1BA4D1;\n}\n.light .menu-frame .buttons {\n  position: relative;\n  top: 2px;\n}\n.light .menu-frame .buttons > a {\n  color: white;\n  padding: 12px;\n}\n.light .menu-frame .target-info {\n  position: relative;\n  top: -20px;\n  z-index: 2;\n  padding-right: 3px;\n  line-height: 23px;\n  text-align: right;\n  color: #c13434;\n  font-weight: bold;\n}\n.light .menu-lateral {\n  position: relative;\n  float: left;\n  height: 554px;\n  width: 134px;\n  background-color: #EBFAFF;\n  border-style: solid;\n  border-right: 2px solid #000000;\n  border-left: 0px;\n  border-top: 0px;\n  border-bottom: 0px;\n}\n.light .menu-lateral ul {\n  position: relative;\n  top: 50%;\n  transform: translateY(-50%);\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.light .menu-lateral ul li:first-child {\n  margin-top: 0;\n}\n.light .menu-lateral ul li:last-child {\n  margin-bottom: 0;\n}\n.light .menu-lateral li {\n  margin: 15px;\n  margin-left: 0px;\n  padding-left: 15px;\n  position: relative;\n  list-style-type: none;\n  font-weight: bold;\n  text-align: left;\n}\n.light .menu-lateral li > a {\n  color: #545454;\n  text-decoration: none;\n  font-weight: bold;\n  font-variant: small-caps;\n  cursor: pointer;\n}\n.light .menu-lateral li > a:hover {\n  color: #cacaca;\n  text-decoration: none;\n}\n.light .menu-lateral li.menu-active {\n  width: 134px;\n  height: 40px;\n  background-color: #9EE7FF;\n  line-height: 40px;\n}\n.light .menu-lateral li.menu-active > a {\n  color: black;\n}\n.light .menu-lateral li.menu-active > a:hover {\n  color: black;\n}\n.light .menu-lateral li.menu-active::after {\n  position: relative;\n  left: 105px;\n  top: -34px;\n  display: block;\n  width: 28.28px;\n  height: 28.28px;\n  background-color: #9EE7FF;\n  transform: rotate(45deg);\n  content: ' ';\n  z-index: -1;\n}\n.light .body-frame {\n  position: relative;\n  float: left;\n  width: 866px;\n  height: 554px;\n  padding: 15px 30px 15px 30px;\n}\n.light .body-frame h1 {\n  color: #000000;\n}\n.light .explorer {\n  display: none;\n  position: relative;\n  float: left;\n  width: 150px;\n  height: 554px;\n  border-left: 2px solid black;\n  background: #EBFAFF;\n  text-align: center;\n  padding-top: 10px;\n}\n.light .explorer span {\n  color: #111;\n  font-size: 18px;\n  font-weight: bold;\n}\n.light .explorer .treeview {\n  margin-top: 10px;\n  margin-left: 10px;\n}\n.light .explorer .treeview ul,\n.light .explorer .treeview li {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  text-align: left;\n  font-size: 14px;\n  font-weight: normal;\n}\n.light .explorer .treeview li {\n  margin-bottom: 3px;\n  color: #333;\n}\n.light .explorer .treeview li.active {\n  background-color: #888;\n}\n.light .explorer .treeview li img {\n  height: 13px;\n  margin-right: 5px;\n  vertical-align: baseline;\n}\n.light .explorer .treeview li[data-type=\"file\"] {\n  cursor: pointer;\n}\n.light .explorer .treeview > ul > li {\n  font-size: 18px;\n  font-weight: bold;\n}\n.light .explorer .buttons {\n  position: absolute;\n  bottom: 0;\n  width: 100%;\n  margin-bottom: 20px;\n}\n.light .explorer .buttons button {\n  width: 80%;\n  border: 1px solid #333;\n  border-radius: 5px;\n}\n.light .showing-explorer .body-frame {\n  width: 716px;\n}\n.light .showing-explorer .explorer {\n  display: block;\n  float: left;\n}\n.light .quick-edit-body .buttons {\n  margin: 0 auto;\n  text-align: right;\n  width: 100%;\n}\n.light .quick-edit-body .buttons > button {\n  margin-top: 10px;\n  margin-left: 15px;\n}\n.light .quick-edit-body #jseditor > textarea {\n  color: #ccc;\n  text-shadow: 0px 0px 0px #000;\n  -webkit-text-fill-color: transparent;\n  position: relative;\n  width: 100%;\n  height: 404px;\n  border: 1px solid #000;\n  background: #EBFAFF;\n}\n.light .quick-edit-body input::-webkit-input-placeholder,\n.light .quick-edit-body textarea::-webkit-input-placeholder {\n  color: #ccc;\n  text-shadow: none;\n  -webkit-text-fill-color: initial;\n}\n.light .quick-edit-body textarea::selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.light .quick-edit-body textarea::-webkit-selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.light .quick-edit-body #jseditor > pre > code {\n  text-shadow: 0 1px #263238;\n}\n.light .modal {\n  top: 23px;\n}\n.light .modal .modal-dialog {\n  top: -23px;\n}\n.light .modal .modal-body {\n  color: black;\n  overflow: auto;\n  height: 390px;\n}\n.light .target-body {\n  background-color: rgba(0, 0, 0, 0.6);\n}\n.light .target-body .modal-content {\n  background-color: #EBFAFF;\n  color: black;\n}\n.light .target-body .process-search {\n  color: #000;\n  padding: 0 5px 0 5px;\n  margin-bottom: 5px;\n}\n.light .target-body .process-search::-webkit-input-placeholder {\n  color: #444;\n}\n.light .target-body .process-list {\n  color: black;\n  font-size: 12px;\n  width: 100%;\n  height: 70%;\n}\n.light .target-body .list-group {\n  padding-left: 0;\n  margin-bottom: 20px;\n  height: 400px;\n}\n.light .target-body .modal-content {\n  width: 400px;\n  margin: auto;\n}\n.light .target-body .list-group-item {\n  margin-botton: -5%;\n  margin: 0px;\n  cursor: pointer;\n}\n.light .project-body div.inputfile {\n  font-weight: 700;\n  color: #333;\n  border-radius: 5px;\n  border: 1px solid black;\n  background-color: #c3c3c3;\n  display: inline-block;\n  width: 100%;\n  height: 25px;\n  line-height: 25px;\n  padding-left: 10px;\n}\n.light .project-body div.inputfile:hover {\n  background-color: #b2b2b2;\n}\n.light .project-body div.inputfile {\n  cursor: pointer;\n}\n.light .project-body div.inputfile {\n  outline: 1px dotted #000;\n  outline: -webkit-focus-ring-color auto 5px;\n}\n.light .project-body div.inputfile * {\n  pointer-events: none;\n}\n.light .project-body div.button {\n  position: relative;\n  top: -25px;\n  height: 25px;\n  line-height: 25px;\n  left: calc(100% - 150px);\n  width: 150px;\n  border: 1px solid #000;\n  border-top-right-radius: 5px;\n  border-bottom-right-radius: 5px;\n  background: #666;\n  text-align: center;\n  color: #e3e3e3;\n  cursor: pointer;\n}\n.light .project-body ul,\n.light .project-body li {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.light .project-body li {\n  font-size: 16px;\n  border: 1px solid #333;\n  border-radius: 2px;\n  height: 35px;\n  line-height: 35px;\n  padding-left: 10px;\n  background: #546e7a;\n  color: #e3e3e3;\n  cursor: pointer;\n}\n.light .project-body li:hover {\n  background: #455a64;\n}\n.light .project-body li.active {\n  background: #263238;\n  color: #FFF;\n}\n", ""]);
 
 	// exports
 
@@ -2860,8 +2882,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/less-loader/index.js!./prism.less", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/less-loader/index.js!./prism.less");
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/less-loader/index.js!./codeflask.less", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/less-loader/index.js!./codeflask.less");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -2879,13 +2901,53 @@
 
 
 	// module
-	exports.push([module.id, "/* http://prismjs.com/download.html?themes=prism&languages=clike+javascript */\n/**\n * prism.js default theme for JavaScript, CSS and HTML\n * Based on dabblet (http://dabblet.com)\n * @author Lea Verou\n */\ncode[class*=\"language-\"],\npre[class*=\"language-\"] {\n  color: black;\n  background: none;\n  text-shadow: 0 1px white;\n  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;\n  text-align: left;\n  white-space: pre;\n  word-spacing: normal;\n  word-break: normal;\n  word-wrap: normal;\n  line-height: 1.5;\n  -moz-tab-size: 4;\n  -o-tab-size: 4;\n  tab-size: 4;\n  -webkit-hyphens: none;\n  -moz-hyphens: none;\n  -ms-hyphens: none;\n  hyphens: none;\n}\npre[class*=\"language-\"]::-moz-selection,\npre[class*=\"language-\"] ::-moz-selection,\ncode[class*=\"language-\"]::-moz-selection,\ncode[class*=\"language-\"] ::-moz-selection {\n  text-shadow: none;\n  background: #b3d4fc;\n}\npre[class*=\"language-\"]::selection,\npre[class*=\"language-\"] ::selection,\ncode[class*=\"language-\"]::selection,\ncode[class*=\"language-\"] ::selection {\n  text-shadow: none;\n  background: #b3d4fc;\n}\n@media print {\n  code[class*=\"language-\"],\n  pre[class*=\"language-\"] {\n    text-shadow: none;\n  }\n}\n/* Code blocks */\npre[class*=\"language-\"] {\n  padding: 1em;\n  margin: .5em 0;\n  overflow: auto;\n}\n:not(pre) > code[class*=\"language-\"],\npre[class*=\"language-\"] {\n  background: #f5f2f0;\n}\n/* Inline code */\n:not(pre) > code[class*=\"language-\"] {\n  padding: .1em;\n  border-radius: .3em;\n  white-space: normal;\n}\n.token.comment,\n.token.prolog,\n.token.doctype,\n.token.cdata {\n  color: slategray;\n}\n.token.punctuation {\n  color: #999;\n}\n.namespace {\n  opacity: .7;\n}\n.token.property,\n.token.tag,\n.token.boolean,\n.token.number,\n.token.constant,\n.token.symbol,\n.token.deleted {\n  color: #905;\n}\n.token.selector,\n.token.attr-name,\n.token.string,\n.token.char,\n.token.builtin,\n.token.inserted {\n  color: #690;\n}\n.token.operator,\n.token.entity,\n.token.url,\n.language-css .token.string,\n.style .token.string {\n  color: #a67f59;\n  background: rgba(255, 255, 255, 0.5);\n}\n.token.atrule,\n.token.attr-value,\n.token.keyword {\n  color: #07a;\n}\n.token.function {\n  color: #DD4A68;\n}\n.token.regex,\n.token.important,\n.token.variable {\n  color: #e90;\n}\n.token.important,\n.token.bold {\n  font-weight: bold;\n}\n.token.italic {\n  font-style: italic;\n}\n.token.entity {\n  cursor: help;\n}\n", ""]);
+	exports.push([module.id, ".CodeFlask {\n  position: relative;\n  overflow: hidden;\n}\n.CodeFlask__textarea,\n.CodeFlask__pre {\n  box-sizing: border-box;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  padding: 1rem !important;\n  border: none;\n  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;\n  font-size: 13px;\n  background: transparent;\n  white-space: pre-wrap;\n  line-height: 1.5em;\n  word-wrap: break-word;\n}\n.CodeFlask__textarea {\n  border: none;\n  background: transparent;\n  outline: none;\n  resize: none;\n  opacity: 0.4;\n  color: #000;\n  margin: 0;\n  z-index: 1;\n  height: 100%;\n  -webkit-overflow-scrolling: touch;\n}\n.CodeFlask__pre {\n  z-index: 2;\n  pointer-events: none;\n  overflow-y: auto;\n  margin: 0;\n  min-height: 100%;\n  margin: 0 !important;\n  background: transparent !important;\n}\n.CodeFlask__code {\n  font-size: inherit;\n  font-family: inherit;\n  color: inherit;\n  display: block;\n}\n", ""]);
 
 	// exports
 
 
 /***/ },
 /* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(13);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(7)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/less-loader/index.js!./prism.less", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/less-loader/index.js!./prism.less");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(6)();
+	// imports
+
+
+	// module
+	exports.push([module.id, "/* http://prismjs.com/download.html?themes=prism&languages=clike+javascript */\n/**\n * prism.js default theme for JavaScript, CSS and HTML\n * Based on dabblet (http://dabblet.com)\n * @author Lea Verou\n */\ncode[class*=\"language-\"],\npre[class*=\"language-\"] {\n  color: black;\n  background: none;\n  text-shadow: 0 1px white;\n  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;\n  text-align: left;\n  white-space: pre;\n  word-spacing: normal;\n  word-break: normal;\n  word-wrap: normal;\n  line-height: 1.5;\n  -moz-tab-size: 4;\n  -o-tab-size: 4;\n  tab-size: 4;\n  -webkit-hyphens: none;\n  -moz-hyphens: none;\n  -ms-hyphens: none;\n  hyphens: none;\n}\npre[class*=\"language-\"]::-moz-selection,\npre[class*=\"language-\"] ::-moz-selection,\ncode[class*=\"language-\"]::-moz-selection,\ncode[class*=\"language-\"] ::-moz-selection {\n  text-shadow: none;\n  background: #b3d4fc;\n}\npre[class*=\"language-\"]::selection,\npre[class*=\"language-\"] ::selection,\ncode[class*=\"language-\"]::selection,\ncode[class*=\"language-\"] ::selection {\n  text-shadow: none;\n  background: #b3d4fc;\n}\n@media print {\n  code[class*=\"language-\"],\n  pre[class*=\"language-\"] {\n    text-shadow: none;\n  }\n}\n/* Code blocks */\npre[class*=\"language-\"] {\n  padding: 1em;\n  margin: .5em 0;\n  overflow: auto;\n}\n:not(pre) > code[class*=\"language-\"],\npre[class*=\"language-\"] {\n  background: #f5f2f0;\n}\n/* Inline code */\n:not(pre) > code[class*=\"language-\"] {\n  padding: .1em;\n  border-radius: .3em;\n  white-space: normal;\n}\n.token.comment,\n.token.prolog,\n.token.doctype,\n.token.cdata {\n  color: slategray;\n}\n.token.punctuation {\n  color: #999;\n}\n.namespace {\n  opacity: .7;\n}\n.token.property,\n.token.tag,\n.token.boolean,\n.token.number,\n.token.constant,\n.token.symbol,\n.token.deleted {\n  color: #905;\n}\n.token.selector,\n.token.attr-name,\n.token.string,\n.token.char,\n.token.builtin,\n.token.inserted {\n  color: #690;\n}\n.token.operator,\n.token.entity,\n.token.url,\n.language-css .token.string,\n.style .token.string {\n  color: #a67f59;\n  background: rgba(255, 255, 255, 0.5);\n}\n.token.atrule,\n.token.attr-value,\n.token.keyword {\n  color: #07a;\n}\n.token.function {\n  color: #DD4A68;\n}\n.token.regex,\n.token.important,\n.token.variable {\n  color: #e90;\n}\n.token.important,\n.token.bold {\n  font-weight: bold;\n}\n.token.italic {\n  font-style: italic;\n}\n.token.entity {\n  cursor: help;\n}\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2900,7 +2962,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var _require = __webpack_require__(13);
+	var _require = __webpack_require__(15);
 
 	var remote = _require.remote;
 	exports.default = {
@@ -2915,13 +2977,13 @@
 	};
 
 /***/ },
-/* 13 */
+/* 15 */
 /***/ function(module, exports) {
 
 	module.exports = require('electron');
 
 /***/ },
-/* 14 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2977,217 +3039,6 @@
 	};
 
 /***/ },
-/* 15 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _mithril = __webpack_require__(2);
-
-	var _mithril2 = _interopRequireDefault(_mithril);
-
-	var _codeflask = __webpack_require__(16);
-
-	var _codeflask2 = _interopRequireDefault(_codeflask);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var _require = __webpack_require__(13);
-
-	var ipcRenderer = _require.ipcRenderer;
-
-
-	var flask = new _codeflask2.default();
-
-	exports.default = {
-	  controller: function controller(attrs) {
-	    return {
-	      showing: attrs.showing
-	    };
-	  },
-
-	  configEditor: function configEditor(el, hasInit) {
-	    if (!hasInit) {
-	      flask.run('#jseditor', { language: 'js' });
-	    }
-	  },
-
-	  sendCode: function sendCode(e) {
-	    ipcRenderer.send('send-code', flask.textarea.value);
-	  },
-
-	  view: function view(ctrl, attrs) {
-	    ctrl.showing = attrs.showing;
-
-	    return (0, _mithril2.default)('div.quick-edit-body.body-frame', { className: ctrl.showing ? '' : 'hidden' }, (0, _mithril2.default)('h1', 'Javascript Editor'), (0, _mithril2.default)("div#jseditor", { 'data-language': "javascript", config: this.configEditor.bind(this) }), (0, _mithril2.default)('div.buttons', (0, _mithril2.default)('button', { onclick: this.sendCode.bind(this), class: 'btn btn-success' }, 'Enviar')));
-	  }
-	};
-
-/***/ },
-/* 16 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-	function CodeFlask() {}
-
-	CodeFlask.prototype.run = function (selector, opts) {
-	    var target = document.querySelectorAll(selector);
-
-	    if (target.length > 1) {
-	        throw 'CodeFlask.js ERROR: run() expects only one element, ' + target.length + ' given. Use .runAll() instead.';
-	    } else {
-	        this.scaffold(target[0], false, opts);
-	    }
-	};
-
-	CodeFlask.prototype.runAll = function (selector, opts) {
-	    // Remove update API for bulk rendering
-	    this.update = null;
-	    this.onUpdate = null;
-
-	    var target = document.querySelectorAll(selector);
-
-	    var i;
-	    for (i = 0; i < target.length; i++) {
-	        this.scaffold(target[i], true, opts);
-	    }
-	};
-
-	CodeFlask.prototype.scaffold = function (target, isMultiple, opts) {
-	    var textarea = document.createElement('TEXTAREA'),
-	        highlightPre = document.createElement('PRE'),
-	        highlightCode = document.createElement('CODE'),
-	        initialCode = target.textContent,
-	        lang;
-
-	    opts.language = this.handleLanguage(opts.language);
-
-	    this.defaultLanguage = target.dataset.language || opts.language || 'markup';
-
-	    // Prevent these vars from being refreshed when rendering multiple
-	    // instances
-	    if (!isMultiple) {
-	        this.textarea = textarea;
-	        this.highlightCode = highlightCode;
-	    }
-
-	    target.classList.add('CodeFlask');
-	    textarea.classList.add('CodeFlask__textarea');
-	    highlightPre.classList.add('CodeFlask__pre');
-	    highlightCode.classList.add('CodeFlask__code');
-	    highlightCode.classList.add('language-' + this.defaultLanguage);
-
-	    // Fixing iOS "drunk-text" issue
-	    if (/iPad|iPhone|iPod/.test(navigator.platform)) {
-	        highlightCode.style.paddingLeft = '3px';
-	    }
-
-	    // Appending editor elements to DOM
-	    target.innerHTML = '';
-	    target.appendChild(textarea);
-	    target.appendChild(highlightPre);
-	    highlightPre.appendChild(highlightCode);
-
-	    // Render initial code inside tag
-	    textarea.value = initialCode;
-	    this.renderOutput(highlightCode, textarea);
-
-	    Prism.highlightAll();
-
-	    this.handleInput(textarea, highlightCode, highlightPre);
-	    this.handleScroll(textarea, highlightPre);
-	};
-
-	CodeFlask.prototype.renderOutput = function (highlightCode, input) {
-	    highlightCode.innerHTML = input.value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") + "\n";
-	};
-
-	CodeFlask.prototype.handleInput = function (textarea, highlightCode, highlightPre) {
-	    var self = this,
-	        input,
-	        selStartPos,
-	        inputVal,
-	        roundedScroll;
-
-	    textarea.addEventListener('input', function (e) {
-	        input = this;
-
-	        self.renderOutput(highlightCode, input);
-
-	        Prism.highlightAll();
-	    });
-
-	    textarea.addEventListener('keydown', function (e) {
-	        input = this, selStartPos = input.selectionStart, inputVal = input.value;
-
-	        // If TAB pressed, insert four spaces
-	        if (e.keyCode === 9) {
-	            input.value = inputVal.substring(0, selStartPos) + "    " + inputVal.substring(selStartPos, input.value.length);
-	            input.selectionStart = selStartPos + 4;
-	            input.selectionEnd = selStartPos + 4;
-	            e.preventDefault();
-
-	            highlightCode.innerHTML = input.value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") + "\n";
-	            Prism.highlightAll();
-	        }
-	    });
-	};
-
-	CodeFlask.prototype.handleScroll = function (textarea, highlightPre) {
-	    textarea.addEventListener('scroll', function () {
-
-	        var roundedScroll = Math.floor(this.scrollTop);
-
-	        // Fixes issue of desync text on mouse wheel, fuck Firefox.
-	        if (navigator.userAgent.toLowerCase().indexOf('firefox') < 0) {
-	            this.scrollTop = roundedScroll;
-	        }
-
-	        highlightPre.style.top = "-" + roundedScroll + "px";
-	    });
-	};
-
-	CodeFlask.prototype.handleLanguage = function (lang) {
-	    if (lang.match(/html|xml|xhtml|svg/)) {
-	        return 'markup';
-	    } else if (lang.match(/js/)) {
-	        return 'javascript';
-	    } else {
-	        return lang;
-	    }
-	};
-
-	CodeFlask.prototype.onUpdate = function (cb) {
-	    if (typeof cb == "function") {
-	        this.textarea.addEventListener('input', function (e) {
-	            cb(this.value);
-	        });
-	    } else {
-	        throw 'CodeFlask.js ERROR: onUpdate() expects function, ' + (typeof cb === 'undefined' ? 'undefined' : _typeof(cb)) + ' given instead.';
-	    }
-	};
-
-	CodeFlask.prototype.update = function (string) {
-	    var evt = document.createEvent("HTMLEvents");
-
-	    this.textarea.value = string;
-	    this.renderOutput(this.highlightCode, this.textarea);
-	    Prism.highlightAll();
-
-	    evt.initEvent("input", false, true);
-	    this.textarea.dispatchEvent(evt);
-	};
-
-	module.exports = CodeFlask;
-
-/***/ },
 /* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -3197,120 +3048,80 @@
 	    value: true
 	});
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 	var _mithril = __webpack_require__(2);
 
 	var _mithril2 = _interopRequireDefault(_mithril);
 
-	var _codeflask = __webpack_require__(16);
-
-	var _codeflask2 = _interopRequireDefault(_codeflask);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var _require = __webpack_require__(13);
+	var _require = __webpack_require__(15);
 
 	var ipcRenderer = _require.ipcRenderer;
 
+	var _require2 = __webpack_require__(18);
 
-	var processes = [];
-	var searchProcesses = [];
+	var TreeView = _require2.component;
+	var TreeElement = _require2.TreeElement;
 
-	//TODO: Improve
-	ipcRenderer.on('procReply', function (event, arg) {
-	    var res = arg.replace(/\r/g, ",");
-	    res = res.split(",");
+	var path = __webpack_require__(19);
 
-	    // Remove quotes
-	    var trim = function trim(x) {
-	        return function (x) {
-	            return x.substr(1, x.length - 2);
-	        }(x.trim());
-	    };
+	var config = ipcRenderer.sendSync('get-config');
+	var files = [];
 
-	    processes = [];
-	    for (var i = 0; i < res.length / 5 - 1; i++) {
-	        var pid = res[i * 5 + 1];
-	        var name = res[i * 5];
-
-	        processes.push({ pid: parseInt(trim(pid)), name: trim(name) });
-	    }
-
-	    reorderProcesses('name', 'pid');
-	    _mithril2.default.endComputation();
+	ipcRenderer.on('reload-config', function (event, newConfig) {
+	    config = newConfig;
+	    _mithril2.default.redraw();
 	});
 
-	function reorderProcesses(by, sec) {
-	    function compare(what, a, b) {
-	        var ap = isNaN(a[what]) ? a[what].toLowerCase() : a[what];
-	        var bp = isNaN(b[what]) ? b[what].toLowerCase() : b[what];
+	ipcRenderer.on('reload-project-files', function (event, newFiles) {
+	    console.log(newFiles);
 
-	        if (ap < bp) return -1;
-	        if (ap > bp) return 1;
-	        return compare(sec, a, b);
-	    }
+	    var recurse = function recurse(what, acc, root) {
+	        if (!Array.isArray(what) && (typeof what === 'undefined' ? 'undefined' : _typeof(what)) == "object") {
+	            var key = Object.keys(what)[0];
+	            var children = recurse(what[key], [], path.join(root, key));
+	            acc.push(new TreeElement(key, path.join(root, key), children));
+	        } else if (Array.isArray(what)) {
+	            for (var i = 0; i < what.length; ++i) {
+	                acc.push(recurse(what[i], [], root)[0]);
+	            }
+	        } else {
+	            acc.push(new TreeElement(what, root));
+	        }
 
-	    processes = processes.sort(compare.bind(null, by));
-	}
+	        return acc;
+	    };
+
+	    files = recurse(newFiles.files, [], newFiles.root);
+	    _mithril2.default.redraw();
+	});
+
+	ipcRenderer.send('request-project-files');
 
 	exports.default = {
-	    reloadProc: function reloadProc() {
-	        _mithril2.default.startComputation();
-	        ipcRenderer.send('getProc', null);
-	    },
-
 	    controller: function controller(attrs) {
 	        return {
-	            showing: attrs.showing,
-	            closeOverlayFrame: attrs.closeOverlayFrame,
-	            inputValue: _mithril2.default.prop("")
+	            changeFrame: attrs.changeFrame
 	        };
 	    },
 
-	    reloadNow: function reloadNow() {
-	        this.reloadProc();
-	    },
+	    fileClicked: function fileClicked(ctrl, e) {
+	        // Broadcast edition
+	        ipcRenderer.send('quick-edit-file', path.join(e.target.dataset.root, e.target.dataset.name));
 
-	    setTarget: function setTarget(ctrl, target, e) {
-	        _mithril2.default.startComputation();
-	        ipcRenderer.send('set-target', target);
-	        ctrl.closeOverlayFrame();
-	    },
+	        // Set active
+	        ctrl.lastActive && (ctrl.lastActive.className = '');
+	        e.target.className = 'active';
+	        ctrl.lastActive = e.target;
 
-	    search: function search(processes, str) {
-	        var matches = [];
-	        var re = new RegExp(str);
-
-	        for (var i = 0; i < processes.length; ++i) {
-	            if (processes[i].name.match(re)) {
-	                matches.push(processes[i]);
-	            }
-	        }
-
-	        return matches;
-	    },
-
-	    focusSearch: function focusSearch(el, hasInit) {
-	        hasInit && el.focus();
+	        // Goto quick-edit
+	        ctrl.changeFrame({ target: { dataset: { target: 3 } } });
 	    },
 
 	    view: function view(ctrl, attrs) {
-	        var _this = this;
-
-	        // Reload now if it was not showing before
-	        if (!ctrl.showing && attrs.showing) {
-	            this.reloadNow();
-	        }
-
-	        ctrl.showing = attrs.showing;
-
-	        return (0, _mithril2.default)('div#consoleDialog', { className: ctrl.showing ? 'modal fade in show' : 'modal fade hidden', role: 'dialog' }, (0, _mithril2.default)('div', { class: 'modal-dialog modal-lg' }, (0, _mithril2.default)('div', { class: 'modal-content' }, (0, _mithril2.default)('div', { class: 'modal-header' }, (0, _mithril2.default)('button', { class: 'close', onclick: ctrl.closeOverlayFrame }, 'x'), (0, _mithril2.default)('h4', 'Select Process:', { class: 'modal-title' })), (0, _mithril2.default)('input.process-search[type=text]', {
-	            config: this.focusSearch.bind(this),
-	            inputValue: ctrl.inputValue(),
-	            oninput: _mithril2.default.withAttr('value', ctrl.inputValue),
-	            placeholder: 'Search process'
-	        }), (0, _mithril2.default)('div#procContainer', { class: 'modal-body' }, '', (0, _mithril2.default)('ul#processList', { class: 'list-group' }, (ctrl.inputValue() ? this.search(processes, ctrl.inputValue()) : processes).map(function (e) {
-	            return (0, _mithril2.default)('li.list-group-item', { onclick: _this.setTarget.bind(_this, ctrl, e) }, (0, _mithril2.default)('span.badge', e.pid), e.name);
-	        }))), (0, _mithril2.default)('div', { class: 'modal-footer' }, (0, _mithril2.default)('button', { onclick: reorderProcesses.bind(this, 'name', 'pid'), class: 'btn btn-default' }, 'By name'), (0, _mithril2.default)('button', { onclick: reorderProcesses.bind(this, 'pid', null), class: 'btn btn-default' }, 'By PID'), (0, _mithril2.default)('button', { onclick: this.reloadProc.bind(this), class: 'btn btn-default' }, 'Reload'), (0, _mithril2.default)('button', { onclick: ctrl.closeOverlayFrame, class: 'btn btn-default' }, 'Close')))));
+	        return (0, _mithril2.default)('div.explorer', (0, _mithril2.default)('div.treeview', (0, _mithril2.default)(TreeView, { treeRoot: files, fileClick: this.fileClicked.bind(this, ctrl) })), (0, _mithril2.default)('div.buttons', (0, _mithril2.default)('button', 'Send')));
 	    }
 	};
 
@@ -3318,21 +3129,50 @@
 /* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
-	var path = __webpack_require__(19);
+	var _mithril = __webpack_require__(2);
 
-	function doNotify(options, image) {
-	    if (!image) {
-	        new Notification(options.title, options);
-	    } else {
-	        options.icon = 'LogoApe.ico';
-	        new Notification(options.title, options);
-	    }
-	}
+	var _mithril2 = _interopRequireDefault(_mithril);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var folderIco = "data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDU4IDU4IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1OCA1ODsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSI1MTJweCIgaGVpZ2h0PSI1MTJweCI+CjxwYXRoIHN0eWxlPSJmaWxsOiNFRkNFNEE7IiBkPSJNNTUuOTgxLDU0LjVIMi4wMTlDMC45MDQsNTQuNSwwLDUzLjU5NiwwLDUyLjQ4MVYyMC41aDU4djMxLjk4MUM1OCw1My41OTYsNTcuMDk2LDU0LjUsNTUuOTgxLDU0LjV6ICAiLz4KPHBhdGggc3R5bGU9ImZpbGw6I0VCQkExNjsiIGQ9Ik0yNi4wMTksMTEuNVY1LjUxOUMyNi4wMTksNC40MDQsMjUuMTE1LDMuNSwyNCwzLjVIMi4wMTlDMC45MDQsMy41LDAsNC40MDQsMCw1LjUxOVYxMC41djEwaDU4ICB2LTYuOTgxYzAtMS4xMTUtMC45MDQtMi4wMTktMi4wMTktMi4wMTlIMjYuMDE5eiIvPgo8Zz4KCTxwYXRoIHN0eWxlPSJmaWxsOiNFQjc5Mzc7IiBkPSJNMTgsMzIuNWgxNGMwLjU1MiwwLDEtMC40NDcsMS0xcy0wLjQ0OC0xLTEtMUgxOGMtMC41NTIsMC0xLDAuNDQ3LTEsMVMxNy40NDgsMzIuNSwxOCwzMi41eiIvPgoJPHBhdGggc3R5bGU9ImZpbGw6I0VCNzkzNzsiIGQ9Ik0xOCwzOC41aDIyYzAuNTUyLDAsMS0wLjQ0NywxLTFzLTAuNDQ4LTEtMS0xSDE4Yy0wLjU1MiwwLTEsMC40NDctMSwxUzE3LjQ0OCwzOC41LDE4LDM4LjV6Ii8+Cgk8cGF0aCBzdHlsZT0iZmlsbDojRUI3OTM3OyIgZD0iTTQwLDQyLjVIMThjLTAuNTUyLDAtMSwwLjQ0Ny0xLDFzMC40NDgsMSwxLDFoMjJjMC41NTIsMCwxLTAuNDQ3LDEtMVM0MC41NTIsNDIuNSw0MCw0Mi41eiIvPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=";
+	var fileIco = "data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDYwIDYwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA2MCA2MDsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSIzMnB4IiBoZWlnaHQ9IjMycHgiPgo8Zz4KCTxwYXRoIGQ9Ik00Mi41LDIyaC0yNWMtMC41NTIsMC0xLDAuNDQ3LTEsMXMwLjQ0OCwxLDEsMWgyNWMwLjU1MiwwLDEtMC40NDcsMS0xUzQzLjA1MiwyMiw0Mi41LDIyeiIgZmlsbD0iI0ZGRkZGRiIvPgoJPHBhdGggZD0iTTE3LjUsMTZoMTBjMC41NTIsMCwxLTAuNDQ3LDEtMXMtMC40NDgtMS0xLTFoLTEwYy0wLjU1MiwwLTEsMC40NDctMSwxUzE2Ljk0OCwxNiwxNy41LDE2eiIgZmlsbD0iI0ZGRkZGRiIvPgoJPHBhdGggZD0iTTQyLjUsMzBoLTI1Yy0wLjU1MiwwLTEsMC40NDctMSwxczAuNDQ4LDEsMSwxaDI1YzAuNTUyLDAsMS0wLjQ0NywxLTFTNDMuMDUyLDMwLDQyLjUsMzB6IiBmaWxsPSIjRkZGRkZGIi8+Cgk8cGF0aCBkPSJNNDIuNSwzOGgtMjVjLTAuNTUyLDAtMSwwLjQ0Ny0xLDFzMC40NDgsMSwxLDFoMjVjMC41NTIsMCwxLTAuNDQ3LDEtMVM0My4wNTIsMzgsNDIuNSwzOHoiIGZpbGw9IiNGRkZGRkYiLz4KCTxwYXRoIGQ9Ik00Mi41LDQ2aC0yNWMtMC41NTIsMC0xLDAuNDQ3LTEsMXMwLjQ0OCwxLDEsMWgyNWMwLjU1MiwwLDEtMC40NDcsMS0xUzQzLjA1Miw0Niw0Mi41LDQ2eiIgZmlsbD0iI0ZGRkZGRiIvPgoJPHBhdGggZD0iTTM4LjkxNCwwSDYuNXY2MGg0N1YxNC41ODZMMzguOTE0LDB6IE0zOS41LDMuNDE0TDUwLjA4NiwxNEgzOS41VjMuNDE0eiBNOC41LDU4VjJoMjl2MTRoMTR2NDJIOC41eiIgZmlsbD0iI0ZGRkZGRiIvPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+CjxnPgo8L2c+Cjwvc3ZnPgo=";
 
 	module.exports = {
-	    doNotify: doNotify
+	    component: {
+	        controller: function controller(attrs) {
+	            return {
+	                treeRoot: _mithril2.default.prop(attrs.treeRoot),
+	                fileClick: attrs.fileClick
+	            };
+	        },
+
+	        view: function view(ctrl, attrs) {
+	            ctrl.treeRoot = _mithril2.default.prop(attrs.treeRoot);
+
+	            var recurse = function recurse(list, level) {
+	                return list.map(function (item) {
+	                    return (0, _mithril2.default)('li', {
+	                        'data-type': item.type,
+	                        'data-name': item.name(),
+	                        'data-root': item.root(),
+	                        style: { 'text-indent': 15 * level + 'px' },
+	                        onclick: item.type == 'file' ? ctrl.fileClick : null
+	                    }, [(0, _mithril2.default)('img', { src: item.type == 'folder' ? folderIco : fileIco }), item.name(), item.children() ? (0, _mithril2.default)('ul', recurse(item.children(), level + 1)) : null]);
+	                });
+	            };
+	            return (0, _mithril2.default)('ul', [recurse(ctrl.treeRoot(), 1)]);
+	        }
+	    },
+
+	    TreeElement: function TreeElement(name, root, children) {
+	        this.children = _mithril2.default.prop(children || []);
+	        this.name = _mithril2.default.prop(name);
+	        this.root = _mithril2.default.prop(root);
+	        this.type = this.children().length > 0 ? 'folder' : 'file';
+	    }
 	};
 
 /***/ },
@@ -3690,6 +3530,454 @@
 	};
 	process.umask = function() { return 0; };
 
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _mithril = __webpack_require__(2);
+
+	var _mithril2 = _interopRequireDefault(_mithril);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _require = __webpack_require__(15);
+
+	var ipcRenderer = _require.ipcRenderer;
+
+	var dialog = __webpack_require__(15).remote.dialog;
+
+	var projects = [];
+
+	var scanProjects = function scanProjects(config) {
+	    ipcRenderer.send('scan-projects', config.projectFolder);
+	    _mithril2.default.startComputation();
+	};
+
+	ipcRenderer.on('scanned-projects', function (event, args) {
+	    projects = args;
+	    _mithril2.default.endComputation();
+	});
+
+	exports.default = {
+	    controller: function controller(attrs) {
+	        var config = ipcRenderer.sendSync('get-config');
+	        if (!config.projectFolder) {
+	            config.projectFolder = ipcRenderer.sendSync('get-default-projects-path');
+	            ipcRenderer.send('set-config', config);
+	        }
+
+	        return {
+	            showing: attrs.showing,
+	            config: config
+	        };
+	    },
+
+	    showDialog: function showDialog(ctrl, e) {
+	        var folder = dialog.showOpenDialog({ properties: ['openDirectory'], defaultPath: ctrl.config.projectFolder });
+	        if (folder) {
+	            ctrl.config.projectFolder = folder[0];
+	            ipcRenderer.send('set-config', ctrl.config);
+	            scanProjects(ctrl.config);
+	        }
+	    },
+
+	    setActive: function setActive(ctrl, el, e) {
+	        ctrl.config.activeProject = el;
+	        ipcRenderer.send('set-config', ctrl.config);
+	    },
+
+	    view: function view(ctrl, attrs) {
+	        var _this = this;
+
+	        if (!ctrl.showing && attrs.showing) {
+	            scanProjects(ctrl.config);
+	        }
+
+	        ctrl.showing = attrs.showing;
+
+	        return (0, _mithril2.default)('div.project-body.body-frame', { className: ctrl.showing ? '' : 'hidden' }, (0, _mithril2.default)('h1', 'Projects root folder'), (0, _mithril2.default)('div.inputfile', { onclick: this.showDialog.bind(this, ctrl) }, ctrl.config.projectFolder), (0, _mithril2.default)('div.button', { onclick: this.showDialog.bind(this, ctrl) }, 'Click to select'), (0, _mithril2.default)('h1', 'Projects'), (0, _mithril2.default)('ul', projects.map(function (el) {
+	            return (0, _mithril2.default)('li', {
+	                className: ctrl.config.activeProject == el ? 'project active' : 'project',
+	                onclick: _this.setActive.bind(_this, ctrl, el)
+	            }, el);
+	        })));
+	    }
+	};
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _mithril = __webpack_require__(2);
+
+	var _mithril2 = _interopRequireDefault(_mithril);
+
+	var _codeflask = __webpack_require__(23);
+
+	var _codeflask2 = _interopRequireDefault(_codeflask);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _require = __webpack_require__(15);
+
+	var ipcRenderer = _require.ipcRenderer;
+
+
+	var flask = new _codeflask2.default();
+
+	ipcRenderer.on('quick-edit-contents', function (event, data) {
+	    flask.update(data);
+	    _mithril2.default.redraw();
+	});
+
+	exports.default = {
+	    controller: function controller(attrs) {
+	        return {
+	            showing: attrs.showing
+	        };
+	    },
+
+	    configEditor: function configEditor(el, hasInit) {
+	        if (!hasInit) {
+	            flask.run('#jseditor', { language: 'js' });
+	        }
+	    },
+
+	    saveCode: function saveCode(e) {
+	        ipcRenderer.send('save-code', flask.textarea.value);
+	    },
+
+	    sendCode: function sendCode(e) {
+	        ipcRenderer.send('send-code', flask.textarea.value);
+	    },
+
+	    view: function view(ctrl, attrs) {
+	        ctrl.showing = attrs.showing;
+
+	        return (0, _mithril2.default)('div.quick-edit-body.body-frame', { className: ctrl.showing ? '' : 'hidden' }, (0, _mithril2.default)('h1', 'Javascript Editor'), (0, _mithril2.default)("div#jseditor", { 'data-language': "javascript", config: this.configEditor.bind(this) }), (0, _mithril2.default)('div.buttons', (0, _mithril2.default)('button', { onclick: this.saveCode.bind(this), class: 'btn btn-success' }, 'Guardar'), (0, _mithril2.default)('button', { onclick: this.sendCode.bind(this), class: 'btn btn-success' }, 'Enviar')));
+	    }
+	};
+
+/***/ },
+/* 23 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	function CodeFlask() {}
+
+	CodeFlask.prototype.run = function (selector, opts) {
+	    var target = document.querySelectorAll(selector);
+
+	    if (target.length > 1) {
+	        throw 'CodeFlask.js ERROR: run() expects only one element, ' + target.length + ' given. Use .runAll() instead.';
+	    } else {
+	        this.scaffold(target[0], false, opts);
+	    }
+	};
+
+	CodeFlask.prototype.runAll = function (selector, opts) {
+	    // Remove update API for bulk rendering
+	    this.update = null;
+	    this.onUpdate = null;
+
+	    var target = document.querySelectorAll(selector);
+
+	    var i;
+	    for (i = 0; i < target.length; i++) {
+	        this.scaffold(target[i], true, opts);
+	    }
+	};
+
+	CodeFlask.prototype.scaffold = function (target, isMultiple, opts) {
+	    var textarea = document.createElement('TEXTAREA'),
+	        highlightPre = document.createElement('PRE'),
+	        highlightCode = document.createElement('CODE'),
+	        initialCode = target.textContent,
+	        lang;
+
+	    opts.language = this.handleLanguage(opts.language);
+
+	    this.defaultLanguage = target.dataset.language || opts.language || 'markup';
+
+	    // Prevent these vars from being refreshed when rendering multiple
+	    // instances
+	    if (!isMultiple) {
+	        this.textarea = textarea;
+	        this.highlightCode = highlightCode;
+	    }
+
+	    target.classList.add('CodeFlask');
+	    textarea.classList.add('CodeFlask__textarea');
+	    highlightPre.classList.add('CodeFlask__pre');
+	    highlightCode.classList.add('CodeFlask__code');
+	    highlightCode.classList.add('language-' + this.defaultLanguage);
+
+	    // Fixing iOS "drunk-text" issue
+	    if (/iPad|iPhone|iPod/.test(navigator.platform)) {
+	        highlightCode.style.paddingLeft = '3px';
+	    }
+
+	    // Appending editor elements to DOM
+	    target.innerHTML = '';
+	    target.appendChild(textarea);
+	    target.appendChild(highlightPre);
+	    highlightPre.appendChild(highlightCode);
+
+	    // Render initial code inside tag
+	    textarea.value = initialCode;
+	    this.renderOutput(highlightCode, textarea);
+
+	    Prism.highlightAll();
+
+	    this.handleInput(textarea, highlightCode, highlightPre);
+	    this.handleScroll(textarea, highlightPre);
+	};
+
+	CodeFlask.prototype.renderOutput = function (highlightCode, input) {
+	    highlightCode.innerHTML = input.value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") + "\n";
+	};
+
+	CodeFlask.prototype.handleInput = function (textarea, highlightCode, highlightPre) {
+	    var self = this,
+	        input,
+	        selStartPos,
+	        inputVal,
+	        roundedScroll;
+
+	    textarea.addEventListener('input', function (e) {
+	        input = this;
+
+	        self.renderOutput(highlightCode, input);
+
+	        Prism.highlightAll();
+	    });
+
+	    textarea.addEventListener('keydown', function (e) {
+	        input = this, selStartPos = input.selectionStart, inputVal = input.value;
+
+	        // If TAB pressed, insert four spaces
+	        if (e.keyCode === 9) {
+	            input.value = inputVal.substring(0, selStartPos) + "    " + inputVal.substring(selStartPos, input.value.length);
+	            input.selectionStart = selStartPos + 4;
+	            input.selectionEnd = selStartPos + 4;
+	            e.preventDefault();
+
+	            highlightCode.innerHTML = input.value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") + "\n";
+	            Prism.highlightAll();
+	        }
+	    });
+	};
+
+	CodeFlask.prototype.handleScroll = function (textarea, highlightPre) {
+	    textarea.addEventListener('scroll', function () {
+
+	        var roundedScroll = Math.floor(this.scrollTop);
+
+	        // Fixes issue of desync text on mouse wheel, fuck Firefox.
+	        if (navigator.userAgent.toLowerCase().indexOf('firefox') < 0) {
+	            this.scrollTop = roundedScroll;
+	        }
+
+	        highlightPre.style.top = "-" + roundedScroll + "px";
+	    });
+	};
+
+	CodeFlask.prototype.handleLanguage = function (lang) {
+	    if (lang.match(/html|xml|xhtml|svg/)) {
+	        return 'markup';
+	    } else if (lang.match(/js/)) {
+	        return 'javascript';
+	    } else {
+	        return lang;
+	    }
+	};
+
+	CodeFlask.prototype.onUpdate = function (cb) {
+	    if (typeof cb == "function") {
+	        this.textarea.addEventListener('input', function (e) {
+	            cb(this.value);
+	        });
+	    } else {
+	        throw 'CodeFlask.js ERROR: onUpdate() expects function, ' + (typeof cb === 'undefined' ? 'undefined' : _typeof(cb)) + ' given instead.';
+	    }
+	};
+
+	CodeFlask.prototype.update = function (string) {
+	    var evt = document.createEvent("HTMLEvents");
+
+	    this.textarea.value = string;
+	    this.renderOutput(this.highlightCode, this.textarea);
+	    Prism.highlightAll();
+
+	    evt.initEvent("input", false, true);
+	    this.textarea.dispatchEvent(evt);
+	};
+
+	module.exports = CodeFlask;
+
+/***/ },
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _mithril = __webpack_require__(2);
+
+	var _mithril2 = _interopRequireDefault(_mithril);
+
+	var _codeflask = __webpack_require__(23);
+
+	var _codeflask2 = _interopRequireDefault(_codeflask);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _require = __webpack_require__(15);
+
+	var ipcRenderer = _require.ipcRenderer;
+
+
+	var processes = [];
+	var searchProcesses = [];
+
+	//TODO: Improve
+	ipcRenderer.on('procReply', function (event, arg) {
+	    var res = arg.replace(/\r/g, ",");
+	    res = res.split(",");
+
+	    // Remove quotes
+	    var trim = function trim(x) {
+	        return function (x) {
+	            return x.substr(1, x.length - 2);
+	        }(x.trim());
+	    };
+
+	    processes = [];
+	    for (var i = 0; i < res.length / 5 - 1; i++) {
+	        var pid = res[i * 5 + 1];
+	        var name = res[i * 5];
+
+	        processes.push({ pid: parseInt(trim(pid)), name: trim(name) });
+	    }
+
+	    reorderProcesses('name', 'pid');
+	    _mithril2.default.endComputation();
+	});
+
+	function reorderProcesses(by, sec) {
+	    function compare(what, a, b) {
+	        var ap = isNaN(a[what]) ? a[what].toLowerCase() : a[what];
+	        var bp = isNaN(b[what]) ? b[what].toLowerCase() : b[what];
+
+	        if (ap < bp) return -1;
+	        if (ap > bp) return 1;
+	        return compare(sec, a, b);
+	    }
+
+	    processes = processes.sort(compare.bind(null, by));
+	}
+
+	exports.default = {
+	    reloadProc: function reloadProc() {
+	        _mithril2.default.startComputation();
+	        ipcRenderer.send('getProc', null);
+	    },
+
+	    controller: function controller(attrs) {
+	        return {
+	            showing: attrs.showing,
+	            closeOverlayFrame: attrs.closeOverlayFrame,
+	            inputValue: _mithril2.default.prop("")
+	        };
+	    },
+
+	    reloadNow: function reloadNow() {
+	        this.reloadProc();
+	    },
+
+	    setTarget: function setTarget(ctrl, target, e) {
+	        _mithril2.default.startComputation();
+	        ipcRenderer.send('set-target', target);
+	        ctrl.closeOverlayFrame();
+	    },
+
+	    search: function search(processes, str) {
+	        var matches = [];
+	        var re = new RegExp(str, 'i');
+
+	        for (var i = 0; i < processes.length; ++i) {
+	            if (processes[i].name.match(re)) {
+	                matches.push(processes[i]);
+	            }
+	        }
+
+	        return matches;
+	    },
+
+	    focusSearch: function focusSearch(el, hasInit) {
+	        hasInit && el.focus();
+	    },
+
+	    view: function view(ctrl, attrs) {
+	        var _this = this;
+
+	        // Reload now if it was not showing before
+	        if (!ctrl.showing && attrs.showing) {
+	            this.reloadNow();
+	        }
+
+	        ctrl.showing = attrs.showing;
+
+	        return (0, _mithril2.default)('div.target-body', { className: ctrl.showing ? 'modal fade in show' : 'modal fade hidden', role: 'dialog' }, (0, _mithril2.default)('div', { class: 'modal-dialog modal-lg' }, (0, _mithril2.default)('div', { class: 'modal-content' }, (0, _mithril2.default)('div', { class: 'modal-header' }, (0, _mithril2.default)('button', { class: 'close', onclick: ctrl.closeOverlayFrame }, 'x'), (0, _mithril2.default)('h4', 'Select Process:', { class: 'modal-title' })), (0, _mithril2.default)('input.process-search[type=text]', {
+	            config: this.focusSearch.bind(this),
+	            inputValue: ctrl.inputValue(),
+	            oninput: _mithril2.default.withAttr('value', ctrl.inputValue),
+	            placeholder: 'Search process'
+	        }), (0, _mithril2.default)('div#procContainer', { class: 'modal-body' }, '', (0, _mithril2.default)('ul#processList', { class: 'list-group' }, (ctrl.inputValue() ? this.search(processes, ctrl.inputValue()) : processes).map(function (e) {
+	            return (0, _mithril2.default)('li.list-group-item', { onclick: _this.setTarget.bind(_this, ctrl, e) }, (0, _mithril2.default)('span.badge', e.pid), e.name);
+	        }))), (0, _mithril2.default)('div', { class: 'modal-footer' }, (0, _mithril2.default)('button', { onclick: reorderProcesses.bind(this, 'name', 'pid'), class: 'btn btn-default' }, 'By name'), (0, _mithril2.default)('button', { onclick: reorderProcesses.bind(this, 'pid', null), class: 'btn btn-default' }, 'By PID'), (0, _mithril2.default)('button', { onclick: this.reloadProc.bind(this), class: 'btn btn-default' }, 'Reload'), (0, _mithril2.default)('button', { onclick: ctrl.closeOverlayFrame, class: 'btn btn-default' }, 'Close')))));
+	    }
+	};
+
+/***/ },
+/* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var path = __webpack_require__(19);
+
+	function doNotify(options, image) {
+	    if (!image) {
+	        new Notification(options.title, options);
+	    } else {
+	        options.icon = 'LogoApe.ico';
+	        new Notification(options.title, options);
+	    }
+	}
+
+	module.exports = {
+	    doNotify: doNotify
+	};
 
 /***/ }
 /******/ ]);
