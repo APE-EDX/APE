@@ -51,13 +51,20 @@ ipcMain.on('set-config', (event, newConfig) => {
 });
 
 ipcMain.on('scan-projects', (event, where) => {
-    var projects = fs.readdirSync(where).filter(function(file) {
-        var current = path.join(where, file);
-        if (fs.statSync(current).isDirectory()) {
-            return fs.statSync(path.join(current, '.ape')).isFile();
-        }
-        return false;
-    });
+    var projects = [];
+    try {
+        // TODO: Async
+        projects = fs.readdirSync(where).filter(function(file) {
+            var current = path.join(where, file);
+            if (fs.statSync(current).isDirectory()) {
+                return fs.statSync(path.join(current, '.ape')).isFile();
+            }
+            return false;
+        });
+    }
+    catch (e) {
+        // Unexisting dir
+    }
 
     event.sender.send('scanned-projects', projects);
 })
@@ -105,8 +112,15 @@ function reloadProjectFiles(sender) {
         return o;
     };
 
-    var files = recur(path.join(config.projectFolder, config.activeProject), []);
-    (sender || mainWindow.webContents).send('reload-project-files', {root: config.projectFolder, files: files});
+    try {
+        if (config.projectFolder && config.activeProject) {
+            var files = recur(path.join(config.projectFolder, config.activeProject), []);
+            (sender || mainWindow.webContents).send('reload-project-files', {root: config.projectFolder, files: files});
+        }
+    }
+    catch (e) {
+        // Unexisting directory
+    }
 }
 
 let argv = [process.argv[0], '.'];
