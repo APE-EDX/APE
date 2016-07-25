@@ -348,6 +348,8 @@ body.light {
         .modal-content {
             background-color: #EBFAFF;
             color: black;
+            width: 400px;
+            margin: auto;
         }
 
         .process-search {
@@ -371,11 +373,6 @@ body.light {
             padding-left: 0;
             margin-bottom: 20px;
             height: 400px;
-        }
-
-        .modal-content {
-            width: 400px;
-            margin: auto;
         }
 
         .list-group-item {
@@ -455,6 +452,34 @@ body.light {
         li.active {
             background: #263238;
             color: #FFF;
+        }
+    }
+
+    .new-file {
+        background-color: rgba(0,0,0,0.6);
+        height: @window-height;
+
+        .modal-dialog {
+            top: 40%;
+            transform: translateY(-50%);
+        }
+
+        .modal-content {
+            background-color: #263238;
+            color: white;
+            width: 400px;
+            margin: auto;
+            text-align: center;
+        }
+
+        .file-path {
+            color: #000;
+            padding: 0 5px 0 5px;
+            width: 80%;
+        }
+
+        .file-path::-webkit-input-placeholder {
+            color: #444;
         }
     }
 }
