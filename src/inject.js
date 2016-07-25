@@ -41,6 +41,17 @@ let inject = (target) => {
     return serverReady && injector && injector.injectDLLByPID(target.pid, dllPath, kernelExe);
 }
 
+let send = function(code) {
+    if (dllSocket) {
+        var obj = {method: 'eval_js', args: [code]};
+        var json = JSON.stringify(obj);
+        var len = json.length;
+        var bytes = [len & 0xFF, (len & 0xFF00) >> 8];
+        dllSocket.write(new Buffer(bytes));
+        dllSocket.write(json);
+    }
+}
+
 module.exports = (rendererWindow, callback) => {
     // Create the TCP server
     var server = net.createServer((socket) => {
@@ -72,10 +83,7 @@ module.exports = (rendererWindow, callback) => {
 
     // Send-code event
     ipcMain.on('send-code', (event, arg) => {
-        if (dllSocket) {
-            var json = {method: 'eval_js', args: [arg]};
-            dllSocket.write(JSON.stringify(json));
-        }
+        send(arg);
     });
 
     // Inject event
@@ -86,11 +94,6 @@ module.exports = (rendererWindow, callback) => {
     return {
         injector: injector,
         inject: inject,
-        send: function(code) {
-            if (dllSocket) {
-                var json = {method: 'eval_js', args: [code]};
-                dllSocket.write(JSON.stringify(json));
-            }
-        }
+        send: send,
     };
 };

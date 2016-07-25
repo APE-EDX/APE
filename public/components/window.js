@@ -13,6 +13,7 @@ import Project from './project';
 import QuickEdit from './quick-edit';
 import Target from './target-process';
 import Notifications from './notifications';
+import NewFile from './new-file';
 
 var target = null;
 ipcRenderer.on('set-target', (event, resultTarget) => {
@@ -43,16 +44,27 @@ ipcRenderer.on('save-result', (event, result) => {
 	}
 });
 
+var Frames = {
+	Target: 	0,
+	Project: 	1,
+	QuickEdit: 	3,
+	NewFile: 	5
+};
+
+var framesValues = Object.keys(Frames).map(val => Frames[val]);
+var nItems = framesValues.reduce(function(mx,c) { return Math.max(mx, c); } );
+var initialState = Array(nItems).fill(false);
+
 export default {
 	controller: function() {
 		return {
 			inputValue: m.prop(""),
-			showing: [false, false, false, false, false]
+			showing: Array.from(initialState)
 		};
 	},
 
 	changeFrame: function(e) {
-		this.showing = [false, false, false, false, false];
+		this.showing = Array.from(initialState);
 		this.showing[e.target.dataset.target] = true;
 	},
 
@@ -74,13 +86,23 @@ export default {
 				overlayFrame: this.overlayFrame.bind(ctrl),
 				closeOverlayFrame: this.closeOverlayFrame.bind(ctrl)
 			}),
-			m(Project, {
-				showing: ctrl.showing[1]
+			m(Target, {
+				showing: ctrl.showing[Frames.Target],
+				closeOverlayFrame: this.closeOverlayFrame.bind(ctrl, Frames.Target)
 			}),
-			m(QuickEdit, {showing: ctrl.showing[3]}),
-			m(Target, {showing: ctrl.showing[0], closeOverlayFrame: this.closeOverlayFrame.bind(ctrl, 0)}),
+			m(Project, {
+				showing: ctrl.showing[Frames.Project]
+			}),
+			m(QuickEdit, {
+				showing: ctrl.showing[Frames.QuickEdit]
+			}),
 			m(Explorer, {
-				changeFrame: this.changeFrame.bind(ctrl)
+				changeFrame: this.changeFrame.bind(ctrl),
+				showNewFile: this.overlayFrame.bind(ctrl, {target: {dataset: {target: Frames.NewFile}}})
+			}),
+            m(NewFile, {
+				showing: ctrl.showing[Frames.NewFile],
+				closeOverlayFrame: this.closeOverlayFrame.bind(ctrl, Frames.NewFile)
 			})
 		);
 	}

@@ -41,7 +41,8 @@ ipcRenderer.send('request-project-files');
 export default {
     controller: function(attrs) {
         return {
-            changeFrame: attrs.changeFrame
+            changeFrame: attrs.changeFrame,
+            showNewFile: attrs.showNewFile
         };
     },
 
@@ -58,13 +59,18 @@ export default {
         ctrl.changeFrame({target: {dataset: {target: 3}}});
     },
 
+    sendAll: function(e) {
+        ipcRenderer.send('send-all', null);
+    },
+
 	view: function(ctrl, attrs) {
 		return m('div.explorer',
             m('div.treeview',
                 m(TreeView, {treeRoot: files, fileClick: this.fileClicked.bind(this, ctrl)})
             ),
             m('div.buttons',
-                m('button', 'Send')
+                m('button', {onclick: ctrl.showNewFile}, 'New file'),
+                m('button', {onclick: this.sendAll.bind(this)}, 'Send')
             )
         );
 	}

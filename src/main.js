@@ -2,6 +2,7 @@
 const {app, BrowserWindow, ipcMain}  = require('electron');
 const path = require("path");
 const fs = require('fs');
+const mkdirp = require('mkdirp');
 const exec = require('child_process').exec;
 var jsonfile = require('jsonfile');
 var inject = require('./inject');
@@ -81,6 +82,16 @@ ipcMain.on('quick-edit-file', (event, file) => {
     })
 });
 
+ipcMain.on('new-file', (event, file) => {
+    var root = path.join(config.projectFolder, config.activeProject);
+    var filePath = path.join(root, path.dirname(file));
+    mkdirp(filePath, err => {
+        fs.writeFile(path.join(root, file), '', 'utf-8', err => {
+            reloadProjectFiles(event.sender);
+        });
+    });
+});
+
 ipcMain.on('save-code', (event, data) => {
     if (currentFile) {
         fs.writeFile(currentFile, data, 'utf-8', (err) => {
@@ -106,21 +117,22 @@ ipcMain.on('send-all', (event, args) => {
                 recur(file2, path.join(root, file));
             }
             else {
-                if (!path.relative(path.join(root, file) == OEP)) {
+                var isOEP = !path.relative(path.join(root, file), OEP);
+                var isAPE = !path.relative(path.join(root, file), '.ape');
+
+                if (isOEP) {
                     OEP = file2;
                 }
-                else {
+                else if (!isAPE) {
+                    console.log('Sending ' + file2);
                     inject.send(fs.readFileSync(file2, 'utf-8'));
                 }
             }
         });
-
-        var o = {};
-        o[path.basename(dir)] = acc;
-        return o;
     };
 
     recur(root, '.');
+    console.log('Sending ' + OEP);
     inject.send(fs.readFileSync(OEP, 'utf-8'));
 });
 
