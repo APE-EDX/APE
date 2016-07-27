@@ -41,7 +41,7 @@ macro(BuildMultiArch TARGET_NAME BUILD_PATH SKIP64)
             DEPENDS UpdateSubmodules ${TARGET_NAME}-${ARCH}-MKDIR
         )
         add_custom_target(${TARGET_NAME}-${ARCH}-BUILD ALL
-            ${CMAKE_COMMAND} --build .
+            ${CMAKE_COMMAND} --build . --config Release
             WORKING_DIRECTORY ${BUILD_PATH}
             DEPENDS UpdateSubmodules ${TARGET_NAME}-${ARCH}-CMAKE
         )
