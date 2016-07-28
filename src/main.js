@@ -58,7 +58,12 @@ ipcMain.on('scan-projects', (event, where) => {
         projects = fs.readdirSync(where).filter(function(file) {
             var current = path.join(where, file);
             if (fs.statSync(current).isDirectory()) {
-                return fs.statSync(path.join(current, '.ape')).isFile();
+                try {
+                    return fs.statSync(path.join(current, '.ape')).isFile();
+                }
+                catch (e) {
+                    return false;
+                }
             }
             return false;
         });
