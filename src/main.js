@@ -15,16 +15,64 @@ jsonfile.readFile(configPath, (err, obj) => { config = obj; });
 // be closed automatically when the javascript object is GCed.
 var mainWindow = null;
 
+// Is windows
+var isWin = /^win/.test(process.platform);
+
+// Remove spaces, new lines...
+var trim = function(x)
+{
+    x = x.trim();
+    x = x.replace(/^\s+|\s+$/g, '');
+    return x;
+}
+
 // TODO: Change Location?
 ipcMain.on('getProc', (event, arg) => {
-   exec('tasklist /fo csv /nh', (err, stdout, stderr) => {
-	  if (err) {
-		console.error(err);
-		return;
-	  }
+    if (isWin) {
+        exec('tasklist /fo csv /nh', (err, stdout, stderr) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
 
-      event.sender.send('procReply', stdout);
-	});
+            var processes = [];
+            var res = stdout.replace(/\r/g, ",");
+            res = res.split(",");
+
+            processes = [];
+            for(var i = 0; i < res.length / 5 - 1; i++) {
+                var pid = res[i * 5 + 1];
+                var name = res[i * 5];
+
+                processes.push({pid: parseInt(trim(pid)), name: trim(name)});
+            }
+
+            event.sender.send('procReply', processes);
+        });
+    }
+    else {
+        exec('ps axco pid,command', (err, stdout, stderr) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+
+            var processes = [];
+            var res = stdout.split("\n").splice(1); // Skip header
+
+            processes = [];
+            for(var i = 0; i < res.length; i++) {
+                var line = trim(res[i]);
+                var spacePos = line.indexOf(' ');
+                var pid = line.substr(0, spacePos);
+                var name = line.substr(spacePos + 1);
+
+                processes.push({pid: parseInt(trim(pid)), name: trim(name)});
+            }
+
+            event.sender.send('procReply', processes);
+        });
+    }
 });
 
 // Broadcast set-target

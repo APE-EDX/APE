@@ -3894,24 +3894,7 @@
 
 	//TODO: Improve
 	ipcRenderer.on('procReply', function (event, arg) {
-	    var res = arg.replace(/\r/g, ",");
-	    res = res.split(",");
-
-	    // Remove quotes
-	    var trim = function trim(x) {
-	        return function (x) {
-	            return x.substr(1, x.length - 2);
-	        }(x.trim());
-	    };
-
-	    processes = [];
-	    for (var i = 0; i < res.length / 5 - 1; i++) {
-	        var pid = res[i * 5 + 1];
-	        var name = res[i * 5];
-
-	        processes.push({ pid: parseInt(trim(pid)), name: trim(name) });
-	    }
-
+	    processes = arg;
 	    reorderProcesses('name', 'pid');
 	    _mithril2.default.endComputation();
 	});
