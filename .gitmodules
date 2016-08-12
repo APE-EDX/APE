@@ -13,3 +13,6 @@
 [submodule "Projects"]
 	path = Projects
 	url = https://github.com/APE-EDX/Projects.git
+[submodule "APESO"]
+	path = APESO
+	url = https://github.com/APE-EDX/APESO.git

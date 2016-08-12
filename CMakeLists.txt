@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 project(APE)
 
-if (NOT WIN32)
-    message(FATAL_ERROR "Building on non-windows platforms is not supported yet")
-endif ()
 
 option(SKIP_SUBMODULES_UPDATE "Skip updating submodules" OFF)
 
@@ -54,7 +51,11 @@ macro(BuildMultiArch TARGET_NAME BUILD_PATH SKIP64)
     endif ()
 endmacro(BuildMultiArch)
 
-BuildMultiArch(APEDLL           "${PROJECT_SOURCE_DIR}/APEDLL/Build"        OFF)
+if(LINUX)
+    BuildMultiArch(APESO        "${PROJECT_SOURCE_DIR}/APESO/Build"         OFF)
+else()
+    BuildMultiArch(APEDLL       "${PROJECT_SOURCE_DIR}/APEDLL/Build"        OFF)
+endif()
 BuildMultiArch(APEKernel        "${PROJECT_SOURCE_DIR}/APEKernel/Build"     OFF)
 BuildMultiArch(InjectorAddon    "${PROJECT_SOURCE_DIR}/InjectorAddon/Build" OFF)
 
