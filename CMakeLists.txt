@@ -52,12 +52,12 @@ macro(BuildMultiArch TARGET_NAME BUILD_PATH SKIP64)
 endmacro(BuildMultiArch)
 
 if(LINUX)
-    BuildMultiArch(APESO        "${PROJECT_SOURCE_DIR}/APESO/Build"         OFF)
+    BuildMultiArch(APESO        "${PROJECT_SOURCE_DIR}/APESO/build"         OFF)
 else()
-    BuildMultiArch(APEDLL       "${PROJECT_SOURCE_DIR}/APEDLL/Build"        OFF)
+    BuildMultiArch(APEDLL       "${PROJECT_SOURCE_DIR}/APEDLL/build"        OFF)
 endif()
-BuildMultiArch(APEKernel        "${PROJECT_SOURCE_DIR}/APEKernel/Build"     OFF)
-BuildMultiArch(InjectorAddon    "${PROJECT_SOURCE_DIR}/InjectorAddon/Build" OFF)
+BuildMultiArch(APEKernel        "${PROJECT_SOURCE_DIR}/APEKernel/build"     OFF)
+BuildMultiArch(InjectorAddon    "${PROJECT_SOURCE_DIR}/InjectorAddon/build" OFF)
 
 #add_custom_target(
 #    APE-configure ALL
