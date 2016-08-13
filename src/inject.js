@@ -15,7 +15,7 @@ catch(e) {
 // Is windows and paths
 const isWin = /^win/.test(process.platform);
 const dllPath = path.resolve(__dirname, "../APEDLL/bin/APEDLL_{}.dll").replace("app.asar", "app.asar.unpacked");
-const soPath =  path.resolve(__dirname, "../APESO/bin/libAPESO_{}.dll").replace("app.asar", "app.asar.unpacked");
+const soPath =  path.resolve(__dirname, "../APESO/bin/libAPESO_{}.so").replace("app.asar", "app.asar.unpacked");
 const kernelExe = path.resolve(__dirname, "../APEKernel/bin/APEKernel{}.exe").replace("app.asar", "app.asar.unpacked");
 
 let dllSocket = null;
@@ -43,12 +43,14 @@ let inject = (target) => {
     currentTarget = target;
     if (serverReady && injector) {
         if (isWin) {
-            injector.injectDLLByPID(target.pid, dllPath, kernelExe);
+            return injector.injectDLLByPID(target.pid, dllPath, kernelExe);
         }
         else {
-            injector.injectDLLByPID(target.pid, soPath);
+            return injector.injectDLLByPID(target.pid, soPath);
         }
     }
+
+    return false;
 }
 
 let send = function(code) {
