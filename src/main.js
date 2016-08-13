@@ -16,7 +16,7 @@ jsonfile.readFile(configPath, (err, obj) => { config = obj; });
 var mainWindow = null;
 
 // Is windows
-var isWin = /^win/.test(process.platform);
+const isWin = /^win/.test(process.platform);
 
 // Remove spaces, new lines...
 var trim = function(x)

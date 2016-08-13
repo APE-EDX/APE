@@ -12,7 +12,10 @@ catch(e) {
     console.error("Injector not available yet in this platform");
 }
 
+// Is windows and paths
+const isWin = /^win/.test(process.platform);
 const dllPath = path.resolve(__dirname, "../APEDLL/bin/APEDLL_{}.dll").replace("app.asar", "app.asar.unpacked");
+const soPath =  path.resolve(__dirname, "../APESO/bin/libAPESO_{}.dll").replace("app.asar", "app.asar.unpacked");
 const kernelExe = path.resolve(__dirname, "../APEKernel/bin/APEKernel{}.exe").replace("app.asar", "app.asar.unpacked");
 
 let dllSocket = null;
@@ -38,7 +41,14 @@ let inject = (target) => {
     }
 
     currentTarget = target;
-    return serverReady && injector && injector.injectDLLByPID(target.pid, dllPath, kernelExe);
+    if (serverReady && injector) {
+        if (isWin) {
+            injector.injectDLLByPID(target.pid, dllPath, kernelExe);
+        }
+        else {
+            injector.injectDLLByPID(target.pid, soPath);
+        }
+    }
 }
 
 let send = function(code) {
