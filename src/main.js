@@ -36,15 +36,19 @@ ipcMain.on('getProc', (event, arg) => {
             }
 
             var processes = [];
-            var res = stdout.replace(/\r/g, ",");
-            res = res.split(",");
+            var lines = stdout.split("\r\n");
+            for(var l = 0; l < lines.length; ++l)
+            {
+                var tokens = lines[l].split(",");
 
-            processes = [];
-            for(var i = 0; i < res.length / 5 - 1; i++) {
-                var pid = res[i * 5 + 1];
-                var name = res[i * 5];
+                // Avoid lines with no tokens
+                if (tokens.length < 2) {
+                    continue;
+                }
 
-                processes.push({pid: parseInt(trim(pid)), name: trim(name)});
+                var name = tokens[0];
+                var pid = tokens[1];
+                processes.push({pid: parseInt(trim(pid.substr(1, pid.length - 2))), name: trim(name.substr(1, name.length - 2))});
             }
 
             event.sender.send('procReply', processes);
