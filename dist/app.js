@@ -139,19 +139,27 @@
 
 	var _project2 = _interopRequireDefault(_project);
 
-	var _quickEdit = __webpack_require__(22);
+	var _console = __webpack_require__(22);
+
+	var _console2 = _interopRequireDefault(_console);
+
+	var _quickEdit = __webpack_require__(23);
 
 	var _quickEdit2 = _interopRequireDefault(_quickEdit);
 
-	var _targetProcess = __webpack_require__(24);
+	var _options = __webpack_require__(25);
+
+	var _options2 = _interopRequireDefault(_options);
+
+	var _targetProcess = __webpack_require__(26);
 
 	var _targetProcess2 = _interopRequireDefault(_targetProcess);
 
-	var _notifications = __webpack_require__(25);
+	var _notifications = __webpack_require__(27);
 
 	var _notifications2 = _interopRequireDefault(_notifications);
 
-	var _newFile = __webpack_require__(26);
+	var _newFile = __webpack_require__(28);
 
 	var _newFile2 = _interopRequireDefault(_newFile);
 
@@ -193,7 +201,9 @@
 	var Frames = {
 		Target: 0,
 		Project: 1,
+		Console: 2,
 		QuickEdit: 3,
+		Options: 4,
 		NewFile: 5
 	};
 
@@ -227,9 +237,15 @@
 		},
 
 		view: function view(ctrl) {
+			if (ctrl.showing.every(function (x) {
+				return x == false;
+			})) {
+				this.changeFrame.bind(ctrl)({ target: { dataset: { target: Frames.Project } } });
+			}
+
 			return (0, _mithril2.default)("div.height100.showing-explorer", (0, _mithril2.default)(_header2.default, { target: target }), (0, _mithril2.default)(_menu2.default, {
 				showing: ctrl.showing,
-				default: 2,
+				default: Frames.Project,
 				changeFrame: this.changeFrame.bind(ctrl),
 				overlayFrame: this.overlayFrame.bind(ctrl),
 				closeOverlayFrame: this.closeOverlayFrame.bind(ctrl)
@@ -238,8 +254,12 @@
 				closeOverlayFrame: this.closeOverlayFrame.bind(ctrl, Frames.Target)
 			}), (0, _mithril2.default)(_project2.default, {
 				showing: ctrl.showing[Frames.Project]
+			}), (0, _mithril2.default)(_console2.default, {
+				showing: ctrl.showing[Frames.Console]
 			}), (0, _mithril2.default)(_quickEdit2.default, {
 				showing: ctrl.showing[Frames.QuickEdit]
+			}), (0, _mithril2.default)(_options2.default, {
+				showing: ctrl.showing[Frames.Options]
 			}), (0, _mithril2.default)(_explorer2.default, {
 				changeFrame: this.changeFrame.bind(ctrl),
 				showNewFile: this.overlayFrame.bind(ctrl, { target: { dataset: { target: Frames.NewFile } } })
@@ -2541,7 +2561,7 @@
 
 
 	// module
-	exports.push([module.id, "*,\n*:before,\n*:after {\n  -webkit-user-select: none;\n  box-sizing: border-box;\n}\nhtml,\nbody,\n.height100 {\n  width: 1000px;\n  height: 600px;\n  max-height: 1000px;\n}\nbody.dark {\n  background-color: #37474f;\n}\n.height100 {\n  position: relative;\n}\n.dark input {\n  background-color: #ccc;\n  width: 100%;\n}\n.dark .title-frame {\n  position: relative;\n  width: 100%;\n  height: 23px;\n  background-color: #2E2E2E;\n  text-align: right;\n  color: white;\n}\n.dark .title-frame .title {\n  position: relative;\n  text-align: center;\n  -webkit-app-region: drag;\n  line-height: 23px;\n}\n.dark .title-frame .buttons {\n  position: relative;\n  top: -23px;\n  z-index: 2;\n  padding-right: 3px;\n}\n.dark .title-frame .buttons > button {\n  -webkit-app-region: no-drag;\n}\n.dark .title-frame .close-button {\n  position: relative;\n  box-shadow: inset 0px -3px 7px 0px #29bbff;\n  background-color: #2dabf9;\n  border-radius: 3px;\n  border: 1px solid #0b0e07;\n  display: inline-block;\n  cursor: pointer;\n  color: #ffffff;\n  font-family: Arial;\n  font-size: 10px;\n  padding: 1px 4px;\n  text-decoration: none;\n  text-shadow: 0px 1px 0px #263666;\n}\n.dark .title-frame .close-button:hover {\n  background-color: #0688fa;\n}\n.dark .title-frame .close-button:active {\n  position: relative;\n  top: 1px;\n}\n.dark .menu-frame {\n  position: relative;\n  height: 23px;\n  background-color: #232323;\n}\n.dark .menu-frame .buttons {\n  position: relative;\n  top: 2px;\n}\n.dark .menu-frame .buttons > a {\n  color: white;\n  padding: 12px;\n}\n.dark .menu-frame .target-info {\n  position: relative;\n  top: -20px;\n  z-index: 2;\n  padding-right: 3px;\n  line-height: 23px;\n  text-align: right;\n  color: #c13434;\n  font-weight: bold;\n}\n.dark .menu-lateral {\n  position: relative;\n  float: left;\n  height: 554px;\n  width: 134px;\n  background-color: #263238;\n  border-style: solid;\n  border-right: 2px solid #000000;\n  border-left: 0px;\n  border-top: 0px;\n  border-bottom: 0px;\n}\n.dark .menu-lateral ul {\n  position: relative;\n  top: 50%;\n  transform: translateY(-50%);\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.dark .menu-lateral ul li:first-child {\n  margin-top: 0;\n}\n.dark .menu-lateral ul li:last-child {\n  margin-bottom: 0;\n}\n.dark .menu-lateral li {\n  margin: 15px;\n  margin-left: 0px;\n  padding-left: 15px;\n  position: relative;\n  list-style-type: none;\n  font-weight: bold;\n  text-align: left;\n}\n.dark .menu-lateral li > a {\n  color: #fafafa;\n  text-decoration: none;\n  font-weight: bold;\n  font-variant: small-caps;\n  cursor: pointer;\n}\n.dark .menu-lateral li > a:hover {\n  color: #cacaca;\n  text-decoration: none;\n}\n.dark .menu-lateral li.menu-active {\n  width: 134px;\n  height: 40px;\n  background-color: white;\n  line-height: 40px;\n}\n.dark .menu-lateral li.menu-active > a {\n  color: black;\n}\n.dark .menu-lateral li.menu-active > a:hover {\n  color: black;\n}\n.dark .menu-lateral li.menu-active::after {\n  position: relative;\n  left: 105px;\n  top: -34px;\n  display: block;\n  width: 28.28px;\n  height: 28.28px;\n  background-color: white;\n  transform: rotate(45deg);\n  content: ' ';\n  z-index: -1;\n}\n.dark .body-frame {\n  position: relative;\n  float: left;\n  width: 866px;\n  height: 554px;\n  padding: 15px 30px 15px 30px;\n}\n.dark .body-frame h1 {\n  color: #cfd8dc;\n}\n.dark .explorer {\n  display: none;\n  position: relative;\n  float: left;\n  width: 150px;\n  height: 554px;\n  border-left: 2px solid black;\n  background: #263238;\n  text-align: center;\n  padding-top: 10px;\n}\n.dark .explorer span {\n  color: #c3c3c3;\n  font-size: 18px;\n  font-weight: bold;\n}\n.dark .explorer .treeview {\n  margin-top: 10px;\n}\n.dark .explorer .treeview ul,\n.dark .explorer .treeview li {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  text-align: left;\n  font-size: 14px;\n  font-weight: normal;\n}\n.dark .explorer .treeview li {\n  margin-bottom: 3px;\n  color: #c3c3c3;\n}\n.dark .explorer .treeview li.active {\n  background-color: #888;\n}\n.dark .explorer .treeview li img {\n  height: 13px;\n  margin-right: 5px;\n  vertical-align: baseline;\n}\n.dark .explorer .treeview li[data-type=\"file\"] {\n  cursor: pointer;\n}\n.dark .explorer .treeview > ul > li {\n  font-size: 18px;\n  font-weight: bold;\n}\n.dark .explorer .buttons {\n  position: absolute;\n  bottom: 0;\n  width: 100%;\n  margin-bottom: 20px;\n}\n.dark .explorer .buttons button {\n  width: 80%;\n  border: 1px solid #333;\n  border-radius: 5px;\n}\n.dark .showing-explorer .body-frame {\n  width: 716px;\n}\n.dark .showing-explorer .explorer {\n  display: block;\n  float: left;\n}\n.dark .quick-edit-body .buttons {\n  margin: 0 auto;\n  text-align: right;\n  width: 100%;\n}\n.dark .quick-edit-body .buttons > button {\n  margin-top: 10px;\n  margin-left: 15px;\n}\n.dark .quick-edit-body #jseditor > textarea {\n  color: #ccc;\n  text-shadow: 0px 0px 0px #000;\n  -webkit-text-fill-color: transparent;\n  position: relative;\n  width: 100%;\n  height: 404px;\n  border: 1px solid #000;\n  background: #263238;\n}\n.dark .quick-edit-body input::-webkit-input-placeholder,\n.dark .quick-edit-body textarea::-webkit-input-placeholder {\n  color: #ccc;\n  text-shadow: none;\n  -webkit-text-fill-color: initial;\n}\n.dark .quick-edit-body textarea::selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.dark .quick-edit-body textarea::-webkit-selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.dark .quick-edit-body #jseditor > pre > code {\n  color: #c3c3c3;\n  text-shadow: 0 1px #263238;\n}\n.dark .quick-edit-body #jseditor > pre > code > .token.function {\n  color: #ff3e65;\n}\n.dark .quick-edit-body #jseditor > pre > code > .token.keyword {\n  color: #16b9ff;\n}\n.dark .quick-edit-body #jseditor > pre > code > .token.number {\n  color: #ff008e;\n}\n.dark .quick-edit-body #jseditor > pre > code > .token.operator {\n  background: rgba(0, 0, 0, 0.2);\n}\n.dark .modal {\n  top: 23px;\n}\n.dark .modal .modal-dialog {\n  top: -23px;\n}\n.dark .modal .modal-body {\n  color: black;\n  overflow: auto;\n  height: 390px;\n}\n.dark .target-body {\n  background-color: rgba(0, 0, 0, 0.6);\n}\n.dark .target-body .modal-content {\n  background-color: #263238;\n  color: white;\n  width: 400px;\n  margin: auto;\n}\n.dark .target-body .process-search {\n  color: #000;\n  padding: 0 5px 0 5px;\n  margin-bottom: 5px;\n}\n.dark .target-body .process-search::-webkit-input-placeholder {\n  color: #444;\n}\n.dark .target-body .process-list {\n  color: black;\n  font-size: 12px;\n  width: 100%;\n  height: 70%;\n}\n.dark .target-body .list-group {\n  padding-left: 0;\n  margin-bottom: 20px;\n  height: 400px;\n}\n.dark .target-body .list-group-item {\n  margin-botton: -5%;\n  margin: 0px;\n  cursor: pointer;\n}\n.dark .project-body div.inputfile {\n  font-weight: 700;\n  color: #333;\n  border-radius: 5px;\n  border: 1px solid black;\n  background-color: #c3c3c3;\n  display: inline-block;\n  width: 100%;\n  height: 25px;\n  line-height: 25px;\n  padding-left: 10px;\n}\n.dark .project-body div.inputfile:hover {\n  background-color: #b2b2b2;\n}\n.dark .project-body div.inputfile {\n  cursor: pointer;\n}\n.dark .project-body div.inputfile {\n  outline: 1px dotted #000;\n  outline: -webkit-focus-ring-color auto 5px;\n}\n.dark .project-body div.inputfile * {\n  pointer-events: none;\n}\n.dark .project-body div.button {\n  position: relative;\n  top: -25px;\n  height: 25px;\n  line-height: 25px;\n  left: calc(100% - 150px);\n  width: 150px;\n  border: 1px solid #000;\n  border-top-right-radius: 5px;\n  border-bottom-right-radius: 5px;\n  background: #666;\n  text-align: center;\n  color: #e3e3e3;\n  cursor: pointer;\n}\n.dark .project-body ul,\n.dark .project-body li {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.dark .project-body li {\n  font-size: 16px;\n  border: 1px solid #333;\n  border-radius: 2px;\n  height: 35px;\n  line-height: 35px;\n  padding-left: 10px;\n  background: #546e7a;\n  color: #e3e3e3;\n  cursor: pointer;\n}\n.dark .project-body li:hover {\n  background: #455a64;\n}\n.dark .project-body li.active {\n  background: #263238;\n  color: #FFF;\n}\n.dark .new-file {\n  background-color: rgba(0, 0, 0, 0.6);\n  height: 600px;\n}\n.dark .new-file .modal-dialog {\n  top: 40%;\n  transform: translateY(-50%);\n}\n.dark .new-file .modal-content {\n  background-color: #263238;\n  color: white;\n  width: 400px;\n  margin: auto;\n  text-align: center;\n}\n.dark .new-file .file-path {\n  color: #000;\n  padding: 0 5px 0 5px;\n  width: 80%;\n}\n.dark .new-file .file-path::-webkit-input-placeholder {\n  color: #444;\n}\n", ""]);
+	exports.push([module.id, "*,\n*:before,\n*:after {\n  -webkit-user-select: none;\n  box-sizing: border-box;\n}\nhtml,\nbody,\n.height100 {\n  width: 1000px;\n  height: 600px;\n  max-height: 1000px;\n}\nbody.dark {\n  background-color: #37474f;\n}\n.height100 {\n  position: relative;\n}\n.dark input {\n  background-color: #ccc;\n  width: 100%;\n}\n.dark .title-frame {\n  position: relative;\n  width: 100%;\n  height: 23px;\n  background-color: #2E2E2E;\n  text-align: right;\n  color: white;\n}\n.dark .title-frame .title {\n  position: relative;\n  text-align: center;\n  -webkit-app-region: drag;\n  line-height: 23px;\n}\n.dark .title-frame .buttons {\n  position: relative;\n  top: -23px;\n  z-index: 2;\n  padding-right: 3px;\n}\n.dark .title-frame .buttons > button {\n  -webkit-app-region: no-drag;\n}\n.dark .title-frame .close-button {\n  position: relative;\n  box-shadow: inset 0px -3px 7px 0px #29bbff;\n  background-color: #2dabf9;\n  border-radius: 3px;\n  border: 1px solid #0b0e07;\n  display: inline-block;\n  cursor: pointer;\n  color: #ffffff;\n  font-family: Arial;\n  font-size: 10px;\n  padding: 1px 4px;\n  text-decoration: none;\n  text-shadow: 0px 1px 0px #263666;\n}\n.dark .title-frame .close-button:hover {\n  background-color: #0688fa;\n}\n.dark .title-frame .close-button:active {\n  position: relative;\n  top: 1px;\n}\n.dark .menu-frame {\n  position: relative;\n  height: 23px;\n  background-color: #232323;\n}\n.dark .menu-frame .buttons {\n  position: relative;\n  top: 2px;\n}\n.dark .menu-frame .buttons > a {\n  color: white;\n  padding: 12px;\n}\n.dark .menu-frame .target-info {\n  position: relative;\n  top: -20px;\n  z-index: 2;\n  padding-right: 3px;\n  line-height: 23px;\n  text-align: right;\n  color: #c13434;\n  font-weight: bold;\n}\n.dark .menu-lateral {\n  position: relative;\n  float: left;\n  height: 554px;\n  width: 134px;\n  background-color: #263238;\n  border-style: solid;\n  border-right: 2px solid #000000;\n  border-left: 0px;\n  border-top: 0px;\n  border-bottom: 0px;\n}\n.dark .menu-lateral ul {\n  position: relative;\n  top: 50%;\n  transform: translateY(-50%);\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.dark .menu-lateral ul li:first-child {\n  margin-top: 0;\n}\n.dark .menu-lateral ul li:last-child {\n  margin-bottom: 0;\n}\n.dark .menu-lateral li {\n  margin: 15px;\n  margin-left: 0px;\n  padding-left: 15px;\n  position: relative;\n  list-style-type: none;\n  font-weight: bold;\n  text-align: left;\n}\n.dark .menu-lateral li > a {\n  color: #fafafa;\n  text-decoration: none;\n  font-weight: bold;\n  font-variant: small-caps;\n  cursor: pointer;\n}\n.dark .menu-lateral li > a:hover {\n  color: #cacaca;\n  text-decoration: none;\n}\n.dark .menu-lateral li.menu-active {\n  width: 134px;\n  height: 40px;\n  background-color: white;\n  line-height: 40px;\n}\n.dark .menu-lateral li.menu-active > a {\n  color: black;\n}\n.dark .menu-lateral li.menu-active > a:hover {\n  color: black;\n}\n.dark .menu-lateral li.menu-active::after {\n  position: relative;\n  left: 105px;\n  top: -34px;\n  display: block;\n  width: 28.28px;\n  height: 28.28px;\n  background-color: white;\n  transform: rotate(45deg);\n  content: ' ';\n  z-index: -1;\n}\n.dark .body-frame {\n  position: relative;\n  float: left;\n  width: 866px;\n  height: 554px;\n  padding: 15px 30px 15px 30px;\n}\n.dark .body-frame h1 {\n  color: #cfd8dc;\n}\n.dark .explorer {\n  display: none;\n  position: relative;\n  float: left;\n  width: 150px;\n  height: 554px;\n  border-left: 2px solid black;\n  background: #263238;\n  text-align: center;\n  padding-top: 10px;\n}\n.dark .explorer span {\n  color: #c3c3c3;\n  font-size: 18px;\n  font-weight: bold;\n}\n.dark .explorer .treeview {\n  margin-top: 10px;\n}\n.dark .explorer .treeview ul,\n.dark .explorer .treeview li {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  text-align: left;\n  font-size: 14px;\n  font-weight: normal;\n}\n.dark .explorer .treeview li {\n  margin-bottom: 3px;\n  color: #c3c3c3;\n}\n.dark .explorer .treeview li.active {\n  background-color: #888;\n}\n.dark .explorer .treeview li img {\n  height: 13px;\n  margin-right: 5px;\n  vertical-align: baseline;\n}\n.dark .explorer .treeview li[data-type=\"file\"] {\n  cursor: pointer;\n}\n.dark .explorer .treeview > ul > li {\n  font-size: 18px;\n  font-weight: bold;\n}\n.dark .explorer .buttons {\n  position: absolute;\n  bottom: 0;\n  width: 100%;\n  margin-bottom: 20px;\n}\n.dark .explorer .buttons button {\n  width: 80%;\n  border: 1px solid #333;\n  border-radius: 5px;\n}\n.dark .showing-explorer .body-frame {\n  width: 716px;\n}\n.dark .showing-explorer .explorer {\n  display: block;\n  float: left;\n}\n.dark .quick-edit-body .buttons {\n  margin: 0 auto;\n  text-align: right;\n  width: 100%;\n}\n.dark .quick-edit-body .buttons > button {\n  margin-top: 10px;\n  margin-left: 15px;\n}\n.dark .quick-edit-body #jseditor > textarea {\n  color: #ccc;\n  text-shadow: 0px 0px 0px #000;\n  -webkit-text-fill-color: transparent;\n  position: relative;\n  width: 100%;\n  height: 404px;\n  border: 1px solid #000;\n  background: #263238;\n}\n.dark .quick-edit-body input::-webkit-input-placeholder,\n.dark .quick-edit-body textarea::-webkit-input-placeholder {\n  color: #ccc;\n  text-shadow: none;\n  -webkit-text-fill-color: initial;\n}\n.dark .quick-edit-body textarea::selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.dark .quick-edit-body textarea::-webkit-selection {\n  background: #B9B9B9;\n  color: transparent;\n}\n.dark .quick-edit-body #jseditor > pre > code {\n  color: #c3c3c3;\n  text-shadow: 0 1px #263238;\n}\n.dark .quick-edit-body #jseditor > pre > code > .token.function {\n  color: #ff3e65;\n}\n.dark .quick-edit-body #jseditor > pre > code > .token.keyword {\n  color: #16b9ff;\n}\n.dark .quick-edit-body #jseditor > pre > code > .token.number {\n  color: #ff008e;\n}\n.dark .quick-edit-body #jseditor > pre > code > .token.operator {\n  background: rgba(0, 0, 0, 0.2);\n}\n.dark .modal {\n  top: 23px;\n}\n.dark .modal .modal-dialog {\n  top: -23px;\n}\n.dark .modal .modal-body {\n  color: black;\n  overflow: auto;\n  height: 390px;\n}\n.dark .target-body {\n  background-color: rgba(0, 0, 0, 0.6);\n}\n.dark .target-body .modal-content {\n  background-color: #263238;\n  color: white;\n  width: 400px;\n  margin: auto;\n}\n.dark .target-body .process-search {\n  color: #000;\n  padding: 0 5px 0 5px;\n  margin-bottom: 5px;\n}\n.dark .target-body .process-search::-webkit-input-placeholder {\n  color: #444;\n}\n.dark .target-body .process-list {\n  color: black;\n  font-size: 12px;\n  width: 100%;\n  height: 70%;\n}\n.dark .target-body .list-group {\n  padding-left: 0;\n  margin-bottom: 20px;\n  height: 400px;\n}\n.dark .target-body .list-group-item {\n  margin-botton: -5%;\n  margin: 0px;\n  cursor: pointer;\n}\n.dark .project-body div.inputfile {\n  font-weight: 700;\n  color: #333;\n  border-radius: 5px;\n  border: 1px solid black;\n  background-color: #c3c3c3;\n  display: inline-block;\n  width: 100%;\n  height: 25px;\n  line-height: 25px;\n  padding-left: 10px;\n}\n.dark .project-body div.inputfile:hover {\n  background-color: #b2b2b2;\n}\n.dark .project-body div.inputfile {\n  cursor: pointer;\n}\n.dark .project-body div.inputfile {\n  outline: 1px dotted #000;\n  outline: -webkit-focus-ring-color auto 5px;\n}\n.dark .project-body div.inputfile * {\n  pointer-events: none;\n}\n.dark .project-body div.button {\n  position: relative;\n  top: -25px;\n  height: 25px;\n  line-height: 25px;\n  left: calc(100% - 150px);\n  width: 150px;\n  border: 1px solid #000;\n  border-top-right-radius: 5px;\n  border-bottom-right-radius: 5px;\n  background: #666;\n  text-align: center;\n  color: #e3e3e3;\n  cursor: pointer;\n}\n.dark .project-body ul,\n.dark .project-body li {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n}\n.dark .project-body li {\n  font-size: 16px;\n  border: 1px solid #333;\n  border-radius: 2px;\n  height: 35px;\n  line-height: 35px;\n  padding-left: 10px;\n  background: #546e7a;\n  color: #e3e3e3;\n  cursor: pointer;\n}\n.dark .project-body li:hover {\n  background: #455a64;\n}\n.dark .project-body li.active {\n  background: #263238;\n  color: #FFF;\n}\n.dark .options-body .todo,\n.dark .console-body .todo {\n  position: relative;\n  top: 50%;\n  transform: translateY(-50%);\n  text-align: center;\n  color: #CCC;\n  font-size: 30px;\n  font-weight: bold;\n  font-variant: small-caps;\n}\n.dark .new-file {\n  background-color: rgba(0, 0, 0, 0.6);\n  height: 600px;\n}\n.dark .new-file .modal-dialog {\n  top: 40%;\n  transform: translateY(-50%);\n}\n.dark .new-file .modal-content {\n  background-color: #263238;\n  color: white;\n  width: 400px;\n  margin: auto;\n  text-align: center;\n}\n.dark .new-file .file-path {\n  color: #000;\n  padding: 0 5px 0 5px;\n  width: 80%;\n}\n.dark .new-file .file-path::-webkit-input-placeholder {\n  color: #444;\n}\n", ""]);
 
 	// exports
 
@@ -3062,7 +3082,7 @@
 	        }, 'Quick Edit')), (0, _mithril2.default)('li', { className: ctrl.showing[4] ? 'menu-active' : '' }, (0, _mithril2.default)('a#menuLeft', {
 	            onclick: ctrl.changeFrame,
 	            'data-target': 4
-	        }, 'Something'))));
+	        }, 'Options'))));
 	    }
 	};
 
@@ -3658,7 +3678,42 @@
 
 	var _mithril2 = _interopRequireDefault(_mithril);
 
-	var _codeflask = __webpack_require__(23);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _require = __webpack_require__(15);
+
+	var ipcRenderer = _require.ipcRenderer;
+
+	var dialog = __webpack_require__(15).remote.dialog;
+
+	exports.default = {
+	    controller: function controller(attrs) {
+	        return {
+	            showing: attrs.showing
+	        };
+	    },
+
+	    view: function view(ctrl, attrs) {
+	        ctrl.showing = attrs.showing;
+	        return (0, _mithril2.default)('div.console-body.body-frame', { className: ctrl.showing ? '' : 'hidden' }, (0, _mithril2.default)('div.todo', 'Work in progress'));
+	    }
+	};
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _mithril = __webpack_require__(2);
+
+	var _mithril2 = _interopRequireDefault(_mithril);
+
+	var _codeflask = __webpack_require__(24);
 
 	var _codeflask2 = _interopRequireDefault(_codeflask);
 
@@ -3705,7 +3760,7 @@
 	};
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -3865,7 +3920,7 @@
 	module.exports = CodeFlask;
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3878,7 +3933,42 @@
 
 	var _mithril2 = _interopRequireDefault(_mithril);
 
-	var _codeflask = __webpack_require__(23);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _require = __webpack_require__(15);
+
+	var ipcRenderer = _require.ipcRenderer;
+
+	var dialog = __webpack_require__(15).remote.dialog;
+
+	exports.default = {
+	    controller: function controller(attrs) {
+	        return {
+	            showing: attrs.showing
+	        };
+	    },
+
+	    view: function view(ctrl, attrs) {
+	        ctrl.showing = attrs.showing;
+	        return (0, _mithril2.default)('div.options-body.body-frame', { className: ctrl.showing ? '' : 'hidden' }, (0, _mithril2.default)('div.todo', 'Work in progress'));
+	    }
+	};
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _mithril = __webpack_require__(2);
+
+	var _mithril2 = _interopRequireDefault(_mithril);
+
+	var _codeflask = __webpack_require__(24);
 
 	var _codeflask2 = _interopRequireDefault(_codeflask);
 
@@ -3975,7 +4065,7 @@
 	};
 
 /***/ },
-/* 25 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3996,7 +4086,7 @@
 	};
 
 /***/ },
-/* 26 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4009,7 +4099,7 @@
 
 	var _mithril2 = _interopRequireDefault(_mithril);
 
-	var _codeflask = __webpack_require__(23);
+	var _codeflask = __webpack_require__(24);
 
 	var _codeflask2 = _interopRequireDefault(_codeflask);
 

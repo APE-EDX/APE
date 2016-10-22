@@ -10,7 +10,9 @@ import Header from './header';
 import Menu from './menu';
 import Explorer from './explorer';
 import Project from './project';
+import Console from './console';
 import QuickEdit from './quick-edit';
+import Options from './options';
 import Target from './target-process';
 import Notifications from './notifications';
 import NewFile from './new-file';
@@ -47,7 +49,9 @@ ipcRenderer.on('save-result', (event, result) => {
 var Frames = {
 	Target: 	0,
 	Project: 	1,
+	Console: 	2,
 	QuickEdit: 	3,
+	Options:	4,
 	NewFile: 	5
 };
 
@@ -77,11 +81,15 @@ export default {
     },
 
 	view: function(ctrl) {
+		if (ctrl.showing.every((x) => x == false)) {
+			this.changeFrame.bind(ctrl)({target: {dataset: {target: Frames.Project}}})
+		}
+
 		return 	m("div.height100.showing-explorer",
 			m(Header, {target: target}),
 			m(Menu, {
 				showing: ctrl.showing,
-				default: 2,
+				default: Frames.Project,
 				changeFrame: this.changeFrame.bind(ctrl),
 				overlayFrame: this.overlayFrame.bind(ctrl),
 				closeOverlayFrame: this.closeOverlayFrame.bind(ctrl)
@@ -93,8 +101,14 @@ export default {
 			m(Project, {
 				showing: ctrl.showing[Frames.Project]
 			}),
+			m(Console, {
+				showing: ctrl.showing[Frames.Console]
+			}),
 			m(QuickEdit, {
 				showing: ctrl.showing[Frames.QuickEdit]
+			}),
+			m(Options, {
+				showing: ctrl.showing[Frames.Options]
 			}),
 			m(Explorer, {
 				changeFrame: this.changeFrame.bind(ctrl),

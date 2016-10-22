@@ -151,15 +151,22 @@ ipcMain.on('new-file', (event, file) => {
 
 ipcMain.on('save-code', (event, data) => {
     if (currentFile) {
-        fs.writeFile(currentFile, data, 'utf-8', (err) => {
-            event.sender.send('save-result', !!!err);
-        });
+        if (data.async) {
+            fs.writeFile(currentFile, data, 'utf-8', (err) => {
+                event.sender.send('save-result', !!!err);
+            });
+        }
+        else {
+            event.sender.send('save-result', fs.writeFileSync(currentFile, data, 'utf-8'));
+        }
     } else {
         event.sender.send('save-result', false);
     }
 });
 
 ipcMain.on('send-all', (event, args) => {
+    event.sender.send('save-request');
+
     var root = path.join(config.projectFolder, config.activeProject);
     var OEP = jsonfile.readFileSync(path.join(root, '.ape')).OEP;
 

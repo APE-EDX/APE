@@ -12,7 +12,8 @@ ipcRenderer.on('quick-edit-contents', (event, data) => {
 export default {
     controller: function(attrs) {
         return {
-            showing: attrs.showing
+            showing: attrs.showing,
+            ipcSet: false
         }
     },
 
@@ -22,8 +23,8 @@ export default {
 		}
 	},
 
-    saveCode: function(e) {
-        ipcRenderer.send('save-code', flask.textarea.value);
+    saveCode: function(e, isSync) {
+        ipcRenderer.send('save-code', {async: !isSync, text: flask.textarea.value});
     },
 
 	sendCode: function(e) {
@@ -32,6 +33,12 @@ export default {
 
 	view: function(ctrl, attrs) {
         ctrl.showing = attrs.showing;
+
+        if (!ctrl.ipcSet) {
+            ipcRenderer.on('save-request', (event, data) => {
+                this.saveCode({}, true);
+            });
+        }
 
 		return m('div.quick-edit-body.body-frame', {className: ctrl.showing ? '' : 'hidden'},
     			m('h1', 'Javascript Editor'),

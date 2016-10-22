@@ -47,7 +47,7 @@ export default {
                     m('a#menuLeft', {
                         onclick: ctrl.changeFrame,
                         'data-target': 4
-                    }, 'Something')
+                    }, 'Options')
                 )
             )
         );
