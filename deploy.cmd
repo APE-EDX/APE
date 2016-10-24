@@ -1,5 +1,5 @@
 :: Only build in the x64 matrix (so as not to build two times)
-if "%platform%" == "x64" exit
+if "%platform%" == "x86" exit
 
 echo "Deploying"
 
@@ -10,11 +10,8 @@ set "curpath=%cd%"
 set PATH=%curpath%\megatools-1.9.97-win32;%PATH%
 
 :: Package it
-:: call npm install -g electron-packager
+call npm install -g electron-packager
 call electron-packager . --asar.unpack="init.js" --asar.unpackDir="{**/{APEDLL,APESO,APEKernel,InjectorAddon}/**,jsAPI}" --platform=win32 --arch=all --prune --ignore="\.babel|\.git|\.happypack|[Bb]uild|deps|([a-z]|[A-Z]|[0-9])+/src|\.git|\.git(attributes|ignore|modules)|Projects|appveyor\.yml|CMake.*?|([a-z]|[0-9])*\.ilk|([a-z]|[0-9])*\.pdb|binding\.gyp|([a-z]|[0-9])*\.sh|([a-z]|[0-9])*\.cc|components|helpers|less|test|([a-z]|[0-9])*\.cmake|readme\.md|LICENSE|webpack\.config\.js"
-
-:: Output debug information
-dir APE-win32-ia32 /s
 
 :: Get version from package.json
 FOR /F "tokens=* USEBACKQ" %%F IN (`node -p "var pjson = require('./package.json'); pjson.version;"`) DO (
